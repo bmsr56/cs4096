@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Automatic Alcohol</string>
+    <string name="toggle_led">Toggle LED</string>
+    <string name="rx">RX:</string>
+    <string name="read_buffer">&lt;Read Buffer></string>
+    <string name="status">Status:</string>
+    <string name="bluetooth_status">&lt;Bluetooth Status></string>
+    <string name="bt_on">Bluetooth ON</string>
+    <string name="bt_off">Bluetooth OFF</string>
+    <string name="show_paired_devices">Show Paired Devices</string>
+    <string name="discover_new_devices">Discover New Devices</string>
+</resources>
