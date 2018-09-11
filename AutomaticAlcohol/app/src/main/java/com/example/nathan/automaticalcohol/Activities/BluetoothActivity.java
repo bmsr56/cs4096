@@ -1,6 +1,5 @@
-package com.example.nathan.automaticalcohol;
+package com.example.nathan.automaticalcohol.Activities;
 
-import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -8,10 +7,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nathan.automaticalcohol.R;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,7 +31,7 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity {
+public class BluetoothActivity extends AppCompatActivity{
 
     private TextView mBluetoothStatus;
     private TextView mReadBuffer;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_bluetooth);
 
 
         // initializers for GUI items
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Bluetooth Off", Toast.LENGTH_LONG).show();
     }
 
-//    TODO:  this is questionably needed
+    //    TODO:  this is questionably needed
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent Data) {
         if (requestCode == REQUEST_ENABLE_BT) {
@@ -335,3 +336,4 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
