@@ -105,7 +105,6 @@ public class BluetoothActivity extends AppCompatActivity{
             mLedCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    TODO: change to actually toggle
                     if(mConnectedThread != null) {
                         if (toggle_led) {
                             mConnectedThread.write("0");
@@ -160,7 +159,6 @@ public class BluetoothActivity extends AppCompatActivity{
         Toast.makeText(getApplicationContext(), "Bluetooth Off", Toast.LENGTH_LONG).show();
     }
 
-    //    TODO:  this is questionably needed
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent Data) {
         if (requestCode == REQUEST_ENABLE_BT) {
@@ -264,7 +262,6 @@ public class BluetoothActivity extends AppCompatActivity{
         }
         return device.createInsecureRfcommSocketToServiceRecord(uuid);
     }
-
 
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
