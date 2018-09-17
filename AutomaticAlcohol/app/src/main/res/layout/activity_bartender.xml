@@ -15,8 +15,6 @@
         android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
-
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -24,21 +22,33 @@
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_text_1" />
+                android:text="Home" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_text_2" />
+                android:text="Reports" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_text_3" />
+                android:text="Tabs" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabItem4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cookbook" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabItem5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Inventory" />
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>

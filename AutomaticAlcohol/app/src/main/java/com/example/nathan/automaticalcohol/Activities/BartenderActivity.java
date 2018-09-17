@@ -62,7 +62,7 @@ public class BartenderActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Could make this easy way to start new drink", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -147,7 +147,7 @@ public class BartenderActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 5;
         }
     }
 }
