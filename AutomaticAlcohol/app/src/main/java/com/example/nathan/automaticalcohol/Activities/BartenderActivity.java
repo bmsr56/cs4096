@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -118,11 +119,31 @@ public class BartenderActivity extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_bartender, container, false);
+
+
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+
+            String test = getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER));
+            Log.d("IDENTIFIER", test);
+            switch(test) {
+                case "1":
+                    return inflater.inflate(R.layout.fragment_tab_home, container, false);
+                case "2":
+                    return inflater.inflate(R.layout.fragment_tab_reports, container, false);
+                case "3":
+                    return inflater.inflate(R.layout.fragment_tab_tabs, container, false);
+                case "4":
+                    return inflater.inflate(R.layout.fragment_tab_cookbook, container, false);
+                case "5":
+                    return inflater.inflate(R.layout.fragment_tab_inventory, container, false);
+            }
+
+
+
             return rootView;
         }
     }
