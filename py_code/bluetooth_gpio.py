@@ -1,9 +1,9 @@
 import bluetooth
 import RPi.GPIO as GPIO        #calling for header file which helps in using GPIOs of PI
-
+import sqlite3
 
 # location of database on pi
-database_location = ''
+database_location = 'database.db'
 
 LED=21
 
@@ -13,6 +13,20 @@ GPIO.setup(LED,GPIO.OUT)  #initialize GPIO21 (LED) as an output Pin
 GPIO.output(LED,0)
 
 server_socket=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+
+
+#with sqlite3.connect(database_location) as conn:
+#            cur = conn.cursor()
+#            
+#            cur.execute(''' INSERT INTO Users VALUES ("nathan", "pass"); ''')
+#
+#            cur.execute(''' CREATE TABLE Users (
+#								user_login varhar(20), 
+#								user_pass  carchar(20)
+#							);
+#								
+#                       ''')
+
 
 port = 1
 server_socket.bind(("",port))
@@ -29,7 +43,7 @@ while 1:
     print 'Received: %s' % data
 
     data = data.split('+')
-
+    print 'split: %s' % data
     if (data == '0'):    #if '0' is sent from the Android App, turn OFF the LED
         print ('GPIO 21 LOW, LED OFF')
         GPIO.output(LED,0)
@@ -38,9 +52,11 @@ while 1:
         GPIO.output(LED,1)
 
     if (data[0] == 'login'):
+        print 'login: %s' % data
         # split info into username and password
         u_p = data[1].split('_')
         username, password = u_p[0], u_p[1]
+        print username, password
         with sqlite3.connect(database_location) as conn:
             cur = conn.cursor()
 
@@ -50,7 +66,10 @@ while 1:
                         ''', [username])
                         # where 'login' is passed from Android
             entries = cur.fetchall()
-        if entries[0] == password:
+            print type(entries)
+            print len(entries)
+            print entries[0][0], entries[0][1]
+        if entries[0][1] == password:
             client_socket.send('accept')
         else:
             client_socket.send('deny')
