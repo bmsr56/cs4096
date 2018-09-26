@@ -97,7 +97,7 @@ public class BluetoothSupport {
 
 
 
-    private class ConnectedThread extends Thread {
+    public class ConnectedThread extends Thread {
         private static final String TAG = "SOME_TAG_FOR_CONNECTED";
 
         private final BluetoothSocket mmSocket;
@@ -153,21 +153,21 @@ public class BluetoothSupport {
             try {
                 mmOutStream.write(bytes);
 
-                // Share the sent message with the UI activity.
-                Message writtenMsg = mHandler.obtainMessage(
-                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
-                writtenMsg.sendToTarget();
+//                // Share the sent message with the UI activity.
+//                Message writtenMsg = mHandler.obtainMessage(
+//                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
+//                writtenMsg.sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Error occurred when sending data", e);
 
                 // Send a failure message back to the activity.
-                Message writeErrorMsg =
-                        mHandler.obtainMessage(MessageConstants.MESSAGE_TOAST);
-                Bundle bundle = new Bundle();
-                bundle.putString("toast",
-                        "Couldn't send data to the other device");
-                writeErrorMsg.setData(bundle);
-                mHandler.sendMessage(writeErrorMsg);
+//                Message writeErrorMsg =
+//                        mHandler.obtainMessage(MessageConstants.MESSAGE_TOAST);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("toast",
+//                        "Couldn't send data to the other device");
+//                writeErrorMsg.setData(bundle);
+//                mHandler.sendMessage(writeErrorMsg);
             }
         }
 
