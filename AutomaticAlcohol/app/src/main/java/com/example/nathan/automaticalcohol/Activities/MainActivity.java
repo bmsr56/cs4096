@@ -31,23 +31,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email_text = email.getText().toString();
-                String password_text = password.getText().toString();
 
 
-                // get info from database if user is bartender/user
 
-                if(email_text.equals("bartender")) {
-                    Intent intent = new Intent(v.getContext(), BartenderActivity.class);
-                    startActivity(intent);
-                }
-                else if(email_text.equals("user")) {
-                    Intent intent = new Intent(v.getContext(), UserActivity.class);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(v.getContext(), "Ya Done Fucked Up, Bitch....", Toast.LENGTH_LONG).show();
-                }
+
+
             }
         });
 
