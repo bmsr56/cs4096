@@ -28,61 +28,90 @@ public class MainActivity extends AppCompatActivity {
     private static final UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 
-    private BluetoothAdapter bluetoothAdapter;
+    private static final int REQUEST_ENABLE_BT = 1;
+
     private BluetoothSocket bluetoothSocket = null;
     private BluetoothSupport bluetoothSupport;           // bluetooth - sends data back and fourth
 
+    private BluetoothSupport.ConnectedThread a = null;
 
+    private EditText email;
+    private EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        
-        Button login_button = findViewById(R.id.email_sign_in_button);
 
+
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            //device does not support bluetooth
+            Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
+        }
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+
+
+//
+//
+//
+//
+//        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice("B8:27:EB:C7:30:39");
+//
+//        boolean fail = false;
+//
+//        try {
+//            bluetoothSocket = createBluetoothSocket(device);
+//        } catch (IOException e) {
+//            fail = true;
+//            Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        try {
+//            bluetoothSocket.connect();
+//        } catch (IOException e) {
+//            try {
+//                fail = true;
+//                bluetoothSocket.close();
+////                        mHandler.obtainMessage(CONNECTING_STATUS, -1, -1).sendToTarget();
+//            } catch (IOException e2) {
+//                Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//        if (!fail) {
+//
+//            bluetoothSupport = new BluetoothSupport();
+//            BluetoothSupport.ConnectedThread a = bluetoothSupport.new ConnectedThread(bluetoothSocket);
+//            a.start();
+//
+//
+//
+//        }
+//
+
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+
+
+        Button login_button = findViewById(R.id.email_sign_in_button);
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                BluetoothDevice device = bluetoothAdapter.getRemoteDevice("B8:27:EB:C7:30:39");
+                String email_text = email.getText().toString();
+                String password_text = password.getText().toString();
 
-                boolean fail = false;
+                a = bluetoothSupport.new ConnectedThread(bluetoothSocket);
 
-                try {
-                    bluetoothSocket = createBluetoothSocket(device);
-                } catch (IOException e) {
-                    fail = true;
-                    Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
-                }
+                a.write("login+"+email_text+"_"+password_text);
 
-                try {
-                    bluetoothSocket.connect();
-                } catch (IOException e) {
-                    try {
-                        fail = true;
-                        bluetoothSocket.close();
-//                        mHandler.obtainMessage(CONNECTING_STATUS, -1, -1).sendToTarget();
-                    } catch (IOException e2) {
-                        Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                if (!fail) {
-
-                    bluetoothSupport = new BluetoothSupport();
-                    BluetoothSupport.ConnectedThread a = bluetoothSupport.new ConnectedThread(bluetoothSocket);
-                    a.start();
-
-
-
-                    a.write("String".getBytes());
-
-                }
-
+                a.run();
             }
         });
-
 
     }
 
