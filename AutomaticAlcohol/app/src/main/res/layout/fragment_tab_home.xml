@@ -20,26 +20,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#2442e9"
+            android:gravity="center"
+            android:background="@color/colorBg"
             android:orientation="vertical">
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#2c397e"
-            android:orientation="vertical">
+            <TextView
+                android:id="@+id/number15"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:background="@color/colorHeader"
+                android:gravity="center"
+                android:text="Order Drink:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
 
-        </LinearLayout>
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#0722b9"
-            android:orientation="vertical">
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+
 
         </LinearLayout>
 
@@ -48,56 +58,158 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:background="@color/colorBg"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/number14"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:background="@color/colorHeader"
+                android:gravity="center"
+                android:text="Drink Queue:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/colorBg"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="200dp"
+                android:id="@+id/number3"
+                android:layout_width="303dp"
                 android:layout_height="80dp"
-                android:text="Put Some Words Here"
+                android:background="@color/colorHeader"
                 android:gravity="center"
-                android:background="#0722b9"
-                android:id="@+id/number1" />
+                android:text="Bartender Specials:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text=""
                 android:gravity="center"
-                android:background="#ffffff"
-                android:id="@+id/number2" />
+                android:background="@color/colorBg"
+                android:id="@+id/number12" />
 
+            <Button
+                android:id="@+id/button10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button1" />
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button2" />
+
+            <Button
+                android:id="@+id/button13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button3" />
+
+            <Button
+                android:id="@+id/button14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button4" />
+
+            <Button
+                android:id="@+id/button15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button5" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorBg">
+
+
+            <TextView
+                android:id="@+id/number1"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:background="@color/colorHeader"
+                android:gravity="center"
+                android:text="Quick Add:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text=""
+                android:gravity="center"
+                android:background="@color/colorBg"
+                android:id="@+id/number2" />
 
             <Button
                 android:id="@+id/button7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button1"/>
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button2" />
 
             <Button
                 android:id="@+id/button5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button3" />
 
             <Button
                 android:id="@+id/button6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button4" />
 
             <Button
                 android:id="@+id/button8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:textColor="@color/whiteText"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button5" />
         </LinearLayout>
 
 
