@@ -1,26 +1,22 @@
 package com.example.nathan.automaticalcohol.Activities;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nathan.automaticalcohol.BluetoothSupport;
+import com.example.nathan.automaticalcohol.BluetoothConnect;
+import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,13 +26,27 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT = 1;
 
-    private BluetoothSocket bluetoothSocket = null;
-    private BluetoothSupport bluetoothSupport;           // bluetooth - sends data back and fourth
-
-    private BluetoothSupport.ConnectedThread a = null;
+    private BluetoothAdapter mBluetoothAdapter;
 
     private EditText email;
     private EditText password;
+
+    private BluetoothConnect bluetoothConnect;
+
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case Constants.MESSAGE_WRITE:
+                    Toast.makeText(MainActivity.this, "Message sent", Toast.LENGTH_LONG).show();
+                case Constants.MESSAGE_READ:
+                    byte[] writeBuf = (byte[]) msg.obj;
+                    // construct a string from the buffer
+                    String writeMessage = new String(writeBuf);
+                    Toast.makeText(MainActivity.this, "Message received: "+writeMessage, Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +55,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             //device does not support bluetooth
             Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
         }
 
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
+
+        bluetoothConnect = new BluetoothConnect(mHandler);
+        connectDevice();
 
 
-//
-//
-//
-//
 //        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice("B8:27:EB:C7:30:39");
 //
 //        boolean fail = false;
@@ -102,27 +107,34 @@ public class MainActivity extends AppCompatActivity {
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email_text = email.getText().toString();
-                String password_text = password.getText().toString();
+                // if bluetooth is not enabled, enable it then
+                if (!mBluetoothAdapter.isEnabled()) {
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                    Toast.makeText(MainActivity.this, "Bluetooth must be on", Toast.LENGTH_LONG).show();
+                } else {
+                    // bluetooth is enabled
+                    String email_text = email.getText().toString();
+                    String password_text = password.getText().toString();
 
-                a = bluetoothSupport.new ConnectedThread(bluetoothSocket);
+                    TextView textView = findViewById(R.id.test_textView);
+                    textView.setText("login+"+email_text+"_"+password_text);
 
-                a.write("login+"+email_text+"_"+password_text);
-
-                a.run();
+                    sendMessage("login+"+email_text+"_"+password_text);
+                }
             }
         });
-
     }
 
-    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
-        try {
-            final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", UUID.class);
-            return (BluetoothSocket) m.invoke(device, uuid);
-        } catch (Exception e) {
-            Log.e("createBluetoothSocket", "Could not create Insecure RFComm Connection", e);
+    private void sendMessage(String message) {
+        if (message.length() > 0) {
+            byte[] data = message.getBytes();
+            bluetoothConnect.write(data);
         }
-        return device.createInsecureRfcommSocketToServiceRecord(uuid);
     }
 
+    private void connectDevice() {
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice("B8:27:EB:C7:30:39");
+        bluetoothConnect.connect(device);
+    }
 }
