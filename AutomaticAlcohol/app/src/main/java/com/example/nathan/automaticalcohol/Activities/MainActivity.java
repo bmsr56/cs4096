@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case Constants.MESSAGE_WRITE:
                     Toast.makeText(MainActivity.this, "Message sent", Toast.LENGTH_SHORT).show();
+                    break;
                 case Constants.MESSAGE_READ:
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(MainActivity.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
                     }
+                    break;
             }
         }
     };
