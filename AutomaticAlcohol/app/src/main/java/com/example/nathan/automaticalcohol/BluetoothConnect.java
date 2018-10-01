@@ -142,7 +142,7 @@ public class BluetoothConnect {
         public void run() {
             mmBuffer = new byte[1024];
             int numBytes;  // bytes returned from read()
-    
+
             // keep listening to the input stream until an exception occurs
             while (true) {
                 try {
