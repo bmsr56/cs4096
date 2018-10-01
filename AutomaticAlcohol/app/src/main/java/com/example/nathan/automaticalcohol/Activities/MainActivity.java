@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +18,13 @@ import com.example.nathan.automaticalcohol.BluetoothConnect;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String ACCEPT = "accept";
     public static final String EXTRA_MESSAGE = "com.example.automaticalcohol.MESSAGE";
     private static final UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
 
     private static final int REQUEST_ENABLE_BT = 1;
 
@@ -38,12 +40,18 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constants.MESSAGE_WRITE:
-                    Toast.makeText(MainActivity.this, "Message sent", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Message sent", Toast.LENGTH_SHORT).show();
                 case Constants.MESSAGE_READ:
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
-                    Toast.makeText(MainActivity.this, "Message received: "+writeMessage, Toast.LENGTH_LONG).show();
+
+                    if (ACCEPT.equals(writeMessage.substring(0, msg.arg1))) {
+                        Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                    }
             }
         }
     };
