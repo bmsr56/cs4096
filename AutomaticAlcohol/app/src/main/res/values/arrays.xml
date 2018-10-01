@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="addition_list">
+        <item>@string/addition1</item>
+        <item>@string/addition2</item>
+        <item>@string/addition3</item>
+        <item>@string/addition4</item>
+    </string-array>
+</resources>
