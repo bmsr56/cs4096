@@ -6,13 +6,13 @@ import RPi.GPIO as gpio
 def main():
     try:
         outputPins = [4]
-        fn.setAsOutputs(outputPins)
-        fn.setOutputValues(0, outputPins)
-        pumps = pump.assignPumps(4)
+        setAsOutputs(outputPins)
+        setOutputValues(0, outputPins)
+        pumps = assignPumps(4)
 
         while True:
             input()
-            fn.gpioRun(pumps[0], 3)
+            gpioRun(pumps[0], 3)
     
     except KeyboardInterrupt:
         gpio.cleanup()
