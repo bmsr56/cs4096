@@ -1,13 +1,14 @@
 import bluetooth
-import RPi.GPIO as GPIO        #calling for header file which helps in using GPIOs of PI
+import RPi.gpio as gpio        #calling for header file which helps in using gpios of PI
+from functions.functions import * as fn
 LED=21
 
-GPIO.setmode(GPIO.BCM)     #programming the GPIO by BCM pin numbers. (like PIN40 as GPIO21)
-GPIO.setwarnings(False)
-GPIO.setup(LED,GPIO.OUT)  #initialize GPIO21 (LED) as an output Pin
-GPIO.output(LED,0)
+gpio.setmode(gpio.BCM)     #programming the gpio by BCM pin numbers. (like PIN40 as gpio21)
+gpio.setwarnings(False)
+gpio.setup(LED,gpio.OUT)  #initialize gpio21 (LED) as an output Pin
+gpio.output(LED,0)
 
-server_socket=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
+server_socket = bluetooth.BluetoothSocket( bluetooth.RFCOMM )
 
 port = 1
 server_socket.bind(("",port))
@@ -20,11 +21,11 @@ while 1:
  data = client_socket.recv(1024)
  print "Received: %s" % data
  if (data == "0"):    #if '0' is sent from the Android App, turn OFF the LED
-  print ("GPIO 21 LOW, LED OFF")
-  GPIO.output(LED,0)
+  print ("gpio 21 LOW, LED OFF")
+  gpio.output(LED,0)
  if (data == "1"):    #if '1' is sent from the Android App, turn OFF the LED
-  print ("GPIO 21 HIGH, LED ON")
-  GPIO.output(LED,1)
+  print ("gpio 21 HIGH, LED ON")
+  gpio.output(LED,1)
  if (data == "q"):
   print ("Quit")
   break

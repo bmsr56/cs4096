@@ -13,7 +13,7 @@ def assignPumps(**args):
             pump (dict): Maps a zero index of pumps to the given pins args.
     """
     pump = {}
-    if len(args) > 6:
+    if len(args) <= 6:
         pumpNum = 0
         for pin in args:
             pump[pumpNum] = pin
