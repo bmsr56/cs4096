@@ -18,13 +18,9 @@ import com.example.nathan.automaticalcohol.BluetoothConnect;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 
-import java.util.Objects;
-import java.util.UUID;
-
 public class MainActivity extends AppCompatActivity {
     private static final String ACCEPT = "accept";
     public static final String EXTRA_MESSAGE = "com.example.automaticalcohol.MESSAGE";
-    private static final UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private static final int REQUEST_ENABLE_BT = 1;
 
@@ -47,9 +43,11 @@ public class MainActivity extends AppCompatActivity {
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
 
-                    if (ACCEPT.equals(writeMessage.substring(0, msg.arg1))) {
+                    if ("accept".equals(writeMessage.substring(0, msg.arg1))) {
                         Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
                         startActivity(intent);
+                        bluetoothConnect.close();
+
                     } else {
                         Toast.makeText(MainActivity.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
                     }
@@ -63,55 +61,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             //device does not support bluetooth
             Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
         }
 
-
         bluetoothConnect = new BluetoothConnect(mHandler);
         connectDevice();
 
-
-//        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice("B8:27:EB:C7:30:39");
-//
-//        boolean fail = false;
-//
-//        try {
-//            bluetoothSocket = createBluetoothSocket(device);
-//        } catch (IOException e) {
-//            fail = true;
-//            Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        try {
-//            bluetoothSocket.connect();
-//        } catch (IOException e) {
-//            try {
-//                fail = true;
-//                bluetoothSocket.close();
-////                        mHandler.obtainMessage(CONNECTING_STATUS, -1, -1).sendToTarget();
-//            } catch (IOException e2) {
-//                Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//        if (!fail) {
-//
-//            bluetoothSupport = new BluetoothSupport();
-//            BluetoothSupport.ConnectedThread a = bluetoothSupport.new ConnectedThread(bluetoothSocket);
-//            a.start();
-//
-//
-//
-//        }
-//
-
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
-
 
         Button login_button = findViewById(R.id.email_sign_in_button);
         login_button.setOnClickListener(new View.OnClickListener() {
