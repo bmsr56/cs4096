@@ -43,8 +43,13 @@ public class MainActivity extends AppCompatActivity {
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
 
-                    if ("accept".equals(writeMessage.substring(0, msg.arg1))) {
+                    if ("bartender".equals(writeMessage.substring(0, msg.arg1))) {
                         Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
+                        startActivity(intent);
+                        bluetoothConnect.close();
+
+                    } else if ("user".equals(writeMessage.substring(0, msg.arg1))) {
+                        Intent intent = new Intent(MainActivity.this, UserActivity.class);
                         startActivity(intent);
                         bluetoothConnect.close();
 
