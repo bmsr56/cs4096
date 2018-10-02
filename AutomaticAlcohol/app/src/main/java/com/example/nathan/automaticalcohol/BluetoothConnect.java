@@ -51,6 +51,14 @@ public class BluetoothConnect {
         mConnectThread.start();
     }
 
+    public synchronized void close() {
+        ConnectThread r;
+        synchronized (this) {
+            r = mConnectThread;
+        }
+        r.cancel();
+    }
+
     private synchronized void manageMyConnectedSocket(BluetoothSocket socket) {
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
@@ -165,21 +173,21 @@ public class BluetoothConnect {
                 mmOutputStream.write(data);
 
                 // share send message with UI Activity
-                // let the user know their drink has been ordered
-//                Message writtenMsg = mHandler.obtainMessage(
-//                        Constants.MESSAGE_WRITE, -1, -1, mmBuffer);
-//                writtenMsg.sendToTarget();
+                // TODO: let the user know their drink has been ordered
+                Message writtenMsg = mHandler.obtainMessage(
+                        Constants.MESSAGE_WRITE, -1, -1, mmBuffer);
+                writtenMsg.sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Error occurred when sending data", e);
 
                 // send failure message back to activity
-//                Message writeErrorMsg = mHandler.obtainMessage(
-//                        Constants.MESSAGE_TOAST);
-//                Bundle bundle = new Bundle();
+                Message writeErrorMsg = mHandler.obtainMessage(
+                        Constants.MESSAGE_TOAST);
+                Bundle bundle = new Bundle();
                 // TODO: this is like "Error placing order"
-//                bundle.putString("toast", "Couldn't send data to the other device");
-//                writeErrorMsg.setData(bundle);
-//                mHandler.sendMessage(writeErrorMsg);
+                bundle.putString("toast", "Couldn't send data to the other device");
+                writeErrorMsg.setData(bundle);
+                mHandler.sendMessage(writeErrorMsg);
             }
         }
 
