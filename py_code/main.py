@@ -6,7 +6,7 @@ import RPi.GPIO as gpio
 def main():
     try:
         outputPins = [4]
-        setAsOutputs(outputPins)
+        functions.setAsOutputs(outputPins)
         setOutputValues(0, outputPins)
         pumps = assignPumps(4)
 
