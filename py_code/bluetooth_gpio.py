@@ -55,7 +55,7 @@ while 1:
 #                print len(entries)
   #              print entries
             if len(entries) > 0 and entries[0][1] == password:
-                client_socket.send('accept')
+                client_socket.send("accept")
                 print 'accept'
             else:
                 client_socket.send('deny')
