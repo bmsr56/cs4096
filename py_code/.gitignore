@@ -1,0 +1,4 @@
+# this is a comment in a '.gitignore file if you didn't know...
+
+# can't have database file on out computers -> has to be in different folder on pi
+*.db

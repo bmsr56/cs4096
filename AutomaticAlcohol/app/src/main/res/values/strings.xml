@@ -37,5 +37,6 @@
     <string name="addition4">Add Shot of Vodka</string>
     <string name="addition_select">Select a drink</string>
 
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
