@@ -76,7 +76,6 @@
                 android:text="Submit Order"
                 android:textColor="@color/whiteText" />
 
-
         </LinearLayout>
 
 
@@ -124,6 +123,7 @@
                 android:text="Button3"
                 android:textColor="@color/whiteText" />
 
+
             <Button
                 android:id="@+id/button14"
                 android:layout_width="match_parent"
@@ -139,7 +139,6 @@
                 android:backgroundTint="@color/colorButton"
                 android:text="Button5"
                 android:textColor="@color/whiteText" />
-
 
         </LinearLayout>
 
@@ -187,6 +186,7 @@
                 android:text="Button3"
                 android:textColor="@color/whiteText" />
 
+
             <Button
                 android:id="@+id/button6"
                 android:layout_width="match_parent"
@@ -202,6 +202,7 @@
                 android:backgroundTint="@color/colorButton"
                 android:text="Button5"
                 android:textColor="@color/whiteText" />
+
         </LinearLayout>
 
         <!-- Drink Queue Division -->
@@ -225,8 +226,8 @@
                 android:textColor="@color/whiteText"
                 android:textSize="30dp" />
 
-
         </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
+
