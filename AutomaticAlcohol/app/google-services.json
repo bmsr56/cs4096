@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "1027801399754",
+    "firebase_url": "https://drinkmasterplus-ec13a.firebaseio.com",
+    "project_id": "drinkmasterplus-ec13a",
+    "storage_bucket": "drinkmasterplus-ec13a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027801399754:android:b20ea45a0a968e12",
+        "android_client_info": {
+          "package_name": "com.example.nathan.automaticalcohol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027801399754-9urcbv1o4jqe8a58u1rcdg1q1rj44vtk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nathan.automaticalcohol",
+            "certificate_hash": "63bc2a4f387034ffe20a7bbdd9ee5493c79afc97"
+          }
+        },
+        {
+          "client_id": "1027801399754-3aj9fs8ddprf73k40uuddug57sgtav9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nathan.automaticalcohol",
+            "certificate_hash": "ac2defcc6250b82b5e68967c896a3af3eb4dd3ac"
+          }
+        },
+        {
+          "client_id": "1027801399754-0jgv6pov5q6e9aa2po6glnjdtlkdh40n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCurP4zuiSeSOp61FnEkr4Z_oBuPMIcjYE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027801399754-0jgv6pov5q6e9aa2po6glnjdtlkdh40n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
