@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "1027801399754-3aj9fs8ddprf73k40uuddug57sgtav9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nathan.automaticalcohol",
+            "certificate_hash": "ac2defcc6250b82b5e68967c896a3af3eb4dd3ac"
+          }
+        },
+        {
           "client_id": "1027801399754-0jgv6pov5q6e9aa2po6glnjdtlkdh40n.apps.googleusercontent.com",
           "client_type": 3
         }
