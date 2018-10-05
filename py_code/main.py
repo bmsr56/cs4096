@@ -18,9 +18,6 @@ def main():
         # Get a reference to the auth service
         auth = firebase.auth()
 
-        email = 'drinkmasterplusplus@gmail.com'
-        password = 'thisisapassword'
-        
         # Log the user in
         user = auth.sign_in_with_email_and_password(email, password)
 
