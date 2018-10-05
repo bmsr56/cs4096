@@ -12,7 +12,7 @@ def gpioRun(pinNumber, seconds):
     gpio.output(pinNumber, 0)
     return
 
-def setAsOutput(**args):
+def setAsOutput(*args):
     """Sets given pins as outputs
         Args:
             args (ints): BCM Pins
@@ -21,7 +21,7 @@ def setAsOutput(**args):
         gpio.setup(pin, gpio.OUT)
     return
 
-def setOutputValue(value, **args):
+def setOutputValue(value, *args):
     """Sets output value for arbitrary number of pins
         Args:
             value (int): 0 or 1

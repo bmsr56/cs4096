@@ -5,7 +5,7 @@ import time
 gpio.setmode(gpio.BCM)
 gpio.setwarnings(False)
 
-def assignPumps(**args):
+def assignPumps(*args):
     """Assign the pumps to gpio pins
         Args:
             args (ints): 6 BCM pin numbers in order of how you want them assigned to the pumps.

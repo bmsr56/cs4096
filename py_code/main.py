@@ -1,14 +1,28 @@
-from bluetooth.bluetooth import *
-from pump.pump import *
-from functions.functions import *
-import RPi.GPIO as gpio
+from bt import *
+from pump import *
+from functions import *
+import RPi.GPIO as gpio, pyrebase
+import pyrebase
 
 def main():
     try:
-        outputPins = [4]
-        functions.setAsOutputs(outputPins)
-        setOutputValues(0, outputPins)
-        pumps = assignPumps(4)
+
+        config = {
+            "apiKey": "AIzaSyDoofjCqY0kx9IPrjwY0ZD_RaXuqY4kQ5k",
+            "authDomain": "drinkmasterplus-ec13a.firebaseapp.com",
+            "databaseURL": "https://drinkmasterplus-ec13a.firebaseio.com/",
+            "storageBucket": "gs://drinkmasterplus-ec13a.appspot.com"
+            }
+
+        firebase = pyrebase.initialize_app(config)
+
+        outputPins = [4, 17, 27, 22, 5, 6]
+        setAsOutput(outputPins)
+        setOutputValue(0, outputPins)
+        
+        # pumps is a dictionary <int>:<int>:
+        # e.g. {0 : pin1, 1 : pin2 ... 5 : pin5}
+        pumps = assignPumps(outputPins)
 
         while True:
             input()
