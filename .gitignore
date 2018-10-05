@@ -1,1 +1,3 @@
-cs4096_workspace*
+*.code-workspace
+*.json
+*.pyc
