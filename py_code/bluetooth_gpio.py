@@ -23,21 +23,18 @@ server_socket=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
 port = 1
 server_socket.bind(("",port))
 server_socket.listen(1)
-print 'Waiting for connection...'
+print('Waiting for connection...')
 client_socket,address = server_socket.accept()
-print 'Accepted connection from ', address
+print('Accepted connection from ', address)
 
 while 1:
     try:
     # how is data being passed back and fourth?
         data = client_socket.recv(1024)
-	print 'Received: %s' % data
-#        print type(data)
+        print('Received: {}'.format(data))
         data = data.split('+')
-#        print 'split: %s' % data
 
-	if (data[0] == 'login'):
- #           print 'login: %s' % data
+    	if (data[0] == 'login'):
             # split info into username and password
             u_p = data[1].split('_')
             username, password = u_p[0], u_p[1]
@@ -49,30 +46,26 @@ while 1:
                                 FROM Users
                                 WHERE user_login == ?
                             ''', [username])
-                            # where 'login' is passed from Android
                 entries = cur.fetchall()
- #               print type(entries)
-#                print len(entries)
-  #              print entries
             if len(entries) > 0 and entries[0][1] == password:
-                client_socket.send("accept")
-                print 'accept'
+                client_socket.send('accept')
+                print('accept')
             else:
                 client_socket.send('deny')
-                print 'deny'
+                print('deny')
 
 
-	    if (data == "q"):
-		# might have to put whole thing in a try_catch
-		print  'quitting'
-		break
+        if (data == "q"):
+    	# might have to put whole thing in a try_catch
+    	   print('quitting')
+           break
 
 
     except Exception as e:
-	print 'exception:', e
-	print 'Waiting for connection...'
+	print('exception:', e)
+	print('Waiting for connection...')
 	client_socket,address = server_socket.accept()
-	print 'Accepted connection from ', address
+	print('Accepted connection from ', address)
 
 
 client_socket.close()
