@@ -6,7 +6,6 @@ import pyrebase
 
 def main():
     try:
-
         config = {
             "apiKey": "AIzaSyDoofjCqY0kx9IPrjwY0ZD_RaXuqY4kQ5k",
             "authDomain": "drinkmasterplus-ec13a.firebaseapp.com",
@@ -15,6 +14,26 @@ def main():
             }
 
         firebase = pyrebase.initialize_app(config)
+
+        # Get a reference to the auth service
+        auth = firebase.auth()
+
+        email = 'drinkmasterplusplus@gmail.com'
+        password = 'thisisapassword'
+        
+        # Log the user in
+        user = auth.sign_in_with_email_and_password(email, password)
+
+        # Get a reference to the database service
+        db = firebase.database()
+
+        # data to save
+        data = {
+            "name": "Mortimer 'Morty' Smith"
+        }
+
+        # Pass the user's idToken to the push method
+        results = db.child("users").push(data, user['idToken'])
 
         outputPins = [4, 17, 27, 22, 5, 6]
         setAsOutput(outputPins)
