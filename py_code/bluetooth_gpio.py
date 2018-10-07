@@ -57,18 +57,11 @@ while 1:
             else:
                 client_socket.send('deny')
                 print('deny')
-
-
-    	# might have to put whole thing in a try_catch
-    	   print('quitting')
-           break
-
-
     except Exception as e:
-	print('exception:', e)
-	print('Waiting for connection...')
-	client_socket,address = server_socket.accept()
-	print('Accepted connection from ', address)
+        print('exception:', e)
+        print('Waiting for connection...')
+        client_socket,address = server_socket.accept()
+        print('Accepted connection from ', address)
 
 
 client_socket.close()
