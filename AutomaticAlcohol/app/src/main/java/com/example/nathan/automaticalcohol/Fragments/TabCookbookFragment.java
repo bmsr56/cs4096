@@ -11,23 +11,16 @@ import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.R;
 
-public class TabHomeFragment extends Fragment{
-    private static final String TAG = "TabHomeFragment";
+public class TabCookbookFragment extends Fragment{
+    private static final String TAG = "TabCookbookFragment";
 
     private Button button;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_tab_cookbook, container, false);
 
-        // TODO: THE BUTTON ON THIS PAGE IS JUST FOR PROOF OF CONCEPT, NEEDS TO BE CHANGED / DELETED
-        button = view.findViewById(R.id.btnTest1);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button click 1", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return view;
     }

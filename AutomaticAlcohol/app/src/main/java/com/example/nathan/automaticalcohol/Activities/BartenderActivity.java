@@ -20,7 +20,11 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.nathan.automaticalcohol.Fragments.TabCookbookFragment;
 import com.example.nathan.automaticalcohol.Fragments.TabHomeFragment;
+import com.example.nathan.automaticalcohol.Fragments.TabInventoryFragment;
+import com.example.nathan.automaticalcohol.Fragments.TabReportsFragment;
+import com.example.nathan.automaticalcohol.Fragments.TabTabsFragment;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.SectionsPageAdapter;
 
@@ -50,9 +54,11 @@ public class BartenderActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabHomeFragment(), "HomeTab");
-//        adapter.addFragment(new Tab2Fragment(), "Tab2");
-//        adapter.addFragment(new Tab3Fragment(), "Tab3");
+        adapter.addFragment(new TabHomeFragment(), "Home");
+        adapter.addFragment(new TabCookbookFragment(), "Cookbook");
+        adapter.addFragment(new TabInventoryFragment(), "Inventory");
+        adapter.addFragment(new TabReportsFragment(), "Reports");
+        adapter.addFragment(new TabTabsFragment(), "Tabs");
         viewPager.setAdapter(adapter);
     }
 
