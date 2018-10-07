@@ -19,10 +19,8 @@ import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String ACCEPT = "accept";
+    public static final String TAG = "MainActivity";
     public static final String EXTRA_MESSAGE = "com.example.automaticalcohol.MESSAGE";
-
-    private static final int REQUEST_ENABLE_BT = 1;
 
     private BluetoothAdapter mBluetoothAdapter;
 
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 // if bluetooth is not enabled, enable it then
                 if (!mBluetoothAdapter.isEnabled()) {
                     Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                    startActivityForResult(enableBtIntent, Constants.REQUEST_ENABLE_BT);
                     Toast.makeText(MainActivity.this, "Bluetooth must be on", Toast.LENGTH_LONG).show();
                 } else {
                     // bluetooth is enabled

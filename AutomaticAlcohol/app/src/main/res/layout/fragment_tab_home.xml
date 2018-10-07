@@ -20,192 +20,192 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- order drink division -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/colorBg"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/colorBg"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/number15"
-                android:layout_width="303dp"
-                android:layout_height="80dp"
-                android:layout_margin="30dp"
-                android:background="@color/colorHeader"
-                android:gravity="center"
-                android:text="Order Drink:"
-                android:textColor="@color/whiteText"
-                android:textSize="30dp" />
+            <!--<TextView-->
+                <!--android:id="@+id/number15"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="80dp"-->
+                <!--android:layout_margin="30dp"-->
+                <!--android:background="@color/colorHeader"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Order Drink:"-->
+                <!--android:textColor="@color/whiteText"-->
+                <!--android:textSize="30dp" />-->
 
-            <EditText
-                android:id="@+id/EditTextName"
-                android:layout_width="303dp"
-                android:layout_height="50dp"
-                android:hint="Customer Name"
-                android:inputType="textPersonName"
-                android:textSize="18dp" />
+            <!--<EditText-->
+                <!--android:id="@+id/editText_custName"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:hint="Customer Name"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:textSize="18dp" />-->
 
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="303dp"
-                android:layout_height="50dp"
-                android:ems="10"
-                android:hint="display drink name"
-                android:inputType="text"
-                android:textSize="18dp" />
+            <!--<EditText-->
+                <!--android:id="@+id/editText_drinkName"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:ems="10"-->
+                <!--android:hint="display drink name"-->
+                <!--android:inputType="text"-->
+                <!--android:textSize="18dp" />-->
 
-            <Spinner
-                android:id="@+id/SpinnerAddItem"
-                android:layout_width="303dp"
-                android:layout_height="50dp"
-                android:entries="@array/addition_list"
-                android:prompt="@string/addition_select" />
+            <!--<Spinner-->
+                <!--android:id="@+id/spinner_addItem"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:entries="@array/addition_list"-->
+                <!--android:prompt="@string/addition_select" />-->
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="303dp"
-                android:layout_height="50dp"
-                android:text="Total Cost:"
-                android:textSize="18dp" />
+            <!--<TextView-->
+                <!--android:id="@+id/textView_totalCost"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:text="Total Cost:"-->
+                <!--android:textSize="18dp" />-->
 
-            <Button
-                android:id="@+id/buttonSubmitOrder"
-                android:layout_width="303dp"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/colorButton"
-                android:text="Submit Order"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/buttonSubmitOrder"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Submit Order"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
 
         <!-- Bartender Specials division -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/colorBg"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/colorBg"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/number3"
-                android:layout_width="303dp"
-                android:layout_height="80dp"
-                android:layout_margin="30dp"
-                android:background="@color/colorHeader"
-                android:gravity="center"
-                android:text="Bartender Specials:"
-                android:textColor="@color/whiteText"
-                android:textSize="30dp" />
+            <!--<TextView-->
+                <!--android:id="@+id/number3"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="80dp"-->
+                <!--android:layout_margin="30dp"-->
+                <!--android:background="@color/colorHeader"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Bartender Specials:"-->
+                <!--android:textColor="@color/whiteText"-->
+                <!--android:textSize="30dp" />-->
 
-            <Button
-                android:id="@+id/button10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button1"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_special1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button1"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-            <Button
-                android:id="@+id/button11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button2"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_special2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button2"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-            <Button
-                android:id="@+id/button13"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button3"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_special3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button3"-->
+                <!--android:textColor="@color/whiteText" />-->
 
 
-            <Button
-                android:id="@+id/button14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button4"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_special4"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button4"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-            <Button
-                android:id="@+id/button15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button5"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_special5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button5"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
         <!-- Quick Add division -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/colorBg"
-            android:gravity="center"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/colorBg"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/number1"
-                android:layout_width="303dp"
-                android:layout_height="80dp"
-                android:layout_margin="30dp"
-                android:background="@color/colorHeader"
-                android:gravity="center"
-                android:text="Quick Add:"
-                android:textColor="@color/whiteText"
-                android:textSize="30dp" />
+            <!--<TextView-->
+                <!--android:id="@+id/number1"-->
+                <!--android:layout_width="303dp"-->
+                <!--android:layout_height="80dp"-->
+                <!--android:layout_margin="30dp"-->
+                <!--android:background="@color/colorHeader"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Quick Add:"-->
+                <!--android:textColor="@color/whiteText"-->
+                <!--android:textSize="30dp" />-->
 
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button1"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_quick1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button1"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button2"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_quick2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button2"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button3"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_quick3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button3"-->
+                <!--android:textColor="@color/whiteText" />-->
 
 
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button4"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_quick4"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button4"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-            <Button
-                android:id="@+id/button8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button5"
-                android:textColor="@color/whiteText" />
+            <!--<Button-->
+                <!--android:id="@+id/button_quick5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:backgroundTint="@color/colorButton"-->
+                <!--android:text="Button5"-->
+                <!--android:textColor="@color/whiteText" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
         <!-- Drink Queue Division -->
         <LinearLayout

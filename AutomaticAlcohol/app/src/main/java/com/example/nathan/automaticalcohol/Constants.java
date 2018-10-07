@@ -6,4 +6,7 @@ public interface Constants {
     int MESSAGE_WRITE = 1;
     int MESSAGE_TOAST = 2;
 
+    int REQUEST_ENABLE_BT = 1;
+
+
 }
