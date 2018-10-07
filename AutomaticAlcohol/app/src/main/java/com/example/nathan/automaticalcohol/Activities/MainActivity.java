@@ -47,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
                         startActivity(intent);
                         bluetoothConnect.close();
+                    } else if ("bartender".equals(writeMessage.substring(0, msg.arg1))) {
+                        Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
+                        startActivity(intent);
+                        bluetoothConnect.close();
+                    } else if ("user".equals(writeMessage.substring(0, msg.arg1))) {
+                        Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                        startActivity(intent);
+                        bluetoothConnect.close();
 
                     } else {
                         Toast.makeText(MainActivity.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();

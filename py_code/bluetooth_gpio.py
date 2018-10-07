@@ -50,11 +50,7 @@ while 1:
                                 FROM Users
                                 WHERE user_login == ?
                             ''', [username])
-                            # where 'login' is passed from Android
                 entries = cur.fetchall()
- #               print type(entries)
-#                print len(entries)
-  #              print entries
             if len(entries) > 0 and entries[0][1] == password:
                 client_socket.send('accept')
                 print('accept')
@@ -63,16 +59,16 @@ while 1:
                 print('deny')
 
 
-            if (data == "q"):
-		# might have to put whole thing in a try_catch
-                print('quitting')
-                break
+    	# might have to put whole thing in a try_catch
+    	   print('quitting')
+           break
+
 
     except Exception as e:
-        print('exception:', e)
-        print('Waiting for connection...')
-        client_socket,address = server_socket.accept()
-        print('Accepted connection from ', address)
+	print('exception:', e)
+	print('Waiting for connection...')
+	client_socket,address = server_socket.accept()
+	print('Accepted connection from ', address)
 
 
 client_socket.close()
