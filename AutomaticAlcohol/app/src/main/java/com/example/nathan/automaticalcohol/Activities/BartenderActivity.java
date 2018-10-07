@@ -32,7 +32,7 @@ public class BartenderActivity extends AppCompatActivity {
 
     private final String TAG = "BartenderActivity";
 
-    private SectionsPageAdapter mSectionsPageAdapter;
+//    private SectionsPageAdapter mSectionsPageAdapter;
 
     private ViewPager mViewPager;
 
@@ -42,7 +42,7 @@ public class BartenderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bartender);
         Log.d(TAG, "onCreate: Starting");
 
-        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+//        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         // Setup the ViewPager with the sections adapter
         mViewPager = (ViewPager) findViewById(R.id.container);

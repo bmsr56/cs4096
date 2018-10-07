@@ -24,17 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.BluetoothActivity"
-            android:parentActivityName=".Activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Activities.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".Activities.UserActivity" />
-        <activity
             android:name=".Activities.BartenderActivity"
             android:label="@string/title_activity_bartender"
             android:theme="@style/AppTheme.NoActionBar"
