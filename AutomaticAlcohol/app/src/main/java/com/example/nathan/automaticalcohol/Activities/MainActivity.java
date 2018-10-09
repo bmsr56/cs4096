@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.nathan.automaticalcohol.BluetoothConnect;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.`FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String ACCEPT = "accept";
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
 
     private BluetoothConnect bluetoothConnect;
+
+    private FirebaseAuth mAuth;
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -56,8 +60,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -96,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
     private void sendMessage(String message) {
         if (message.length() > 0) {
             byte[] data = message.getBytes();
@@ -106,5 +121,27 @@ public class MainActivity extends AppCompatActivity {
     private void connectDevice() {
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice("B8:27:EB:C7:30:39");
         bluetoothConnect.connect(device);
+    }
+
+    private void updateUI(FirebaseUser user) {
+        hideProgressDialog();
+        if (user != null) {
+            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
+                    user.getEmail(), user.isEmailVerified()));
+            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+
+            findViewById(R.id.email_sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.password).setVisibility(View.GONE);
+            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
+
+            findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
+        } else {
+            mStatusTextView.setText(R.string.signed_out);
+            mDetailTextView.setText(null);
+
+            findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
+            findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
+            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
+        }
     }
 }
