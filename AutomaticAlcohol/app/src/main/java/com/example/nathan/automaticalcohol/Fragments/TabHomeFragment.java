@@ -1,10 +1,13 @@
 package com.example.nathan.automaticalcohol.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +18,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nathan.automaticalcohol.Activities.BartenderActivity;
+import com.example.nathan.automaticalcohol.Activities.MainActivity;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerViewAdapter;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +41,6 @@ public class TabHomeFragment extends Fragment{
     private TextView textView_totalCost;
     private Button buttonSubmitOrder;
 
-
     private Button button_special1;
     private Button button_special2;
     private Button button_special3;
@@ -43,14 +53,15 @@ public class TabHomeFragment extends Fragment{
     private Button button_quick4;
     private Button button_quick5;
 
-
     private RecyclerView myRecyclerView;
     private List<String> lstDrinkQueue;
 
+    private GoogleSignInClient mGoogleSignInClient;
+
 
     public TabHomeFragment() {
-
     }
+
 
     @Nullable
     @Override
@@ -81,6 +92,9 @@ public class TabHomeFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
+
+                    // TODO: each these are going to have to change some "total cost" variable based on price of individual shot
+
                     case 0:
                         orderDrink.setText("Order Drink:");
                         break;
@@ -96,7 +110,7 @@ public class TabHomeFragment extends Fragment{
                 }
                 // TODO: update total drink cost
                 // computeCost(baseDrink, addOn_List?? - MULTIPLE ADD ON SUPPORT??)
-                // TODO: MULTIPLE ADD ON SUPPORT??
+                // TODO: MULTIPLE-ADD-ON SUPPORT??
             }
 
             @Override
@@ -116,15 +130,23 @@ public class TabHomeFragment extends Fragment{
 //         each of these calls a function that orders a drink based on the name of the special
         button_special1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button special 1", Toast.LENGTH_SHORT).show();
-                orderDrink(button_special1.getText().toString());
+
+                // TODO: make this look better
+
+                Toast.makeText(getActivity(), "Signs Out", Toast.LENGTH_SHORT).show();
+//                orderDrink(button_special1.getText().toString());
+                FirebaseAuth.getInstance().signOut();
+                signOut();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                Log.e(TAG, "LOGGING OUT");
+                startActivity(intent);
             }
         });
         button_special2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button special 2", Toast.LENGTH_SHORT).show();
                 orderDrink(button_special2.getText().toString());
-            }
+                }
         });
         button_special3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -198,12 +220,12 @@ public class TabHomeFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: grab info from database
+        // initialize the drink queue
+        // TODO: this has to be setup to listen for incoming messages to the queue
         /*  connect to database
             for each entry in database
                 lstDrinkQueue.add(entry);
          */
-
         lstDrinkQueue = new ArrayList<>();
         lstDrinkQueue.add("first");
         lstDrinkQueue.add("second");
@@ -211,6 +233,14 @@ public class TabHomeFragment extends Fragment{
         lstDrinkQueue.add("fourth");
         lstDrinkQueue.add("fifth");
         lstDrinkQueue.add("sixth");
+
+
+        // Google Sign In init (used for sign out purposes)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
     }
 
@@ -220,5 +250,15 @@ public class TabHomeFragment extends Fragment{
 
     private void orderDrink(String drink) {
 
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // might throw "logout successful" kind of a thing in here
+                    }
+                });
     }
 }
