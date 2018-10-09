@@ -6,17 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.BluetoothConnect;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
@@ -28,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
 
     private BluetoothConnect bluetoothConnect;
+
+
+
+    private FirebaseAuth mAuth;
+
+    private GoogleSignInClient mGoogleSignInClient;
+
+
+
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -67,15 +86,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-            //device does not support bluetooth
-            Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
-        }
 
-        bluetoothConnect = new BluetoothConnect(mHandler);
-        connectDevice();
+        // initialize firebase instance
+        mAuth = FirebaseAuth.getInstance();
 
+        // init email/pass views
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
 
@@ -83,23 +98,117 @@ public class MainActivity extends AppCompatActivity {
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if bluetooth is not enabled, enable it then
-                if (!mBluetoothAdapter.isEnabled()) {
-                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent, Constants.REQUEST_ENABLE_BT);
-                    Toast.makeText(MainActivity.this, "Bluetooth must be on", Toast.LENGTH_LONG).show();
-                } else {
-                    // bluetooth is enabled
-                    String email_text = email.getText().toString();
-                    String password_text = password.getText().toString();
+                String user_email = email.getText().toString();
+                String user_pass = password.getText().toString();
 
-                    TextView textView = findViewById(R.id.test_textView);
-                    textView.setText("login+"+email_text+"_"+password_text);
 
-                    sendMessage("login+"+email_text+"_"+password_text);
-                }
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build();
+
+                // Build a GoogleSignInClient with the options specified by gso.
+                mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
+
+                mAuth.signInWithEmailAndPassword(user_email, user_pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.e(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                            updateUI(null);
+                        }
+                    }
+                });
+
+
             }
         });
+
+        Button new_account = findViewById(R.id.new_account_button);
+        new_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_email = email.getText().toString();
+                String user_pass = password.getText().toString();
+
+                mAuth.createUserWithEmailAndPassword(user_email, user_pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                            updateUI(null);
+                        }
+                    }
+                });
+
+
+            }
+        });
+
+
+        Button google_signin = findViewById(R.id.sign_in_button);
+        google_signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_email = email.getText().toString();
+                String user_pass = password.getText().toString();
+
+                mAuth.createUserWithEmailAndPassword(user_email, user_pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                            updateUI(null);
+                        }
+                    }
+                });
+
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        updateUI(account);
+    }
+
+
+    // TODO: figure out which one of these is to be used... unless we need both...
+    private void updateUI(FirebaseUser user) {
+
+    }
+
+    private void updateUI(GoogleSignInAccount account) {
+
     }
 
     private void sendMessage(String message) {
@@ -113,4 +222,8 @@ public class MainActivity extends AppCompatActivity {
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice("B8:27:EB:C7:30:39");
         bluetoothConnect.connect(device);
     }
+
+
+
+
 }
