@@ -7,5 +7,6 @@
     <color name="colorHeader">#333138</color>
     <color name="colorButton">#540B0E</color>
     <color name="whiteText">#fffffa</color>
+    <color name="background">#bebec7</color>
 </resources>
 
