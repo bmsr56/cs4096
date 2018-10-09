@@ -5,7 +5,9 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.BartenderActivity$PlaceholderFragment">
+    >
+    <!--tools:context=".Activities.BartenderActivity$PlaceholderFragment"-->
+
 
     <!-- this puts the whole thing in a linear layout -->
     <LinearLayout
@@ -27,7 +29,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/number15"
+                android:id="@+id/textView_orderDrink"
                 android:layout_width="303dp"
                 android:layout_height="80dp"
                 android:layout_margin="30dp"
@@ -38,7 +40,7 @@
                 android:textSize="30dp" />
 
             <EditText
-                android:id="@+id/EditTextName"
+                android:id="@+id/editText_custName"
                 android:layout_width="303dp"
                 android:layout_height="50dp"
                 android:hint="Customer Name"
@@ -46,7 +48,7 @@
                 android:textSize="18dp" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/editText_drinkName"
                 android:layout_width="303dp"
                 android:layout_height="50dp"
                 android:ems="10"
@@ -55,14 +57,14 @@
                 android:textSize="18dp" />
 
             <Spinner
-                android:id="@+id/SpinnerAddItem"
+                android:id="@+id/spinner_addItem"
                 android:layout_width="303dp"
                 android:layout_height="50dp"
                 android:entries="@array/addition_list"
                 android:prompt="@string/addition_select" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView_totalCost"
                 android:layout_width="303dp"
                 android:layout_height="50dp"
                 android:text="Total Cost:"
@@ -79,7 +81,7 @@
         </LinearLayout>
 
 
-        <!-- Bartender Specials division -->
+         Bartender Specials division
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -100,7 +102,7 @@
                 android:textSize="30dp" />
 
             <Button
-                android:id="@+id/button10"
+                android:id="@+id/button_special1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -108,7 +110,7 @@
                 android:textColor="@color/whiteText" />
 
             <Button
-                android:id="@+id/button11"
+                android:id="@+id/button_special2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -116,7 +118,7 @@
                 android:textColor="@color/whiteText" />
 
             <Button
-                android:id="@+id/button13"
+                android:id="@+id/button_special3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -125,7 +127,7 @@
 
 
             <Button
-                android:id="@+id/button14"
+                android:id="@+id/button_special4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -133,7 +135,7 @@
                 android:textColor="@color/whiteText" />
 
             <Button
-                android:id="@+id/button15"
+                android:id="@+id/button_special5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -142,7 +144,7 @@
 
         </LinearLayout>
 
-        <!-- Quick Add division -->
+         Quick Add division
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -163,7 +165,7 @@
                 android:textSize="30dp" />
 
             <Button
-                android:id="@+id/button7"
+                android:id="@+id/button_quick1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -171,7 +173,7 @@
                 android:textColor="@color/whiteText" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/button_quick2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -179,7 +181,7 @@
                 android:textColor="@color/whiteText" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/button_quick3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -188,7 +190,7 @@
 
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/button_quick4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -196,7 +198,7 @@
                 android:textColor="@color/whiteText" />
 
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/button_quick5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
@@ -225,6 +227,13 @@
                 android:text="Drink Queue:"
                 android:textColor="@color/whiteText"
                 android:textSize="30dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/drinkQueue_recyclerView">
+
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
     </LinearLayout>
