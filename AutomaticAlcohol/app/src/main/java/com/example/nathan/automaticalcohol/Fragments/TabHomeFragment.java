@@ -18,16 +18,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nathan.automaticalcohol.Activities.BartenderActivity;
 import com.example.nathan.automaticalcohol.Activities.MainActivity;
+import com.example.nathan.automaticalcohol.Classes.Color;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerViewAdapter;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +62,16 @@ public class TabHomeFragment extends Fragment{
     private Button button_quick5;
 
     private RecyclerView myRecyclerView;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
     private List<String> lstDrinkQueue;
 
     private GoogleSignInClient mGoogleSignInClient;
+
+    FirebaseDatabase mDatabase;
+    DatabaseReference mRef;
+
+    private ArrayList<Color> value;
+
 
 
     public TabHomeFragment() {
@@ -179,6 +194,7 @@ public class TabHomeFragment extends Fragment{
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 1", Toast.LENGTH_SHORT).show();
+                readFromDatabase();
                 orderDrink(button_quick1.getText().toString());
             }
         });
@@ -208,9 +224,9 @@ public class TabHomeFragment extends Fragment{
         });
 
         myRecyclerView = view.findViewById(R.id.drinkQueue_recyclerView);
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), lstDrinkQueue);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(getContext(), lstDrinkQueue);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecyclerView.setAdapter(recyclerViewAdapter);
+        myRecyclerView.setAdapter(mRecyclerViewAdapter);
 
         return view;
     }
@@ -226,13 +242,22 @@ public class TabHomeFragment extends Fragment{
             for each entry in database
                 lstDrinkQueue.add(entry);
          */
+
+        mDatabase = FirebaseDatabase.getInstance();
+
+
+        mRef = mDatabase.getReference("colors");
+
+
         lstDrinkQueue = new ArrayList<>();
+
         lstDrinkQueue.add("first");
         lstDrinkQueue.add("second");
         lstDrinkQueue.add("third");
         lstDrinkQueue.add("fourth");
         lstDrinkQueue.add("fifth");
         lstDrinkQueue.add("sixth");
+
 
 
         // Google Sign In init (used for sign out purposes)
@@ -260,5 +285,34 @@ public class TabHomeFragment extends Fragment{
                         // might throw "logout successful" kind of a thing in here
                     }
                 });
+    }
+
+    private void readFromDatabase() {
+        final GenericTypeIndicator<ArrayList<Color>> t = new GenericTypeIndicator<ArrayList<Color>>() {};
+
+        // Read from the database
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                value = dataSnapshot.getValue(t);
+
+
+                for (Color c: value) {
+                    Log.d(TAG, "Value is: " + c);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+
+
     }
 }

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.nathan.automaticalcohol.Classes.Color;
+import com.example.nathan.automaticalcohol.Classes.User;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 
@@ -25,6 +27,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
@@ -33,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mBartenderRef;
+    private DatabaseReference mUserRef;
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -44,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize firebase instance
         mAuth = FirebaseAuth.getInstance();
+
+        // init database instance
+        mDatabase = FirebaseDatabase.getInstance();
+
+        // init database references
+        mBartenderRef = mDatabase.getReference("bartenders");
+        mUserRef = mDatabase.getReference("accounts");
 
         // init email/pass views
         email = findViewById(R.id.email);
@@ -65,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
 
+        // grab the google button
         SignInButton signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
+//        signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +106,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
+        try {
+            updateUI(currentUser);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception", e);
+        }
 
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
@@ -91,7 +120,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "ACCOUNT IS NULL");
         }
-        updateUI(account);
+        try {
+            updateUI(account);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception", e);
+        }
     }
 
     @Override
@@ -127,14 +160,123 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(GoogleSignInAccount account) {
-
         if (account == null) {
             Log.e(TAG, "updateUI -> NULL");
         } else {
-            Log.e(TAG, "updateUI -> LOGIN");
-            Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
-            startActivity(intent);
+
+
+            String name = account.getAccount().name;
+            String type = account.getAccount().type;
+
+            boolean isBartender = checkUserInDB(name);
+            if (isBartender) {
+                Log.e(TAG, "updateUI (bar) -> " + name + "  " + type);
+                Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
+                startActivity(intent);
+            } else {
+                Log.e(TAG, "updateUI (user) -> " + name + "  " + type);
+                Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                startActivity(intent);
+            }
+
+
         }
+
+    }
+
+    private ArrayList<User> value;
+    boolean bool = false;  // assume not a bartender
+
+
+    private boolean checkUserInDB(final String mName) {
+        Log.e(TAG, "checkUserInDB");
+        Query query = mBartenderRef.child("bartenders").child("0").child("email");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e(TAG, "onDataChange  "+dataSnapshot);
+                if (dataSnapshot.exists()) {
+                    Log.e(TAG, "exists");
+                    // dataSnapshot is the "issue" node with all children with id 0
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        // do something with the individual "issues"
+                        Log.e(TAG, issue.toString());
+                    }
+                }
+                for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                    // do something with the individual "issues"
+                    Log.e(TAG, issue.toString());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled");
+            }
+        });
+
+        return false;
+    }
+
+    private boolean readFromDatabase(final String mName) {
+        final GenericTypeIndicator<ArrayList<User>> t = new GenericTypeIndicator<ArrayList<User>>() {};
+
+
+        // Read from the database
+        mBartenderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                value = dataSnapshot.getValue(t);
+                ArrayList<String> barkeepList = new ArrayList<>();
+
+                for (User c: value) {
+                    barkeepList.add(c.getEmail());
+                    Log.d(TAG, "Value is: " + c);
+                }
+
+
+
+                if (barkeepList.contains(mName)) {
+                    bool = true;
+                } else {
+                    bool = false;
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+
+        return bool;
+    }
+
+    private void loginUser(FirebaseUser user) {
+
+        Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
+        startActivity(intent);
+
+        // if they aren't in the "bartender" table and made it this far they have to be a user in "accounts" table
+
+    }
+
+    private void addUser(FirebaseUser user) {
+        String uid = user.getUid();
+
+
+        Map<String, User> users = new HashMap<>();
+        users.put(uid, new User(user.getEmail()));
+
+        mUserRef.setValue(users);
 
     }
 
@@ -156,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.e(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
+                                loginUser(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.e(TAG, "signInWithEmail:failure", task.getException());
@@ -175,12 +317,11 @@ public class MainActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user);
+                                addUser(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
                             }
                         }
                     });
