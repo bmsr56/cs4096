@@ -24,6 +24,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -260,16 +261,37 @@ public class MainActivity extends AppCompatActivity {
         return bool;
     }
 
-    private void loginUser(FirebaseUser user) {
-
-        Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
-        startActivity(intent);
+    private void loginUser(final FirebaseUser user) {
 
         // if they aren't in the "bartender" table and made it this far they have to be a user in "accounts" table
+        mBartenderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            boolean check = false;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    if (data.getKey().equals(user.getUid())) {
+                        Log.e(TAG, "account is a bartender");
+                        Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
+                        startActivity(intent);
+                        check = true;
+                    }
+                }
+                if (!check) {
+                    // this means they are a regular user
+                    Log.e(TAG, "account is a user");
+                    Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                    startActivity(intent);
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+
+            }
+        });
     }
 
-    private void addUser(FirebaseUser user) {
+    private void addUser(final FirebaseUser user) {
         String uid = user.getUid();
 
 
