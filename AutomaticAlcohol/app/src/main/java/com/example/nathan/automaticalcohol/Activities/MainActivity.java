@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -310,6 +311,11 @@ public class MainActivity extends AppCompatActivity {
             // TODO: check that these are valid email/password
             String user_email = email.getText().toString();
             String user_pass = password.getText().toString();
+            
+            if (user_email.length() == 0 || user_pass.length() == 0) {
+                Toast.makeText(MainActivity.this, "password or email is null", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             switch (id) {
                 case R.id.email_sign_in_button:
@@ -323,9 +329,27 @@ public class MainActivity extends AppCompatActivity {
                                 loginUser(user);
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.e(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                              updateUI(null);
+
+                                // TODO: might check if the email has been used so far -> may not be just the password that's incorrect
+
+                                switch (task.getException().getMessage()) {
+                                    case Constants.INVALID_EMAIL:
+                                        Log.e(TAG, "createUserWithEmail:failure - invalid email");
+                                        Toast.makeText(MainActivity.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case Constants.EMAIL_ALREADY_USED:
+                                        Log.e(TAG, "createUserWithEmail:failure - email used");
+                                        Toast.makeText(MainActivity.this, "Email has already been used or the password is incorrect", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case Constants.WEAK_PASS:
+                                        Log.e(TAG, "createUserWithEmail:failure - bad pass");
+                                        Toast.makeText(MainActivity.this, "Password needs at least 6 characters", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    default:
+                                        Log.e(TAG, "createUserWithEmail:failure - wrong pass");
+                                        Toast.makeText(MainActivity.this, "Incorrect password", Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
                             }
                         }
                     });
@@ -342,12 +366,25 @@ public class MainActivity extends AppCompatActivity {
                                 addUser(user);
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                switch (task.getException().getMessage()) {
+                                    case Constants.INVALID_EMAIL:
+                                        Log.e(TAG, "createUserWithEmail:failure - invalid email");
+                                        Toast.makeText(MainActivity.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case Constants.EMAIL_ALREADY_USED:
+                                        Log.e(TAG, "createUserWithEmail:failure - email used");
+                                        Toast.makeText(MainActivity.this, "Email has already been used", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case Constants.WEAK_PASS:
+                                        Log.e(TAG, "createUserWithEmail:failure - bad pass");
+                                        Toast.makeText(MainActivity.this, "Password needs at least 6 characters", Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
                             }
                         }
                     });
-                    break;
+
+                break;
             }
         }
     };

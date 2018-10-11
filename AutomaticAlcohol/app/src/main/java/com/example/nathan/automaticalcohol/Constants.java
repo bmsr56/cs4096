@@ -11,4 +11,9 @@ public interface Constants {
 
     int RC_SIGN_IN = 20;
 
+
+    String INVALID_EMAIL = "The email address is badly formatted.";
+    String EMAIL_ALREADY_USED = "The email address is already in use by another account.";
+    String WEAK_PASS = "The given password is invalid. [ Password should be at least 6 characters ]";
+
 }
