@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mBartenderRef;
     private DatabaseReference mUserRef;
+
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -66,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
         // init database instance
         mDatabase = FirebaseDatabase.getInstance();
-
         // init database references
         mBartenderRef = mDatabase.getReference("bartenders");
         mUserRef = mDatabase.getReference("accounts");
+
 
         // init email/pass views
         email = findViewById(R.id.email);
@@ -196,11 +198,12 @@ public class MainActivity extends AppCompatActivity {
     private void addUser(final FirebaseUser user) {
         String uid = user.getUid();
 
-
         Map<String, User> users = new HashMap<>();
-        users.put(uid, new User(user.getEmail()));
 
-        mUserRef.setValue(users);
+        //users.put(uid, new User(user.getEmail()));
+
+        mUserRef.child(uid).setValue(new User(user.getEmail()));
+        //mUserRef.setValue(users);
 
     }
 
