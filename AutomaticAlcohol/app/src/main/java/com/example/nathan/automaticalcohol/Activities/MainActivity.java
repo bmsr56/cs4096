@@ -107,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        try {
-            updateUI(currentUser);
-        } catch (Exception e) {
-            Log.e(TAG, "Exception", e);
-        }
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        try {
+//            updateUI(currentUser);
+//        } catch (Exception e) {
+//            Log.e(TAG, "Exception", e);
+//        }
 
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
@@ -122,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "ACCOUNT IS NULL");
         }
-        try {
-            updateUI(account);
-        } catch (Exception e) {
-            Log.e(TAG, "Exception", e);
-        }
+//        try {
+//            updateUI(account);
+//        } catch (Exception e) {
+//            Log.e(TAG, "Exception", e);
+//        }
     }
 
     @Override
@@ -156,110 +156,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: figure out which one of these is to be used... unless we need both...
-    private void updateUI(FirebaseUser user) {
-
-    }
-
+    // for now assumes all Google accounts are users and not bartenders
     private void updateUI(GoogleSignInAccount account) {
-        if (account == null) {
-            Log.e(TAG, "updateUI -> NULL");
-        } else {
-
-
-            String name = account.getAccount().name;
-            String type = account.getAccount().type;
-
-            boolean isBartender = checkUserInDB(name);
-            if (isBartender) {
-                Log.e(TAG, "updateUI (bar) -> " + name + "  " + type);
-                Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
-                startActivity(intent);
-            } else {
-                Log.e(TAG, "updateUI (user) -> " + name + "  " + type);
-                Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                startActivity(intent);
-            }
-
-
-        }
-
-    }
-
-    private ArrayList<User> value;
-    boolean bool = false;  // assume not a bartender
-
-
-    private boolean checkUserInDB(final String mName) {
-        Log.e(TAG, "checkUserInDB");
-        Query query = mBartenderRef.child("bartenders").child("0").child("email");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "onDataChange  "+dataSnapshot);
-                if (dataSnapshot.exists()) {
-                    Log.e(TAG, "exists");
-                    // dataSnapshot is the "issue" node with all children with id 0
-                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                        // do something with the individual "issues"
-                        Log.e(TAG, issue.toString());
-                    }
-                }
-                for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                    // do something with the individual "issues"
-                    Log.e(TAG, issue.toString());
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled");
-            }
-        });
-
-        return false;
-    }
-
-    private boolean readFromDatabase(final String mName) {
-        final GenericTypeIndicator<ArrayList<User>> t = new GenericTypeIndicator<ArrayList<User>>() {};
-
-
-        // Read from the database
-        mBartenderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
-                value = dataSnapshot.getValue(t);
-                ArrayList<String> barkeepList = new ArrayList<>();
-
-                for (User c: value) {
-                    barkeepList.add(c.getEmail());
-                    Log.d(TAG, "Value is: " + c);
-                }
-
-
-
-                if (barkeepList.contains(mName)) {
-                    bool = true;
-                } else {
-                    bool = false;
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-
-        return bool;
+        Log.e(TAG, "updateUI (user) -> " + account.getEmail());
+        Intent intent = new Intent(MainActivity.this, UserActivity.class);
+        startActivity(intent);
     }
 
     private void loginUser(final FirebaseUser user) {
@@ -313,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
             String user_pass = password.getText().toString();
             
             if (user_email.length() == 0 || user_pass.length() == 0) {
-                Toast.makeText(MainActivity.this, "password or email is null", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Email and password are needed", Toast.LENGTH_SHORT).show();
                 return;
             }
 
