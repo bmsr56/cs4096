@@ -197,14 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addUser(final FirebaseUser user) {
         String uid = user.getUid();
-
-        Map<String, User> users = new HashMap<>();
-
-        //users.put(uid, new User(user.getEmail()));
-
         mUserRef.child(uid).setValue(new User(user.getEmail()));
-        //mUserRef.setValue(users);
-
     }
 
     private View.OnClickListener mSignInListener = new View.OnClickListener() {
