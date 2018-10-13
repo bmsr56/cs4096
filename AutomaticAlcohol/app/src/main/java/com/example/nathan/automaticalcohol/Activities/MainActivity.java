@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     if (data.getKey().equals(user.getUid())) {
                         Log.e(TAG, "account is a bartender");
-                        Intent intent = new Intent(MainActivity.this, BartenderActivity.class);
+                        Intent intent = new Intent(MainActivity.this, PinActivity.class);
                         startActivity(intent);
                         check = true;
                     }

@@ -73,7 +73,6 @@ public class TabHomeFragment extends Fragment{
     private ArrayList<Color> value;
 
 
-
     public TabHomeFragment() {
     }
 
