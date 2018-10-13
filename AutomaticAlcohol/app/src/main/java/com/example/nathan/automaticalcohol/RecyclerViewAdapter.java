@@ -18,52 +18,70 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    Context mContext;
-    List<String> mData;
-    Dialog myDialog;
+    private static final String TAG = "TabHomeFragment__REC";
 
-    public RecyclerViewAdapter(Context mContext, List<String> mData) {
+    private Context mContext;
+    private List<String> mData;
+    private String mType;
+
+    private Dialog myDialog;
+
+    public RecyclerViewAdapter(Context mContext, List<String> mData, String type) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mType = type;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        Log.e(TAG, this.mType);
         View view;
+
+        // TODO: I think a separate one of thses is going to have to be made for the drink queue if we want it to look different
         view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
+
+
+
         final MyViewHolder vHolder = new MyViewHolder(view);
 
+        if (this.mType.equals(Constants.SPECIALS)) {
 
-        // Dialog init
-        // TODO: this will have to be removed (maybe refacored for other use)
-        myDialog = new Dialog(mContext);
-        myDialog.setContentView(R.layout.dialog_contact);
+            // Dialog init
+            // TODO: this will have to be removed (maybe refacored for other use)
+            myDialog = new Dialog(mContext);
+            myDialog.setContentView(R.layout.dialog_contact);
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
+
+            vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView dialog_name_tv = myDialog.findViewById(R.id.dialog_name_id);
+                    TextView dialog_phone_tv = myDialog.findViewById(R.id.dialog_phone_id);
+                    ImageView dialog_contact_img = myDialog.findViewById(R.id.dialog_img);
+                    dialog_name_tv.setText(mData.get(vHolder.getAdapterPosition()));
+                    dialog_phone_tv.setText(mData.get(vHolder.getAdapterPosition()));
+
+                    Toast.makeText(mContext, "Test Click" + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                    myDialog.show();
+                    // TODO: figure out how to make drink then send it to pi??
+                }
+            });
+        } else if (this.mType.equals(Constants.DRINK_QUEUE)) {
+            // TODO: handle logic for creating "button" pushes for the drink queue
+            // TODO: handle logic for making new "view = LayoutInflater..." stuff
+        }
 
 
 
-        vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView dialog_name_tv = myDialog.findViewById(R.id.dialog_name_id);
-                TextView dialog_phone_tv = myDialog.findViewById(R.id.dialog_phone_id);
-                ImageView dialog_contact_img = myDialog.findViewById(R.id.dialog_img);
-                dialog_name_tv.setText(mData.get(vHolder.getAdapterPosition()));
-                dialog_phone_tv.setText(mData.get(vHolder.getAdapterPosition()));
 
-                Toast.makeText(mContext, "Test Click" + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
-                myDialog.show();
-                // TODO: figure out how to make drink then send it to pi??
-            }
-        });
 
         return vHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
         holder.textView_name.setText(mData.get(position));
         holder.textView_phone.setText(mData.get(position));
     }

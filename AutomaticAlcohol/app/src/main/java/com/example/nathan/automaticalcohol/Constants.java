@@ -16,4 +16,6 @@ public interface Constants {
     String EMAIL_ALREADY_USED = "The email address is already in use by another account.";
     String WEAK_PASS = "The given password is invalid. [ Password should be at least 6 characters ]";
 
+    String DRINK_QUEUE = "drinkQueue";
+    String SPECIALS = "specials";
 }

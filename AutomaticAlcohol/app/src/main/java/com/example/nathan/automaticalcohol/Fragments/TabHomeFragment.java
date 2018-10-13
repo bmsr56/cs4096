@@ -15,11 +15,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android. widget.TextView;
 import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.Activities.MainActivity;
+import com.example.nathan.automaticalcohol.Activities.PinActivity;
+import com.example.nathan.automaticalcohol.Activities.UserActivity;
 import com.example.nathan.automaticalcohol.Classes.Color;
+import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerViewAdapter;
 
@@ -36,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirestoreRegistrar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +54,6 @@ public class TabHomeFragment extends Fragment{
     private Button buttonSubmitOrder;
 
     private Button button_special1;
-    private Button button_special2;
-    private Button button_special3;
-    private Button button_special4;
-    private Button button_special5;
 
     private Button button_quick1;
     private Button button_quick2;
@@ -61,14 +61,21 @@ public class TabHomeFragment extends Fragment{
     private Button button_quick4;
     private Button button_quick5;
 
-    private RecyclerView myRecyclerView;
-    private RecyclerViewAdapter mRecyclerViewAdapter;
+    private RecyclerView mRecyclerViewDrinkQueue;
+    private RecyclerViewAdapter mRecyclerAdapterDrinkQueue;
     private List<String> lstDrinkQueue;
+
+    private RecyclerView mRecyclerViewSpecials;
+    private RecyclerViewAdapter mRecyclerAdapterSpecials;
+    private List<String> lstSpecials;
 
     private GoogleSignInClient mGoogleSignInClient;
 
-    FirebaseDatabase mDatabase;
-    DatabaseReference mRef;
+    private FirebaseAuth mAuth;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mRefSpecials;
+    private DatabaseReference mRefDrinkQueue;
 
     private ArrayList<Color> value;
 
@@ -138,10 +145,6 @@ public class TabHomeFragment extends Fragment{
 
 //         logic for handling specials
         button_special1 = view.findViewById(R.id.button_special1);
-        button_special2 = view.findViewById(R.id.button_special2);
-        button_special3 = view.findViewById(R.id.button_special3);
-        button_special4 = view.findViewById(R.id.button_special4);
-        button_special5 = view.findViewById(R.id.button_special5);
 
 //         each of these calls a function that orders a drink based on the name of the special
         button_special1.setOnClickListener(new View.OnClickListener() {
@@ -158,32 +161,16 @@ public class TabHomeFragment extends Fragment{
                 startActivity(intent);
             }
         });
-        button_special2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button special 2", Toast.LENGTH_SHORT).show();
-                orderDrink(button_special2.getText().toString());
-                }
-        });
-        button_special3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button special 3", Toast.LENGTH_SHORT).show();
-                orderDrink(button_special3.getText().toString());
-            }
-        });
-        button_special4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button special 4", Toast.LENGTH_SHORT).show();
-                orderDrink(button_special4.getText().toString());
-            }
-        });
-        button_special5.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button special 5", Toast.LENGTH_SHORT).show();
-                orderDrink(button_special5.getText().toString());
-            }
-        });
+
+        // initialize recycler view for bartender drink specials
+        mRecyclerViewSpecials = view.findViewById(R.id.specials_recyclerView);
+        mRecyclerAdapterSpecials = new RecyclerViewAdapter(getContext(), lstSpecials, Constants.SPECIALS);
+        mRecyclerViewSpecials.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewSpecials.setAdapter(mRecyclerAdapterSpecials);
 
 
+
+        // TODO: make these 5 button like the most 5 common drinks??
 //         logic for handling quick add drinks
         button_quick1 = view.findViewById(R.id.button_quick1);
         button_quick2 = view.findViewById(R.id.button_quick2);
@@ -197,7 +184,6 @@ public class TabHomeFragment extends Fragment{
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 1", Toast.LENGTH_SHORT).show();
-                readFromDatabase();
                 orderDrink(button_quick1.getText().toString());
             }
         });
@@ -205,6 +191,10 @@ public class TabHomeFragment extends Fragment{
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 2", Toast.LENGTH_SHORT).show();
                 orderDrink(button_quick2.getText().toString());
+
+                lstDrinkQueue.add("new item");
+                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+
             }
         });
         button_quick3.setOnClickListener(new View.OnClickListener() {
@@ -226,10 +216,11 @@ public class TabHomeFragment extends Fragment{
             }
         });
 
-        myRecyclerView = view.findViewById(R.id.drinkQueue_recyclerView);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(getContext(), lstDrinkQueue);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecyclerView.setAdapter(mRecyclerViewAdapter);
+        // initialize recycler view for the drink queue
+        mRecyclerViewDrinkQueue = view.findViewById(R.id.drinkQueue_recyclerView);
+        mRecyclerAdapterDrinkQueue = new RecyclerViewAdapter(getContext(), lstDrinkQueue, Constants.DRINK_QUEUE);
+        mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
 
         return view;
     }
@@ -255,22 +246,29 @@ public class TabHomeFragment extends Fragment{
                 lstDrinkQueue.add(entry);
          */
 
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
-
-
-        mRef = mDatabase.getReference("colors");
-
-
         lstDrinkQueue = new ArrayList<>();
-
-        lstDrinkQueue.add("first");
-        lstDrinkQueue.add("second");
-        lstDrinkQueue.add("third");
-        lstDrinkQueue.add("fourth");
-        lstDrinkQueue.add("fifth");
-        lstDrinkQueue.add("sixth");
+        lstSpecials = new ArrayList<>();
 
 
+        // read data from
+        mRefSpecials = mDatabase.getReference("bartenders").child(mAuth.getUid()).child(pin).child("specials");
+        mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    Log.e(TAG, data.getValue(String.class));
+                    lstSpecials.add(data.getValue(String.class));
+                    mRecyclerAdapterSpecials.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+
+            }
+        });
 
         // Google Sign In init (used for sign out purposes)
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -303,14 +301,13 @@ public class TabHomeFragment extends Fragment{
         final GenericTypeIndicator<ArrayList<Color>> t = new GenericTypeIndicator<ArrayList<Color>>() {};
 
         // Read from the database
-        mRef.addValueEventListener(new ValueEventListener() {
+        mRefSpecials.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
                 value = dataSnapshot.getValue(t);
-
 
                 for (Color c: value) {
                     Log.d(TAG, "Value is: " + c);

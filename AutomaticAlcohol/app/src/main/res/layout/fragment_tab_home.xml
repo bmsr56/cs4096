@@ -105,45 +105,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
-                android:text="Button1"
+                android:text="Sign Out"
                 android:textColor="@color/whiteText" />
 
-            <Button
-                android:id="@+id/button_special2"
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button2"
-                android:textColor="@color/whiteText" />
+                android:layout_height="match_parent"
+                android:id="@+id/specials_recyclerView">
 
-            <Button
-                android:id="@+id/button_special3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button3"
-                android:textColor="@color/whiteText" />
-
-
-            <Button
-                android:id="@+id/button_special4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button4"
-                android:textColor="@color/whiteText" />
-
-            <Button
-                android:id="@+id/button_special5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorButton"
-                android:text="Button5"
-                android:textColor="@color/whiteText" />
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
-         Quick Add division
+         <!--Quick Add division-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
