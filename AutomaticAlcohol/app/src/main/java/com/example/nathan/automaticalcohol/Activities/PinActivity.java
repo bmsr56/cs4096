@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 public class PinActivity extends AppCompatActivity {
 
     private final String TAG = "PinActivity";
+    private final String EXTRA_PASS_PIN = "PinActivity_passPin";
 
 
     private EditText editText_pinInput;
@@ -82,6 +83,7 @@ public class PinActivity extends AppCompatActivity {
                         // TODO: this is going to have to pass info to a the next intent
 
                         Intent intent = new Intent(PinActivity.this, BartenderActivity.class);
+                        intent.putExtra(EXTRA_PASS_PIN, pin);
                         startActivity(intent);
                         check = true;
                     }

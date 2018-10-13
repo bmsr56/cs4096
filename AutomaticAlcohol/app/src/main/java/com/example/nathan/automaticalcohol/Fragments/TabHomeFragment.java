@@ -72,6 +72,8 @@ public class TabHomeFragment extends Fragment{
 
     private ArrayList<Color> value;
 
+    private String pin;
+
 
     public TabHomeFragment() {
     }
@@ -190,6 +192,8 @@ public class TabHomeFragment extends Fragment{
         button_quick5 = view.findViewById(R.id.button_quick5);
 
 //         each of these calls a function that orders a drink based on the name of the special
+        button_quick1.setText(pin);
+        Log.e(TAG, "onCreateView"+pin);
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 1", Toast.LENGTH_SHORT).show();
@@ -234,6 +238,15 @@ public class TabHomeFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            Log.e(TAG, "getArguments != null");
+            pin = getArguments().getString("bartenderPin");
+        } else {
+            Log.e(TAG, "getArguments == null");
+        }
+        Log.e(TAG, "onCreate"+pin);
+
 
         // initialize the drink queue
         // TODO: this has to be setup to listen for incoming messages to the queue
