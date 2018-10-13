@@ -2,7 +2,6 @@ from bt import *
 from pump import *
 from functions import *
 import RPi.GPIO as gpio, pyrebase
-import pyrebase
 
 def main():
     try:
