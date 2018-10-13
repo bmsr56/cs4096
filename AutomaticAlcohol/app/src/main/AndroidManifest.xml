@@ -27,6 +27,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Activities.PinActivity"
+            android:label="@string/title_activity_bartender"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"></activity>
+        <activity
             android:name=".Activities.BartenderActivity"
             android:label="@string/title_activity_bartender"
             android:theme="@style/AppTheme.NoActionBar"
