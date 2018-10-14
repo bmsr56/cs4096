@@ -90,7 +90,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/number3"
+                android:id="@+id/textView_bartenderSpecials"
                 android:layout_width="303dp"
                 android:layout_height="80dp"
                 android:layout_margin="30dp"

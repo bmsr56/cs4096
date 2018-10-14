@@ -3,6 +3,7 @@ package com.example.nathan.automaticalcohol;
 import android.app.Dialog;
 import android.content.Context;
 import android.media.Image;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,13 +24,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
     private List<String> mData;
     private String mType;
-
+    private RecyclerInterface recyclerInterface;
     private Dialog myDialog;
 
-    public RecyclerViewAdapter(Context mContext, List<String> mData, String type) {
+    public RecyclerViewAdapter(Context mContext, List<String> mData, String type, RecyclerInterface recyclerInterface) {
         this.mContext = mContext;
         this.mData = mData;
         this.mType = type;
+        this.recyclerInterface = recyclerInterface;
     }
 
     @NonNull
@@ -49,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (this.mType.equals(Constants.SPECIALS)) {
 
             // Dialog init
-            // TODO: this will have to be removed (maybe refacored for other use)
+            // TODO: this will have to be removed (maybe refactored for other use)
             myDialog = new Dialog(mContext);
             myDialog.setContentView(R.layout.dialog_contact);
             view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
@@ -57,14 +59,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TextView dialog_name_tv = myDialog.findViewById(R.id.dialog_name_id);
-                    TextView dialog_phone_tv = myDialog.findViewById(R.id.dialog_phone_id);
-                    ImageView dialog_contact_img = myDialog.findViewById(R.id.dialog_img);
-                    dialog_name_tv.setText(mData.get(vHolder.getAdapterPosition()));
-                    dialog_phone_tv.setText(mData.get(vHolder.getAdapterPosition()));
+//                    TextView dialog_name_tv = myDialog.findViewById(R.id.dialog_name_id);
+//                    TextView dialog_phone_tv = myDialog.findViewById(R.id.dialog_phone_id);
+//                    ImageView dialog_contact_img = myDialog.findViewById(R.id.dialog_img);
+//                    dialog_name_tv.setText(mData.get(vHolder.getAdapterPosition()));
+//                    dialog_phone_tv.setText(mData.get(vHolder.getAdapterPosition()));
 
                     Toast.makeText(mContext, "Test Click" + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
-                    myDialog.show();
+
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
+
+
+//                    myDialog.show();
                     // TODO: figure out how to make drink then send it to pi??
                 }
             });
@@ -84,6 +92,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.textView_name.setText(mData.get(position));
         holder.textView_phone.setText(mData.get(position));
+
+        final int index = position;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, mData.get(index), Toast.LENGTH_SHORT).show();
+                recyclerInterface.onTagClicked(mData.get(index));
+            }
+        });
+
     }
 
     @Override

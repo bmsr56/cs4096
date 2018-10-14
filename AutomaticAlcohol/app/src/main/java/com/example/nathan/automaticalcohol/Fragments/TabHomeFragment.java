@@ -24,6 +24,7 @@ import com.example.nathan.automaticalcohol.Activities.UserActivity;
 import com.example.nathan.automaticalcohol.Classes.Color;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
+import com.example.nathan.automaticalcohol.RecyclerInterface;
 import com.example.nathan.automaticalcohol.RecyclerViewAdapter;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -81,6 +82,9 @@ public class TabHomeFragment extends Fragment{
 
     private String pin;
 
+    private RecyclerInterface recyclerInterface;
+
+    private TextView bs;
 
     public TabHomeFragment() {
     }
@@ -164,10 +168,9 @@ public class TabHomeFragment extends Fragment{
 
         // initialize recycler view for bartender drink specials
         mRecyclerViewSpecials = view.findViewById(R.id.specials_recyclerView);
-        mRecyclerAdapterSpecials = new RecyclerViewAdapter(getContext(), lstSpecials, Constants.SPECIALS);
+        mRecyclerAdapterSpecials = new RecyclerViewAdapter(getContext(), lstSpecials, Constants.SPECIALS, recyclerInterface);
         mRecyclerViewSpecials.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewSpecials.setAdapter(mRecyclerAdapterSpecials);
-
 
 
         // TODO: make these 5 button like the most 5 common drinks??
@@ -218,9 +221,12 @@ public class TabHomeFragment extends Fragment{
 
         // initialize recycler view for the drink queue
         mRecyclerViewDrinkQueue = view.findViewById(R.id.drinkQueue_recyclerView);
-        mRecyclerAdapterDrinkQueue = new RecyclerViewAdapter(getContext(), lstDrinkQueue, Constants.DRINK_QUEUE);
+        mRecyclerAdapterDrinkQueue = new RecyclerViewAdapter(getContext(), lstDrinkQueue, Constants.DRINK_QUEUE, recyclerInterface);
         mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
+
+        bs = view.findViewById(R.id.textView_bartenderSpecials);
+
 
         return view;
     }
@@ -276,6 +282,14 @@ public class TabHomeFragment extends Fragment{
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+
+
+        recyclerInterface = new RecyclerInterface() {
+            @Override
+            public void onTagClicked(String tagName) {
+                bs.setText(tagName);
+            }
+        };
 
     }
 
