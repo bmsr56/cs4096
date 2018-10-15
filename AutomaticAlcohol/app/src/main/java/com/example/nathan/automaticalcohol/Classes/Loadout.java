@@ -20,4 +20,17 @@ public class Loadout {
     public String getBottleName() {
         return bottleName;
     }
+
+    public void setAmountLeft(String amountLeft) {
+        this.amountLeft = amountLeft;
+    }
+
+    public void setBottleName(String bottleName) {
+        this.bottleName = bottleName;
+    }
+
+    public String toString() {
+        return this.amountLeft+" of "+this.bottleName;
+    }
 }
+

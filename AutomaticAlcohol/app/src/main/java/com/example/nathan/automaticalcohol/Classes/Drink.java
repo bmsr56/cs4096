@@ -27,5 +27,7 @@ public class Drink {
         return price;
     }
 
-
+    public String makeString() {
+        return this.description+"  "+Float.toString(this.price);
+    }
 }

@@ -22,6 +22,8 @@ import com.example.nathan.automaticalcohol.Activities.MainActivity;
 import com.example.nathan.automaticalcohol.Activities.PinActivity;
 import com.example.nathan.automaticalcohol.Activities.UserActivity;
 import com.example.nathan.automaticalcohol.Classes.Color;
+import com.example.nathan.automaticalcohol.Classes.Drink;
+import com.example.nathan.automaticalcohol.Classes.Loadout;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerInterface;
@@ -182,19 +184,20 @@ public class TabHomeFragment extends Fragment{
         button_quick5 = view.findViewById(R.id.button_quick5);
 
 //         each of these calls a function that orders a drink based on the name of the special
-        button_quick1.setText(pin);
+        button_quick1.setText("go back");
+        button_quick3.setText(pin);
         Log.e(TAG, "onCreateView"+pin);
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 1", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
                 orderDrink(button_quick1.getText().toString());
             }
         });
         button_quick2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button quick 2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Add to queue", Toast.LENGTH_SHORT).show();
                 orderDrink(button_quick2.getText().toString());
-
                 lstDrinkQueue.add("new item");
                 mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
 
@@ -204,6 +207,7 @@ public class TabHomeFragment extends Fragment{
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 3", Toast.LENGTH_SHORT).show();
                 orderDrink(button_quick3.getText().toString());
+                checkDrinkOrder(new Drink("description", "image", 1.2f));
             }
         });
         button_quick4.setOnClickListener(new View.OnClickListener() {
@@ -288,6 +292,31 @@ public class TabHomeFragment extends Fragment{
             @Override
             public void onTagClicked(String tagName) {
                 bs.setText(tagName);
+                mRefSpecials = mDatabase.getReference("drinks").child(tagName);
+                mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+
+                            /*  this is grabbing the drink ingredients from the "drinks" table
+                                of the drink that was clicked on in EITHER of the recyclerViews
+                                TODO: we should probably have one of these for each of the recyclerViews
+                                TODO: (cont.) as we will probably (maybe) need to process clicks separately
+                            */
+                            Long d = data.getValue(Long.class);
+
+                            Log.e(TAG, Long.toString(d));
+                            lstDrinkQueue.add(Long.toString(d));
+                            mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+
+                    }
+                });
+
             }
         };
 
@@ -295,6 +324,49 @@ public class TabHomeFragment extends Fragment{
 
     private int computeCost(String addItem) {
         return 0;
+    }
+
+    private boolean checkDrinkOrder(final Drink drink) {
+
+        mRefSpecials = mDatabase.getReference("loadout");
+        mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    Log.e(TAG, data.getKey());
+
+                    for(DataSnapshot f: data.getChildren()) {
+                     /*  this is grabbing the drink ingredients from the "drinks" table
+                                of the drink that was clicked on in EITHER of the recyclerViews
+                                TODO: we should probably have one of these for each of the recyclerViews
+                                TODO: (cont.) as we will probably (maybe) need to process clicks separately
+                            */
+
+                        if(f.getKey().equals("amount")) {
+                            Long load = f.getValue(Long.class);
+                            Log.e(TAG, Long.toString(load));
+                            lstDrinkQueue.add(load.toString());
+                        } else if(f.getKey().equals("name")) {
+                            String load = f.getValue(String.class);
+                            Log.e(TAG, load.toString());
+                            lstDrinkQueue.add(load.toString());
+                        }
+
+                        mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+
+            }
+        });
+
+
+        return false;
     }
 
     private void orderDrink(String drink) {
@@ -311,31 +383,4 @@ public class TabHomeFragment extends Fragment{
                 });
     }
 
-    private void readFromDatabase() {
-        final GenericTypeIndicator<ArrayList<Color>> t = new GenericTypeIndicator<ArrayList<Color>>() {};
-
-        // Read from the database
-        mRefSpecials.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
-                value = dataSnapshot.getValue(t);
-
-                for (Color c: value) {
-                    Log.d(TAG, "Value is: " + c);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-
-
-    }
 }

@@ -81,10 +81,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             // TODO: handle logic for making new "view = LayoutInflater..." stuff
         }
 
-
-
-
-
         return vHolder;
     }
 
