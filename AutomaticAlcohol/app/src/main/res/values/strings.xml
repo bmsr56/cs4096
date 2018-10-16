@@ -24,6 +24,7 @@
         completions."
     </string>
     <string name="title_activity_bartender">BartenderActivity</string>
+    <string name="title_activity_user">User Activity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>

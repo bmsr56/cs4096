@@ -1,1 +1,7 @@
 /build
+<<<<<<< HEAD
+.*.json
+=======
+*.json
+
+>>>>>>> master
