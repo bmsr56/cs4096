@@ -19,8 +19,6 @@ import android. widget.TextView;
 import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.Activities.MainActivity;
-import com.example.nathan.automaticalcohol.Activities.PinActivity;
-import com.example.nathan.automaticalcohol.Activities.UserActivity;
 import com.example.nathan.automaticalcohol.Classes.Drink;
 import com.example.nathan.automaticalcohol.Classes.Ingredient;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
@@ -41,9 +39,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirestoreRegistrar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +47,7 @@ import java.util.List;
 public class TabHomeFragment extends Fragment{
     private static final String TAG = "TabHomeFragment";
 
+    // buttons and variables and such
     private EditText editText_custName;
     private EditText editText_drinkName;
     private Spinner spinner_addItem;
@@ -87,10 +84,22 @@ public class TabHomeFragment extends Fragment{
 
     private TextView bs;
 
+
+    /**
+     * empty default constructor
+     */
     public TabHomeFragment() {
     }
 
 
+    /**
+     * needed by android
+     * it's what creates what we see on the screen
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -239,6 +248,10 @@ public class TabHomeFragment extends Fragment{
     }
 
 
+    /**
+     * more stuff needed by android to make the screen and connecting logic
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -331,15 +344,27 @@ public class TabHomeFragment extends Fragment{
 
     }
 
+    /**
+     * Computes cost of add-ons and sends a new amount to the left most page on this fragment
+     * to update the cost of an ordered drink
+     * @param addItem - item to be added on, comes from the spinner
+     * @return
+     */
     private int computeCost(String addItem) {
         return 0;
     }
 
+
+    /**
+     * grabs the loadout from the database and makes it
+     * @param drink
+     */
     private void acquireLoadout(final Drink drink) {
         Log.e(TAG, "Starting: acquireLoadout");
 
         final ArrayList<Loadout> loadout = new ArrayList<>();
 
+        // connect to database
         mRefSpecials = mDatabase.getReference("loadout");
         mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -347,15 +372,12 @@ public class TabHomeFragment extends Fragment{
 
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     for(DataSnapshot f: data.getChildren()) {
-                         /*  this is grabbing the drink ingredients from the "drinks" table
-                            of the drink that was clicked on in EITHER of the recyclerViews
-                            TODO: we should probably have one of these for each of the recyclerViews
-                            TODO: (cont.) as we will probably (maybe) need to process clicks separately
-                        */
-                        Loadout dang = new Loadout(f.getKey(), f.getValue(Long.class));
-                        loadout.add(dang);
-                        Log.e(TAG, "loadout: "+dang.toString());
-                        mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+
+                        // for each element in the loadout in the database grab it's
+                        // key (drinkName) and value (amountLeft) and add it to a list
+                        Loadout newLoadout = new Loadout(f.getKey(), f.getValue(Long.class));
+                        loadout.add(newLoadout);
+                        Log.e(TAG, "loadout: "+newLoadout.toString());
                     }
                 }
                 checkDrinkOrder(drink, loadout);
@@ -366,8 +388,6 @@ public class TabHomeFragment extends Fragment{
 
             }
         });
-
-        Log.e(TAG, "this is before the return");
     }
 
     private void checkDrinkOrder(Drink drink, ArrayList<Loadout> loadouts) {
@@ -377,6 +397,8 @@ public class TabHomeFragment extends Fragment{
             boolean check = false;
             for(Loadout loadout: loadouts) {
                 Log.e(TAG, "-"+loadout.getBottleName()+"-");
+                // check to make sure "ingredient" is in the loadout and there is enough of it to make a drink
+                // TODO: error handling for letting user/bartender know there is not enough of something / drink can't be made
                 if(loadout.getBottleName().equals(ingredient.getName()) && loadout.getAmountLeft() >= ingredient.getAmount()) {
                     check = true;
                 }
@@ -402,15 +424,18 @@ public class TabHomeFragment extends Fragment{
      * This will interface with the database to...
      *      - make an order (being kept in the database)
      *      - order the drink (throw it in the drink queue)
-     *          - take away x amount of
+     *          - take away x amount of ingredient from database
      *
      * @param drink - the drink to be made
      */
+    // TODO: if we passed "loadouts" from calling then we may not have to search database again...
+    // TODO: (cont.) as "loadouts" has the amounts in it.
     private void orderDrink(final Drink drink) {
         // now have to actually interface with the database
 
         Log.e(TAG, "Starting: orderDrink");
 
+        // connect to database
         mRefSpecials = mDatabase.getReference("loadout");
         mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -439,17 +464,14 @@ public class TabHomeFragment extends Fragment{
                                 Log.e(TAG, Long.toString(other));
                                 mDatabase.getReference("loadout").child(data.getKey()).child(f.getKey()).setValue(Long.toString(other));
                             }
-
-
                         }
                     }
-
                 }
 
-
-                // TODO: update this accordingly
+                // TODO: update this accordingly when we know how database will be setup
                 mRefSpecials = mDatabase.getReference("orders");
                 Order order = new Order();
+                // TODO: is the 'order' what gets passed to the drink queue?
             }
 
             @Override
@@ -457,9 +479,11 @@ public class TabHomeFragment extends Fragment{
 
             }
         });
-
     }
 
+    /**
+     * signs out the bartender from the app, not just the pin
+     */
     private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
