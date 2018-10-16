@@ -181,6 +181,10 @@ public class TabHomeFragment extends Fragment{
         button_quick4 = view.findViewById(R.id.button_quick4);
         button_quick5 = view.findViewById(R.id.button_quick5);
 
+        button_quick1.setText("To Pin Page");
+        button_quick2.setText("Add to Queue");
+        button_quick3.setText("Get Loadout");
+
 //         each of these calls a function that orders a drink based on the name of the special
         Log.e(TAG, "onCreateView"+pin);
         button_quick1.setOnClickListener(new View.OnClickListener() {
@@ -309,15 +313,12 @@ public class TabHomeFragment extends Fragment{
                             */
 
 
-                            // this isn't going to work
-                            String d = "";
-                            if(data.getKey().equals("amount")) {
-                                Long num = data.getValue(Long.class);
-                                d = Long.toString(num);
-                            } else if(data.getKey().equals("")) {
-                                d = data.getValue(String.class);
-                            }
-
+                            /*  right now everything that is coming in here is going to be
+                                an amount for an ingredient for every ingredient in the "ingredients"
+                                portion of the drinks.<drink_name> 'table'
+                             */
+                            Long num = data.getValue(Long.class);
+                            String d = Long.toString(num);
                             Log.e(TAG, "-"+d+"-");
                             lstDrinkQueue.add(d);
                             mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
