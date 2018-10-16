@@ -21,8 +21,8 @@ import android.widget.Toast;
 import com.example.nathan.automaticalcohol.Activities.MainActivity;
 import com.example.nathan.automaticalcohol.Activities.PinActivity;
 import com.example.nathan.automaticalcohol.Activities.UserActivity;
-import com.example.nathan.automaticalcohol.Classes.Color;
 import com.example.nathan.automaticalcohol.Classes.Drink;
+import com.example.nathan.automaticalcohol.Classes.Ingredient;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
@@ -79,8 +79,6 @@ public class TabHomeFragment extends Fragment{
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRefSpecials;
     private DatabaseReference mRefDrinkQueue;
-
-    private ArrayList<Color> value;
 
     private String pin;
 
@@ -184,12 +182,10 @@ public class TabHomeFragment extends Fragment{
         button_quick5 = view.findViewById(R.id.button_quick5);
 
 //         each of these calls a function that orders a drink based on the name of the special
-        button_quick1.setText("go back");
-        button_quick3.setText(pin);
         Log.e(TAG, "onCreateView"+pin);
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button quick 1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
                 getActivity().onBackPressed();
                 orderDrink(button_quick1.getText().toString());
             }
@@ -205,9 +201,17 @@ public class TabHomeFragment extends Fragment{
         });
         button_quick3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button quick 3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Get Loadout", Toast.LENGTH_SHORT).show();
                 orderDrink(button_quick3.getText().toString());
-                checkDrinkOrder(new Drink("description", "image", 1.2f));
+                Ingredient ingredient1 = new Ingredient("sprite", "456");
+                Ingredient ingredient2 = new Ingredient("whiskey", "44");
+
+                ArrayList<Ingredient> ingList = new ArrayList<>();
+                ingList.add(ingredient1);
+                ingList.add(ingredient2);
+
+
+                checkDrinkOrder(new Drink("description", "image", ingList, "1.2"));
             }
         });
         button_quick4.setOnClickListener(new View.OnClickListener() {
@@ -292,7 +296,7 @@ public class TabHomeFragment extends Fragment{
             @Override
             public void onTagClicked(String tagName) {
                 bs.setText(tagName);
-                mRefSpecials = mDatabase.getReference("drinks").child(tagName);
+                mRefSpecials = mDatabase.getReference("drinks").child(tagName).child("ingredients");
                 mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -303,10 +307,19 @@ public class TabHomeFragment extends Fragment{
                                 TODO: we should probably have one of these for each of the recyclerViews
                                 TODO: (cont.) as we will probably (maybe) need to process clicks separately
                             */
-                            Long d = data.getValue(Long.class);
 
-                            Log.e(TAG, Long.toString(d));
-                            lstDrinkQueue.add(Long.toString(d));
+
+                            // this isn't going to work
+                            String d = "";
+                            if(data.getKey().equals("amount")) {
+                                Long num = data.getValue(Long.class);
+                                d = Long.toString(num);
+                            } else if(data.getKey().equals("")) {
+                                d = data.getValue(String.class);
+                            }
+
+                            Log.e(TAG, "-"+d+"-");
+                            lstDrinkQueue.add(d);
                             mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
                         }
                     }
@@ -336,11 +349,11 @@ public class TabHomeFragment extends Fragment{
                     Log.e(TAG, data.getKey());
 
                     for(DataSnapshot f: data.getChildren()) {
-                     /*  this is grabbing the drink ingredients from the "drinks" table
-                                of the drink that was clicked on in EITHER of the recyclerViews
-                                TODO: we should probably have one of these for each of the recyclerViews
-                                TODO: (cont.) as we will probably (maybe) need to process clicks separately
-                            */
+                         /*  this is grabbing the drink ingredients from the "drinks" table
+                            of the drink that was clicked on in EITHER of the recyclerViews
+                            TODO: we should probably have one of these for each of the recyclerViews
+                            TODO: (cont.) as we will probably (maybe) need to process clicks separately
+                        */
 
                         if(f.getKey().equals("amount")) {
                             Long load = f.getValue(Long.class);
@@ -378,7 +391,7 @@ public class TabHomeFragment extends Fragment{
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // might throw "logout successful" kind of a thing in here
+                        // TODO: might throw "logout successful" kind of a thing in here
                     }
                 });
     }

@@ -3,6 +3,7 @@ package com.example.nathan.automaticalcohol.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,17 +50,24 @@ public class TabInventoryFragment extends Fragment{
         btn_bottleChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String amountLeft = et_amountLeft.getText().toString();
-                int bottleNumber = Integer.parseInt(et_bottleNumber.getText().toString());
-                String bottleName = et_bottleName.getText().toString();
 
-                // make sure number entered is a valid loadout position
-                if (bottleNumber < 1 || bottleNumber > 6) {
-                    Toast.makeText(getActivity(), "Enter valid loadout location", Toast.LENGTH_SHORT).show();
-                } else {
-                    // overwrite bottle position with new loadout
-                    mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(amountLeft, bottleName));
+                try{
+                    String amountLeft = et_amountLeft.getText().toString();
+                    int bottleNumber = Integer.parseInt(et_bottleNumber.getText().toString());
+                    String bottleName = et_bottleName.getText().toString();
+
+                    // make sure number entered is a valid loadout position
+                    if (bottleNumber < 1 || bottleNumber > 6) {
+                        Toast.makeText(getActivity(), "Enter valid loadout location", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // overwrite bottle position with new loadout
+                        mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(amountLeft, bottleName));
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, " problem", e);
                 }
+
+
             }
         });
 
