@@ -52,16 +52,20 @@ public class TabInventoryFragment extends Fragment{
             public void onClick(View v) {
 
                 try{
-                    String amountLeft = et_amountLeft.getText().toString();
                     int bottleNumber = Integer.parseInt(et_bottleNumber.getText().toString());
                     String bottleName = et_bottleName.getText().toString();
+
+
+                    String amountLeft = et_amountLeft.getText().toString();
+                    Long amt_left = Long.parseLong(amountLeft);
+
 
                     // make sure number entered is a valid loadout position
                     if (bottleNumber < 1 || bottleNumber > 6) {
                         Toast.makeText(getActivity(), "Enter valid loadout location", Toast.LENGTH_SHORT).show();
                     } else {
                         // overwrite bottle position with new loadout
-                        mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(amountLeft, bottleName));
+                        mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(bottleName, amt_left));
                     }
                 } catch (Exception e) {
                     Log.e(TAG, " problem", e);

@@ -2,12 +2,12 @@ package com.example.nathan.automaticalcohol.Classes;
 
 public class Ingredient {
     private String name;
-    private String amount;
+    private Long amount;
 
     public Ingredient() {
 
     }
-    public Ingredient(String name, String amount) {
+    public Ingredient(String name, Long amount) {
         this.name = name;
         this.amount = amount;
     }
@@ -16,15 +16,15 @@ public class Ingredient {
         return name;
     }
 
+    public Long getAmount() {
+        return amount;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 }

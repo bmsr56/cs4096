@@ -24,6 +24,7 @@ import com.example.nathan.automaticalcohol.Activities.UserActivity;
 import com.example.nathan.automaticalcohol.Classes.Drink;
 import com.example.nathan.automaticalcohol.Classes.Ingredient;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
+import com.example.nathan.automaticalcohol.Classes.Order;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerInterface;
@@ -183,7 +184,7 @@ public class TabHomeFragment extends Fragment{
 
         button_quick1.setText("To Pin Page");
         button_quick2.setText("Add to Queue");
-        button_quick3.setText("Get Loadout");
+        button_quick3.setText("Order Highball");
 
 //         each of these calls a function that orders a drink based on the name of the special
         Log.e(TAG, "onCreateView"+pin);
@@ -191,13 +192,11 @@ public class TabHomeFragment extends Fragment{
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
                 getActivity().onBackPressed();
-                orderDrink(button_quick1.getText().toString());
             }
         });
         button_quick2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Add to queue", Toast.LENGTH_SHORT).show();
-                orderDrink(button_quick2.getText().toString());
                 lstDrinkQueue.add("new item");
                 mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
 
@@ -205,29 +204,25 @@ public class TabHomeFragment extends Fragment{
         });
         button_quick3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Get Loadout", Toast.LENGTH_SHORT).show();
-                orderDrink(button_quick3.getText().toString());
-                Ingredient ingredient1 = new Ingredient("sprite", "456");
-                Ingredient ingredient2 = new Ingredient("whiskey", "44");
+                Toast.makeText(getActivity(), "Order Highball", Toast.LENGTH_SHORT).show();
+                Ingredient ingredient1 = new Ingredient("sprite", 456L);
+                Ingredient ingredient2 = new Ingredient("whiskey", 44L);
 
                 ArrayList<Ingredient> ingList = new ArrayList<>();
                 ingList.add(ingredient1);
                 ingList.add(ingredient2);
 
-
-                checkDrinkOrder(new Drink("description", "image", ingList, "1.2"));
+                acquireLoadout(new Drink("description", "image", ingList, "1.2"));
             }
         });
         button_quick4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 4", Toast.LENGTH_SHORT).show();
-                orderDrink(button_quick4.getText().toString());
             }
         });
         button_quick5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 5", Toast.LENGTH_SHORT).show();
-                orderDrink(button_quick5.getText().toString());
             }
         });
 
@@ -340,37 +335,30 @@ public class TabHomeFragment extends Fragment{
         return 0;
     }
 
-    private boolean checkDrinkOrder(final Drink drink) {
+    private void acquireLoadout(final Drink drink) {
+        Log.e(TAG, "Starting: acquireLoadout");
+
+        final ArrayList<Loadout> loadout = new ArrayList<>();
 
         mRefSpecials = mDatabase.getReference("loadout");
         mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data: dataSnapshot.getChildren()){
-                    Log.e(TAG, data.getKey());
 
+                for(DataSnapshot data: dataSnapshot.getChildren()){
                     for(DataSnapshot f: data.getChildren()) {
                          /*  this is grabbing the drink ingredients from the "drinks" table
                             of the drink that was clicked on in EITHER of the recyclerViews
                             TODO: we should probably have one of these for each of the recyclerViews
                             TODO: (cont.) as we will probably (maybe) need to process clicks separately
                         */
-
-                        if(f.getKey().equals("amount")) {
-                            Long load = f.getValue(Long.class);
-                            Log.e(TAG, Long.toString(load));
-                            lstDrinkQueue.add(load.toString());
-                        } else if(f.getKey().equals("name")) {
-                            String load = f.getValue(String.class);
-                            Log.e(TAG, load.toString());
-                            lstDrinkQueue.add(load.toString());
-                        }
-
+                        Loadout dang = new Loadout(f.getKey(), f.getValue(Long.class));
+                        loadout.add(dang);
+                        Log.e(TAG, "loadout: "+dang.toString());
                         mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
                     }
-
-
                 }
+                checkDrinkOrder(drink, loadout);
             }
 
             @Override
@@ -379,11 +367,96 @@ public class TabHomeFragment extends Fragment{
             }
         });
 
-
-        return false;
+        Log.e(TAG, "this is before the return");
     }
 
-    private void orderDrink(String drink) {
+    private void checkDrinkOrder(Drink drink, ArrayList<Loadout> loadouts) {
+        Log.e(TAG, "Starting: checkDrinkOrder");
+        boolean makeDrink = true;
+        for(Ingredient ingredient: drink.getIngredients()) {
+            boolean check = false;
+            for(Loadout loadout: loadouts) {
+                Log.e(TAG, "-"+loadout.getBottleName()+"-");
+                if(loadout.getBottleName().equals(ingredient.getName()) && loadout.getAmountLeft() >= ingredient.getAmount()) {
+                    check = true;
+                }
+            }
+
+            // got through all elements of loadout for specific ingredient
+            // if check is false, then ingredient is not in loadout -> can't make the drink
+            if(!check) {
+                Log.e(TAG, "        checkDrinkOrder -> failed -"+ingredient.getName()+"-");
+                makeDrink = false;
+                break;
+            }
+        }
+
+        // if got all the way through without changing "makeDrink" to false
+        // means all the ingredients are in the loadout, so make the drink
+        if(makeDrink) {
+            orderDrink(drink);
+        }
+    }
+
+    /**
+     * This will interface with the database to...
+     *      - make an order (being kept in the database)
+     *      - order the drink (throw it in the drink queue)
+     *          - take away x amount of
+     *
+     * @param drink - the drink to be made
+     */
+    private void orderDrink(final Drink drink) {
+        // now have to actually interface with the database
+
+        Log.e(TAG, "Starting: orderDrink");
+
+        mRefSpecials = mDatabase.getReference("loadout");
+        mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(Ingredient ingredient: drink.getIngredients()) {
+                    // for each ingredient we have to take out the amount that is needed from the
+                    // about that the loadout says the database has
+
+                    Log.e(TAG, "orderDrink - "+ingredient.getName());
+
+                    // read the loadout from the database
+                    for(DataSnapshot data: dataSnapshot.getChildren()){
+                        for(DataSnapshot f: data.getChildren()) {
+                            Log.e(TAG, "    key: "+f.getKey());
+                            // if the ingredient name matches the key of the loadout stored:
+                            //      key: name_of_drink
+                            //      value: amount_left
+                            // then take ingredient.amount off of what's in the database
+                            if(ingredient.getName().equals(f.getKey())) {
+
+                                Log.e(TAG, "they equal");
+
+                                Long value = f.getValue(Long.class);
+                                Long other = value-ingredient.getAmount();
+
+                                Log.e(TAG, Long.toString(other));
+                                mDatabase.getReference("loadout").child(data.getKey()).child(f.getKey()).setValue(Long.toString(other));
+                            }
+
+
+                        }
+                    }
+
+                }
+
+
+                // TODO: update this accordingly
+                mRefSpecials = mDatabase.getReference("orders");
+                Order order = new Order();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+
+            }
+        });
 
     }
 
