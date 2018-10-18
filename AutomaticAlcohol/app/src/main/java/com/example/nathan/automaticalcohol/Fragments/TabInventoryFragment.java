@@ -13,12 +13,19 @@ import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.Classes.Loadout;
 import com.example.nathan.automaticalcohol.R;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -87,6 +94,9 @@ public class TabInventoryFragment extends Fragment{
         // TODO: or should it just look once?...   above is more robust
         // currently just looking once
 
+        final BarChart chart = view.findViewById(R.id.bar_chart);
+
+
         mLoadoutReference = mDatabase.getReference("loadout");
         mLoadoutReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -100,6 +110,10 @@ public class TabInventoryFragment extends Fragment{
                         Log.e(TAG, "loadout: "+newLoadout.toString());
                     }
                 }
+
+
+
+
             }
 
             @Override
@@ -107,7 +121,33 @@ public class TabInventoryFragment extends Fragment{
 
             }
         });
+        // TODO: connect data grabbed from database to graphs
 
+
+        ArrayList<BarEntry> BarEntry = new ArrayList<>();
+        BarEntry.add(new BarEntry(2f, 0));
+        BarEntry.add(new BarEntry(4f, 1));
+        BarEntry.add(new BarEntry(6f, 2));
+        BarEntry.add(new BarEntry(8f, 3));
+        BarEntry.add(new BarEntry(7f, 4));
+        BarEntry.add(new BarEntry(3f, 5));
+
+
+        BarDataSet dataSet = new BarDataSet(BarEntry, "Projects");
+
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("January");
+        labels.add("February");
+        labels.add("March");
+        labels.add("April");
+        labels.add("May");
+        labels.add("June");
+
+        BarData data = new BarData(dataSet);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        chart.setData(data);
+
+        chart.setDescription("No of Projects");
         return view;
     }
 }

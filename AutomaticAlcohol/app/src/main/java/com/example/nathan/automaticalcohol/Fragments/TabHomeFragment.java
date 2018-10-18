@@ -120,7 +120,7 @@ public class TabHomeFragment extends Fragment{
                 String drinkName = editText_drinkName.getText().toString();
                 String addItem = spinner_addItem.getSelectedItem().toString();
 
-                textView_totalCost.setText(computeCost(addItem));
+                textView_totalCost.setText(computeCost(new Drink(), addItem));
             }
         });
 
@@ -348,9 +348,9 @@ public class TabHomeFragment extends Fragment{
      * Computes cost of add-ons and sends a new amount to the left most page on this fragment
      * to update the cost of an ordered drink
      * @param addItem - item to be added on, comes from the spinner
-     * @return
+     * @return cost of drink after adding item
      */
-    private int computeCost(String addItem) {
+    private int computeCost(Drink drink, String addItem) {
         return 0;
     }
 
@@ -390,6 +390,13 @@ public class TabHomeFragment extends Fragment{
         });
     }
 
+    /**
+     * Checks if the drink that is passed in can be made. If so then send off to 'orderDrink'
+     * If not then let the user know
+     *
+     * @param drink - drink to check if it can be made
+     * @param loadouts - loadout of what's in the machine
+     */
     private void checkDrinkOrder(Drink drink, ArrayList<Loadout> loadouts) {
         Log.e(TAG, "Starting: checkDrinkOrder");
         boolean makeDrink = true;
@@ -408,6 +415,7 @@ public class TabHomeFragment extends Fragment{
             // if check is false, then ingredient is not in loadout -> can't make the drink
             if(!check) {
                 Log.e(TAG, "        checkDrinkOrder -> failed -"+ingredient.getName()+"-");
+                Toast.makeText(getActivity(), "Drink order could not be made. Please see bartender.", Toast.LENGTH_SHORT).show();
                 makeDrink = false;
                 break;
             }
