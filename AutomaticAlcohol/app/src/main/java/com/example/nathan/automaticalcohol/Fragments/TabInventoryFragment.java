@@ -14,8 +14,13 @@ import android.widget.Toast;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
 import com.example.nathan.automaticalcohol.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class TabInventoryFragment extends Fragment{
     private static final String TAG = "TabInventoryFragment";
@@ -31,6 +36,9 @@ public class TabInventoryFragment extends Fragment{
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mLoadoutReference;
+
+    private ArrayList<Loadout> mLoadouts;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,20 +79,34 @@ public class TabInventoryFragment extends Fragment{
                     Log.e(TAG, " problem", e);
                 }
 
-
             }
         });
 
 
         // TODO: make data change listener thing for bottle amounts
         // TODO: or should it just look once?...   above is more robust
+        // currently just looking once
 
+        mLoadoutReference = mDatabase.getReference("loadout");
+        mLoadoutReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    for(DataSnapshot f: data.getChildren()) {
+                        // for each element in the loadout in the database grab it's
+                        // key (drinkName) and value (amountLeft) and add it to a list
+                        Loadout newLoadout = new Loadout(f.getKey(), f.getValue(Long.class));
+                        mLoadouts.add(newLoadout);
+                        Log.e(TAG, "loadout: "+newLoadout.toString());
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
 
-        // TODO: connect data grabbed from database to graphs
-
-
-
+            }
+        });
 
         return view;
     }

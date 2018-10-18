@@ -462,7 +462,7 @@ public class TabHomeFragment extends Fragment{
                                 Long other = value-ingredient.getAmount();
 
                                 Log.e(TAG, Long.toString(other));
-                                mDatabase.getReference("loadout").child(data.getKey()).child(f.getKey()).setValue(Long.toString(other));
+                                mDatabase.getReference("loadout").child(data.getKey()).child(f.getKey()).setValue(other);
                             }
                         }
                     }
