@@ -49,7 +49,7 @@
 
             <EditText
                 android:id="@+id/editText_drinkName"
-                android:layout_width="303dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="display drink name"
@@ -58,15 +58,16 @@
 
             <Spinner
                 android:id="@+id/spinner_addItem"
-                android:layout_width="303dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:entries="@array/addition_list"
                 android:prompt="@string/addition_select" />
 
             <TextView
                 android:id="@+id/textView_totalCost"
-                android:layout_width="303dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:gravity="right"
                 android:text="Total Cost:"
                 android:textSize="18dp" />
 
@@ -76,6 +77,8 @@
                 android:layout_height="50dp"
                 android:backgroundTint="@color/colorButton"
                 android:text="Submit Order"
+                android:gravity="right"
+                android:textAlignment="gravity"
                 android:textColor="@color/whiteText" />
 
         </LinearLayout>

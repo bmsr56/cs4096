@@ -43,6 +43,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import javax.xml.transform.Templates;
 
 public class TabHomeFragment extends Fragment{
     private static final String TAG = "TabHomeFragment";
@@ -214,14 +217,14 @@ public class TabHomeFragment extends Fragment{
         button_quick3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Order Highball", Toast.LENGTH_SHORT).show();
-                Ingredient ingredient1 = new Ingredient("sprite", 456L);
-                Ingredient ingredient2 = new Ingredient("whiskey", 44L);
+                Ingredient ingredient1 = new Ingredient("sprite", 456f);
+                Ingredient ingredient2 = new Ingredient("whiskey", 44f);
 
                 ArrayList<Ingredient> ingList = new ArrayList<>();
                 ingList.add(ingredient1);
                 ingList.add(ingredient2);
 
-                acquireLoadout(new Drink("description", "image", ingList, "1.2"));
+                acquireLoadout(new Drink("Highball", "description", "image", ingList, 1.20f));
             }
         });
         button_quick4.setOnClickListener(new View.OnClickListener() {
@@ -304,33 +307,64 @@ public class TabHomeFragment extends Fragment{
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
 
-        recyclerInterface = new RecyclerInterface() {
-            @Override
-            public void onTagClicked(String tagName) {
-                bs.setText(tagName);
-                mRefSpecials = mDatabase.getReference("drinks").child(tagName).child("ingredients");
-                mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot data: dataSnapshot.getChildren()){
 
-                            /*  this is grabbing the drink ingredients from the "drinks" table
+        /*  this is grabbing the drink ingredients from the "drinks" table
                                 of the drink that was clicked on in EITHER of the recyclerViews
                                 TODO: we should probably have one of these for each of the recyclerViews
                                 TODO: (cont.) as we will probably (maybe) need to process clicks separately
                             */
 
+        // happens when a recycler view is clicked
+        // TODO: this is what we might need a second of to handle "specials" and "drink queue" clicks separately
+        recyclerInterface = new RecyclerInterface() {
+            @Override
+            public void onTagClicked(final String tagName) {
+                bs.setText(tagName);
+                mRefSpecials = mDatabase.getReference("drinks").child(tagName);
+                mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            /*  right now everything that is coming in here is going to be
-                                an amount for an ingredient for every ingredient in the "ingredients"
-                                portion of the drinks.<drink_name> 'table'
-                             */
-                            Long num = data.getValue(Long.class);
-                            String d = Long.toString(num);
-                            Log.e(TAG, "-"+d+"-");
-                            lstDrinkQueue.add(d);
-                            mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
-                        }
+                        ArrayList<Ingredient> ingList = new ArrayList<>();
+                        Drink tempDrink = new Drink();
+                        tempDrink.setName(tagName);
+
+                        // this is explicitly making a Drink object that we can then pass around
+                        // TODO: there is supposed to be a way around this and just to set the input equal to a Drink
+                            // some thing like this --    Drink drink = <snapshot_name>.getValue(Drink.class)
+                            // might have to add names into each of the Drinks in the database for this to work...
+                            // but this'll work for now
+                        for(DataSnapshot category: dataSnapshot.getChildren()){
+
+//                            Toast.makeText(getActivity(), category.getKey(), Toast.LENGTH_SHORT).show();
+                            switch(category.getKey()) {
+                                case "description":
+                                    Log.e(TAG, "grab name / description");
+                                    tempDrink.setDescription(category.getValue(String.class));
+                                    break;
+                                case "image":
+                                    Log.e(TAG, "grab image");
+                                    tempDrink.setImage(category.getValue(String.class));
+                                    break;
+                                case "ingredients":
+                                    Log.e(TAG, "grab description");
+                                    for(DataSnapshot entry: category.getChildren()) {
+                                        ingList.add(new Ingredient(entry.getKey(), entry.getValue(Float.class)));
+                                    }
+                                    tempDrink.setIngredients(ingList);
+                                    break;
+                                case "price":
+                                    Log.e(TAG, "grab price");
+                                    tempDrink.setPrice(category.getValue(Float.class));
+                                    break;
+                            }
+                        } // end for loop
+                        Log.e(TAG, "comes from special drinks being clicked");
+                        Log.e(TAG, tempDrink.makeString());
+
+                        // this data then needs to be sent to the "Order Drink" column
+                        editText_drinkName.setText(tempDrink.getName());
+                        textView_totalCost.setText(String.format(Locale.US, "$ %.2f", tempDrink.getPrice()));
                     }
 
                     @Override
@@ -467,9 +501,9 @@ public class TabHomeFragment extends Fragment{
                                 Log.e(TAG, "they equal");
 
                                 Long value = f.getValue(Long.class);
-                                Long other = value-ingredient.getAmount();
+                                Float other = value-ingredient.getAmount();
 
-                                Log.e(TAG, Long.toString(other));
+                                Log.e(TAG, Float.toString(other));
                                 mDatabase.getReference("loadout").child(data.getKey()).child(f.getKey()).setValue(other);
                             }
                         }
