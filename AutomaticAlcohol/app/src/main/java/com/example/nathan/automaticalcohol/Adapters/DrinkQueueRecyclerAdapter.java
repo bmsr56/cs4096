@@ -1,8 +1,7 @@
-package com.example.nathan.automaticalcohol;
+package com.example.nathan.automaticalcohol.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,19 +14,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nathan.automaticalcohol.Classes.Order;
+import com.example.nathan.automaticalcohol.Constants;
+import com.example.nathan.automaticalcohol.R;
+import com.example.nathan.automaticalcohol.RecyclerInterface;
+
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRecyclerAdapter.MyViewHolder> {
 
     private static final String TAG = "TabHomeFragment__REC";
 
     private Context mContext;
-    private List<String> mData;
+    private List<Order> mData;
     private String mType;
     private RecyclerInterface recyclerInterface;
     private Dialog myDialog;
 
-    public RecyclerViewAdapter(Context mContext, List<String> mData, String type, RecyclerInterface recyclerInterface) {
+    public DrinkQueueRecyclerAdapter(Context mContext, List<Order> mData, String type, RecyclerInterface recyclerInterface) {
         this.mContext = mContext;
         this.mData = mData;
         this.mType = type;
@@ -36,7 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DrinkQueueRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Log.e(TAG, this.mType);
         View view;
@@ -46,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
-        final MyViewHolder vHolder = new MyViewHolder(view);
+        final DrinkQueueRecyclerAdapter.MyViewHolder vHolder = new DrinkQueueRecyclerAdapter.MyViewHolder(view);
 
         if (this.mType.equals(Constants.SPECIALS)) {
 
@@ -69,7 +73,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
+//                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
 
 
 //                    myDialog.show();
@@ -85,15 +89,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textView_name.setText(mData.get(position));
-        holder.textView_phone.setText(mData.get(position));
+    public void onBindViewHolder(@NonNull DrinkQueueRecyclerAdapter.MyViewHolder holder, int position) {
+        holder.textView_name.setText(mData.get(position).getName());
+        holder.textView_phone.setText(mData.get(position).getDrink().getName());
 
         final int index = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, mData.get(index), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mData.get(index).getDrink().getName(), Toast.LENGTH_SHORT).show();
                 recyclerInterface.onTagClicked(mData.get(index));
             }
         });

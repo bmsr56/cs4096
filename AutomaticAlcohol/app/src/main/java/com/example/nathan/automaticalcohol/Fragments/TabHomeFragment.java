@@ -19,6 +19,7 @@ import android. widget.TextView;
 import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.Activities.MainActivity;
+import com.example.nathan.automaticalcohol.Adapters.DrinkQueueRecyclerAdapter;
 import com.example.nathan.automaticalcohol.Classes.Drink;
 import com.example.nathan.automaticalcohol.Classes.Ingredient;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
@@ -26,7 +27,7 @@ import com.example.nathan.automaticalcohol.Classes.Order;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerInterface;
-import com.example.nathan.automaticalcohol.RecyclerViewAdapter;
+import com.example.nathan.automaticalcohol.Adapters.SpecialsRecyclerAdapter;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -44,8 +45,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import javax.xml.transform.Templates;
 
 public class TabHomeFragment extends Fragment{
     private static final String TAG = "TabHomeFragment";
@@ -66,11 +65,11 @@ public class TabHomeFragment extends Fragment{
     private Button button_quick5;
 
     private RecyclerView mRecyclerViewDrinkQueue;
-    private RecyclerViewAdapter mRecyclerAdapterDrinkQueue;
-    private List<String> lstDrinkQueue;
+    private DrinkQueueRecyclerAdapter mRecyclerAdapterDrinkQueue;
+    private List<Order> lstDrinkQueue;
 
     private RecyclerView mRecyclerViewSpecials;
-    private RecyclerViewAdapter mRecyclerAdapterSpecials;
+    private SpecialsRecyclerAdapter mRecyclerAdapterSpecials;
     private List<String> lstSpecials;
 
     private GoogleSignInClient mGoogleSignInClient;
@@ -86,6 +85,8 @@ public class TabHomeFragment extends Fragment{
     private RecyclerInterface recyclerInterface;
 
     private TextView bs;
+
+    private Order order;
 
 
     /**
@@ -181,7 +182,7 @@ public class TabHomeFragment extends Fragment{
 
         // initialize recycler view for bartender drink specials
         mRecyclerViewSpecials = view.findViewById(R.id.specials_recyclerView);
-        mRecyclerAdapterSpecials = new RecyclerViewAdapter(getContext(), lstSpecials, Constants.SPECIALS, recyclerInterface);
+        mRecyclerAdapterSpecials = new SpecialsRecyclerAdapter(getContext(), lstSpecials, Constants.SPECIALS, recyclerInterface);
         mRecyclerViewSpecials.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewSpecials.setAdapter(mRecyclerAdapterSpecials);
 
@@ -195,10 +196,11 @@ public class TabHomeFragment extends Fragment{
         button_quick5 = view.findViewById(R.id.button_quick5);
 
         button_quick1.setText("To Pin Page");
-        button_quick2.setText("Add to Queue");
+//        button_quick2.setText("Add to Queue");
+        button_quick2.setText("Button 2");
         button_quick3.setText("Order Highball");
 
-//         each of these calls a function that orders a drink based on the name of the special
+        // each of these calls a function that orders a drink based on the name of the special
         Log.e(TAG, "onCreateView"+pin);
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -208,8 +210,9 @@ public class TabHomeFragment extends Fragment{
         });
         button_quick2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Add to queue", Toast.LENGTH_SHORT).show();
-                lstDrinkQueue.add("new item");
+//                Toast.makeText(getActivity(), "Add to queue", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Button 2", Toast.LENGTH_SHORT).show();
+//                lstDrinkQueue.add("new item");
                 mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
 
             }
@@ -240,7 +243,7 @@ public class TabHomeFragment extends Fragment{
 
         // initialize recycler view for the drink queue
         mRecyclerViewDrinkQueue = view.findViewById(R.id.drinkQueue_recyclerView);
-        mRecyclerAdapterDrinkQueue = new RecyclerViewAdapter(getContext(), lstDrinkQueue, Constants.DRINK_QUEUE, recyclerInterface);
+        mRecyclerAdapterDrinkQueue = new DrinkQueueRecyclerAdapter(getContext(), lstDrinkQueue, Constants.DRINK_QUEUE, recyclerInterface);
         mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
 
@@ -317,6 +320,13 @@ public class TabHomeFragment extends Fragment{
         // happens when a recycler view is clicked
         // TODO: this is what we might need a second of to handle "specials" and "drink queue" clicks separately
         recyclerInterface = new RecyclerInterface() {
+
+
+            @Override
+            public void onTagClicked(Order order) {
+
+            }
+
             @Override
             public void onTagClicked(final String tagName) {
                 bs.setText(tagName);
@@ -365,6 +375,27 @@ public class TabHomeFragment extends Fragment{
                         // this data then needs to be sent to the "Order Drink" column
                         editText_drinkName.setText(tempDrink.getName());
                         textView_totalCost.setText(String.format(Locale.US, "$ %.2f", tempDrink.getPrice()));
+
+                        // TODO: make order drink column update when it receives data
+                        // TODO: make order drink read from an order instead of setting here
+
+
+
+                        // TODO: update this accordingly when we know how database will be setup
+                        mRefSpecials = mDatabase.getReference("orders");
+                        // TODO: is the 'Order' Object what gets passed to the drink queue?
+
+
+
+                        String custName = editText_custName.getText().toString();
+                        // order goes into the drink queue whenever submit button is pressed
+                        order = new Order("order1", custName, "email", tempDrink);
+
+
+
+                        lstDrinkQueue.add(order);
+                        mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+
                     }
 
                     @Override
@@ -510,10 +541,13 @@ public class TabHomeFragment extends Fragment{
                     }
                 }
 
-                // TODO: update this accordingly when we know how database will be setup
-                mRefSpecials = mDatabase.getReference("orders");
-                Order order = new Order();
-                // TODO: is the 'order' what gets passed to the drink queue?
+
+
+
+
+
+
+
             }
 
             @Override
