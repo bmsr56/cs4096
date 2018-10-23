@@ -31,13 +31,14 @@
             <TextView
                 android:id="@+id/textView_orderDrink"
                 android:layout_width="303dp"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:background="@color/colorHeader"
                 android:gravity="center"
                 android:text="Order Drink:"
                 android:textColor="@color/whiteText"
                 android:textSize="30dp" />
+            <!--android:layout_height="80dp"-->
 
             <EditText
                 android:id="@+id/editText_custName"
@@ -76,8 +77,8 @@
                 android:layout_width="303dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/colorButton"
-                android:text="Submit Order"
                 android:gravity="right"
+                android:text="Submit Order"
                 android:textAlignment="gravity"
                 android:textColor="@color/whiteText" />
 

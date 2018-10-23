@@ -23,7 +23,7 @@ import java.util.List;
 
 public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRecyclerAdapter.MyViewHolder> {
 
-    private static final String TAG = "TabHomeFragment__REC";
+    private static final String TAG = "DrinkQueueRecyclerAdapter";
 
     private Context mContext;
     private List<Order> mData;
@@ -119,9 +119,9 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
         public MyViewHolder(View itemView) {
             super(itemView);
             item_contact = (LinearLayout) itemView.findViewById(R.id.contact_item_id);
-            textView_name = (TextView) itemView.findViewById(R.id.name_contact);
-            textView_phone = (TextView) itemView.findViewById(R.id.phone_contact);
-            img = (ImageView) itemView.findViewById(R.id.img_contact);
+            textView_name = (TextView) itemView.findViewById(R.id.drink_name);
+            textView_phone = (TextView) itemView.findViewById(R.id.drink_price);
+            img = (ImageView) itemView.findViewById(R.id.img_drink);
 
 
         }

@@ -44,7 +44,7 @@ public class TabInventoryFragment extends Fragment{
     private FirebaseDatabase mDatabase;
     private DatabaseReference mLoadoutReference;
 
-    private ArrayList<Loadout> mLoadouts;
+    private ArrayList<Loadout> mLoadouts = new ArrayList<>();
 
     @Nullable
     @Override

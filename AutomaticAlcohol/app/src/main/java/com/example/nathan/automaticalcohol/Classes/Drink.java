@@ -1,19 +1,21 @@
 package com.example.nathan.automaticalcohol.Classes;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class Drink {
     private String name;
     private String description;
     private String image;
-    private ArrayList<Ingredient> ingredients;
+    private HashMap<String, Float> ingredients;
     private Float price;
 
     public Drink() {
         // default constructor
     }
 
-    public Drink(String name, String description, String image, ArrayList<Ingredient> ingredients, Float price) {
+    public Drink(String name, String description, String image, HashMap<String, Float> ingredients, Float price) {
+//    public Drink(String name, String description, String image, Float price) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -37,7 +39,7 @@ public class Drink {
         return price;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    public HashMap<String, Float> getIngredients() {
         return ingredients;
     }
 
@@ -53,7 +55,7 @@ public class Drink {
         this.image = image;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(HashMap<String, Float> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -62,6 +64,7 @@ public class Drink {
     }
 
     public String makeString() {
-        return this.description+"  "+this.price;
+
+        return this.description+"  "+this.price+"  \n"+Arrays.asList(ingredients);
     }
 }
