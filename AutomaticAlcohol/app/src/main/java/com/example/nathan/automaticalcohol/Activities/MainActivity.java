@@ -73,8 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
         // init email/pass views
         email = findViewById(R.id.email);
+        email.setText("nawwx3@mst.edu");
         password = findViewById(R.id.password);
-
+        password.setText("password");
 
         Button login_button = findViewById(R.id.email_sign_in_button);
         login_button.setOnClickListener(mSignInListener);
