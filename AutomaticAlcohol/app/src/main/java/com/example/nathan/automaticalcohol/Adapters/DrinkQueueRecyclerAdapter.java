@@ -23,7 +23,7 @@ import java.util.List;
 
 public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRecyclerAdapter.MyViewHolder> {
 
-    private static final String TAG = "DrinkQueueRecyclerAdapter";
+    private static final String TAG = "DrinkQueueRecyclerAdapt";
 
     private Context mContext;
     private List<Order> mData;
@@ -81,8 +81,6 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
                 }
             });
         } else if (this.mType.equals(Constants.DRINK_QUEUE)) {
-            // TODO: handle logic for creating "button" pushes for the drink queue
-            // TODO: handle logic for making new "view = LayoutInflater..." stuff
         }
 
         return vHolder;
@@ -91,7 +89,7 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
     @Override
     public void onBindViewHolder(@NonNull DrinkQueueRecyclerAdapter.MyViewHolder holder, int position) {
         holder.textView_name.setText(mData.get(position).getName());
-        holder.textView_phone.setText(mData.get(position).getDrink().getName());
+        holder.textView_price.setText(mData.get(position).getDrink().getName());
 
         final int index = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -113,14 +111,14 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
 
         private LinearLayout item_contact;
         private TextView textView_name;
-        private TextView textView_phone;
+        private TextView textView_price;
         private ImageView img;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             item_contact = (LinearLayout) itemView.findViewById(R.id.contact_item_id);
             textView_name = (TextView) itemView.findViewById(R.id.drink_name);
-            textView_phone = (TextView) itemView.findViewById(R.id.drink_price);
+            textView_price = (TextView) itemView.findViewById(R.id.drink_price);
             img = (ImageView) itemView.findViewById(R.id.img_drink);
 
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Order {
     private String orderNumber;
-    private String name;   // name of person who ordered
+    private String name;        // name of person who ordered
     private String email;       // email of person ordering??
     private Float totalPrice;
 

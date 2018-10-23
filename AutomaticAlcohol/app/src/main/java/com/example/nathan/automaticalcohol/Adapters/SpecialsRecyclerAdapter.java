@@ -83,8 +83,6 @@ public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecycl
                 }
             });
         } else if (this.mType.equals(Constants.DRINK_QUEUE)) {
-            // TODO: handle logic for creating "button" pushes for the drink queue
-            // TODO: handle logic for making new "view = LayoutInflater..." stuff
         }
 
         return vHolder;
@@ -105,7 +103,7 @@ public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecycl
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, mData.get(index).getName(), Toast.LENGTH_SHORT).show();
-                recyclerInterface.onTagClicked(mData.get(index).getName());
+                recyclerInterface.onTagClicked(mData.get(index));
             }
         });
 

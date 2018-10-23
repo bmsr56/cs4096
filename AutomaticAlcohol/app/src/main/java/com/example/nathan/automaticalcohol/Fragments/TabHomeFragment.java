@@ -43,8 +43,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class TabHomeFragment extends Fragment{
     private static final String TAG = "TabHomeFragment";
@@ -85,8 +89,6 @@ public class TabHomeFragment extends Fragment{
 
     private RecyclerInterface recyclerInterface;
 
-    private TextView bs;
-
     private Order order;
 
 
@@ -119,9 +121,11 @@ public class TabHomeFragment extends Fragment{
         buttonSubmitOrder = view.findViewById(R.id.buttonSubmitOrder);
         buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Testing button submit order", Toast.LENGTH_SHORT).show();
-
-                // when submit button is clicked then you have to put the order in the drink queue
+                // TODO: check custName not be null
+                // when submit button clicked make sure start ordering process
+                String custName = editText_custName.getText().toString();
+                order.setName(custName);
+                acquireLoadout(order);
             }
         });
 
@@ -247,9 +251,6 @@ public class TabHomeFragment extends Fragment{
         mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
 
-        bs = view.findViewById(R.id.textView_bartenderSpecials);
-
-
         return view;
     }
 
@@ -288,77 +289,32 @@ public class TabHomeFragment extends Fragment{
         lstSpecials = new ArrayList<>();
 
 
-        // read data from
-//        mRefSpecials = mDatabase.getReference("bartenders").child(mAuth.getUid()).child(pin).child("specials");
-//        mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                DatabaseReference drinkRef = FirebaseDatabase.getInstance().getReference().child("drinks");
-//
-//                // use 2 databaseReferences
-//                String highball = "Highball"; // TODO: make sure to actually look this up later
-//
-//                // first grab the names of the specials
-//                for(DataSnapshot data: dataSnapshot.getChildren()){
-//                    // this is like a "search"
-//                    Drink drink1 = drinkRef.child("Highball").getValue(Drink.class);
-//                    Log.e(TAG, data.getValue(String.class));
-//                    lstSpecialsNames.add(data.getValue(String.class));
-//                    mRecyclerAdapterSpecials.notifyDataSetChanged();
-//                }
-//
-//                // then for each name
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError firebaseError) {
-//
-//            }
-//        });
-
-
-
-
-        // first reference (would be from specials)
-//        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        /*
+         *  this inputs drinks into the Specials array that is what the "Bartender Specials" section is made of
+          */
+        // initialize database references
         DatabaseReference specialsRef = mDatabase.getReference("bartenders").child(mAuth.getUid()).child(pin).child("specials");
-        // second ref would be from drinks
-//        DatabaseReference yourRef = userIdRef.child("users").child(userId);
         final DatabaseReference drinkRef = mDatabase.getReference().child("drinks");
-        // generic event listener
+        // add event listener for attached database reference (specialsRef)
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // from specials
+                // for each child of specials (root -> bartender -> id -> pin -> specials)
                 for(DataSnapshot specialsName: dataSnapshot.getChildren()) {
-                    final String riderId = specialsName.getValue(String.class);
-                    Log.e("FART", "I'm in first dataChange: "+riderId);
-
-                    // database reference from drinks
-//                DatabaseReference ref = rootRef.child("driversWorking").child(driverId).child("l");
-                    // other generic listener
+                    // grab the name of the drink (called it Id cause wasn't sure if name was taken)
+                    final String drinkId = specialsName.getValue(String.class);
+                    // add event listener for attached database reference (drinkRef)
                     ValueEventListener eventListener = new ValueEventListener() {
-                        // find data from drinks
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.e(TAG, dataSnapshot.toString());
-                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                                Log.e(TAG, ds.toString());
-                                if(ds.getKey().equals(riderId)) {
-                                    Log.e("FART", "above is a highball");
-                                    Drink fart = ds.getValue(Drink.class);
-
-
-                                    // then we have to add in the ingredients separately
-                                    // get ingredients
-
-
-                                    Log.e(TAG, fart.makeString());
-
+                            // for each child of drinks (root -> drinks)
+                            for(DataSnapshot drinkName : dataSnapshot.getChildren()) {
+                                // if the key of the special is the same as the key of the drink child
+                                if(drinkName.getKey().equals(drinkId)) {
+                                    // add it to the list
+                                    Drink fart = drinkName.getValue(Drink.class);
                                     lstSpecials.add(fart);
-                                    Log.e(TAG, "Size of lstSpecials "+lstSpecials.size());
-                                    Log.e(TAG, "     "+lstSpecials.get(0).getIngredients().size());
+                                    // update the recyclerView
                                     mRecyclerAdapterSpecials.notifyDataSetChanged();
                                 }
                             }
@@ -367,23 +323,13 @@ public class TabHomeFragment extends Fragment{
                         @Override
                         public void onCancelled(DatabaseError databaseError) {}
                     };
-                    // from drinks
-//                yourRef.addListenerForSingleValueEvent(eventListener);
                     drinkRef.addListenerForSingleValueEvent(eventListener);
                 }
-
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         };
-        // from specials
-//        rootRef.addListenerForSingleValueEvent(valueEventListener);
         specialsRef.addListenerForSingleValueEvent(valueEventListener);
-
-
-
 
         // Google Sign In init (used for sign out purposes)
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -392,101 +338,26 @@ public class TabHomeFragment extends Fragment{
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
-
-
-        /*  this is grabbing the drink ingredients from the "drinks" table
-                                of the drink that was clicked on in EITHER of the recyclerViews
-                                TODO: we should probably have one of these for each of the recyclerViews
-                                TODO: (cont.) as we will probably (maybe) need to process clicks separately
-                            */
-
-        // happens when a recycler view is clicked
-        // TODO: this is what we might need a second of to handle "specials" and "drink queue" clicks separately
         recyclerInterface = new RecyclerInterface() {
-
-
             @Override
             public void onTagClicked(Order order) {
-
+                // TODO: Make this happen when a "Drink Queue" object is clicked
             }
 
             @Override
-            public void onTagClicked(final String tagName) {
-                bs.setText(tagName);
-                mRefSpecials = mDatabase.getReference("drinks").child(tagName);
-                mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onTagClicked(final Drink tagName) {
+                // change "Order Drink" column update according to special clicked
+                editText_drinkName.setText(tagName.getName());
+                textView_totalCost.setText(String.format(Locale.US, "$ %.2f", tagName.getPrice()));
 
-                        ArrayList<Ingredient> ingList = new ArrayList<>();
-                        Drink tempDrink = new Drink();
-                        tempDrink.setName(tagName);
+                // TODO: make order drink read from an order instead of setting here
 
-                        // this is explicitly making a Drink object that we can then pass around
-                        // TODO: there is supposed to be a way around this and just to set the input equal to a Drink
-                            // some thing like this --    Drink drink = <snapshot_name>.getValue(Drink.class)
-                            // might have to add names into each of the Drinks in the database for this to work...
-                            // but this'll work for now
-                        for(DataSnapshot category: dataSnapshot.getChildren()){
+                // TODO: update this accordingly when we know how database will be setup
+                mRefSpecials = mDatabase.getReference("orders");
+                // TODO: is the 'Order' Object what gets passed to the drink queue?
 
-//                            Toast.makeText(getActivity(), category.getKey(), Toast.LENGTH_SHORT).show();
-                            switch(category.getKey()) {
-                                case "description":
-                                    Log.e(TAG, "grab name / description");
-                                    tempDrink.setDescription(category.getValue(String.class));
-                                    break;
-                                case "image":
-                                    Log.e(TAG, "grab image");
-                                    tempDrink.setImage(category.getValue(String.class));
-                                    break;
-                                case "ingredients":
-                                    Log.e(TAG, "grab description");
-                                    for(DataSnapshot entry: category.getChildren()) {
-                                        ingList.add(new Ingredient(entry.getKey(), entry.getValue(Float.class)));
-                                    }
-//                                    tempDrink.setIngredients(ingList);
-                                    break;
-                                case "price":
-                                    Log.e(TAG, "grab price");
-                                    tempDrink.setPrice(category.getValue(Float.class));
-                                    break;
-                            }
-                        } // end for loop
-                        Log.e(TAG, "comes from special drinks being clicked");
-                        Log.e(TAG, tempDrink.makeString());
-
-                        // this data then needs to be sent to the "Order Drink" column
-                        editText_drinkName.setText(tempDrink.getName());
-                        textView_totalCost.setText(String.format(Locale.US, "$ %.2f", tempDrink.getPrice()));
-
-                        // TODO: make order drink column update when it receives data
-                        // TODO: make order drink read from an order instead of setting here
-
-
-
-                        // TODO: update this accordingly when we know how database will be setup
-                        mRefSpecials = mDatabase.getReference("orders");
-                        // TODO: is the 'Order' Object what gets passed to the drink queue?
-
-
-
-                        String custName = editText_custName.getText().toString();
-                        // order goes into the drink queue whenever submit button is pressed
-                        order = new Order("order1", custName, "email", tempDrink);
-
-
-
-                        lstDrinkQueue.add(order);
-                        mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError firebaseError) {
-
-                    }
-                });
-
+                // order goes into the drink queue whenever submit button is pressed
+                order = new Order("order1", "", "email", tagName);
             }
         };
 
@@ -505,9 +376,9 @@ public class TabHomeFragment extends Fragment{
 
     /**
      * grabs the loadout from the database and makes it
-     * @param drink
+     * @param order
      */
-    private void acquireLoadout(final Drink drink) {
+    private void acquireLoadout(final Order order) {
         Log.e(TAG, "Starting: acquireLoadout");
 
         final ArrayList<Loadout> loadout = new ArrayList<>();
@@ -528,7 +399,7 @@ public class TabHomeFragment extends Fragment{
                         Log.e(TAG, "loadout: "+newLoadout.toString());
                     }
                 }
-                checkDrinkOrder(drink, loadout);
+                checkDrinkOrder(order, loadout);
             }
 
             @Override
@@ -542,38 +413,40 @@ public class TabHomeFragment extends Fragment{
      * Checks if the drink that is passed in can be made. If so then send off to 'orderDrink'
      * If not then let the user know
      *
-     * @param drink - drink to check if it can be made
+     * @param order - order to be made
      * @param loadouts - loadout of what's in the machine
      */
-    private void checkDrinkOrder(Drink drink, ArrayList<Loadout> loadouts) {
+    private void checkDrinkOrder(Order order, ArrayList<Loadout> loadouts) {
         Log.e(TAG, "Starting: checkDrinkOrder");
         boolean makeDrink = true;
-//        for(Ingredient ingredient: drink.getIngredients()) {
-//            boolean check = false;
-//            for(Loadout loadout: loadouts) {
-//                Log.e(TAG, "-"+loadout.getBottleName()+"-");
-//                // check to make sure "ingredient" is in the loadout and there is enough of it to make a drink
-//                // TODO: error handling for letting user/bartender know there is not enough of something / drink can't be made
-//                if(loadout.getBottleName().equals(ingredient.getName()) && loadout.getAmountLeft() >= ingredient.getAmount()) {
-//                    check = true;
-//                }
-//            }
-//
-//            // got through all elements of loadout for specific ingredient
-//            // if check is false, then ingredient is not in loadout -> can't make the drink
-//            if(!check) {
-//                Log.e(TAG, "        checkDrinkOrder -> failed -"+ingredient.getName()+"-");
-//                Toast.makeText(getActivity(), "Drink order could not be made. Please see bartender.", Toast.LENGTH_SHORT).show();
-//                makeDrink = false;
-//                break;
-//            }
-//        }
-//
-//        // if got all the way through without changing "makeDrink" to false
-//        // means all the ingredients are in the loadout, so make the drink
-//        if(makeDrink) {
-//            orderDrink(drink);
-//        }
+        for(String key: order.getDrink().getIngredients().keySet()) {
+            Float amount = order.getDrink().getIngredients().get(key);
+
+            boolean check = false;
+            for(Loadout loadout: loadouts) {
+                Log.e(TAG, "-"+loadout.getBottleName()+"-");
+                // check to make sure "ingredient" is in the loadout and there is enough of it to make a drink
+                // TODO: error handling for letting user/bartender know there is not enough of something / drink can't be made
+                if(loadout.getBottleName().equals(key) && loadout.getAmountLeft() >= amount) {
+                    check = true;
+                }
+            }
+
+            // got through all elements of loadout for specific ingredient
+            // if check is false, then ingredient is not in loadout -> can't make the drink
+            if(!check) {
+                Log.e(TAG, "        checkDrinkOrder -> failed -"+key+"-");
+                Toast.makeText(getActivity(), "Drink order could not be made. Check loadout", Toast.LENGTH_SHORT).show();
+                makeDrink = false;
+                break;
+            }
+        }
+
+        // if got all the way through without changing "makeDrink" to false
+        // means all the ingredients are in the loadout, so make the drink
+        if(makeDrink) {
+            orderDrink(order);
+        }
     }
 
     /**
@@ -582,11 +455,11 @@ public class TabHomeFragment extends Fragment{
      *      - order the drink (throw it in the drink queue)
      *          - take away x amount of ingredient from database
      *
-     * @param drink - the drink to be made
+     * @param order - order to be processed
      */
     // TODO: if we passed "loadouts" from calling then we may not have to search database again...
     // TODO: (cont.) as "loadouts" has the amounts in it.
-    private void orderDrink(final Drink drink) {
+    private void orderDrink(final Order order) {
         // now have to actually interface with the database
 
         Log.e(TAG, "Starting: orderDrink");
@@ -596,41 +469,37 @@ public class TabHomeFragment extends Fragment{
         mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                for(Ingredient ingredient: drink.getIngredients()) {
-//                    // for each ingredient we have to take out the amount that is needed from the
-//                    // about that the loadout says the database has
-//
-//                    Log.e(TAG, "orderDrink - "+ingredient.getName());
-//
-//                    // read the loadout from the database
-//                    for(DataSnapshot data: dataSnapshot.getChildren()){
-//                        for(DataSnapshot f: data.getChildren()) {
-//                            Log.e(TAG, "    key: "+f.getKey());
-//                            // if the ingredient name matches the key of the loadout stored:
-//                            //      key: name_of_drink
-//                            //      value: amount_left
-//                            // then take ingredient.amount off of what's in the database
-//                            if(ingredient.getName().equals(f.getKey())) {
-//
-//                                Log.e(TAG, "they equal");
-//
-//                                Long value = f.getValue(Long.class);
-//                                Float other = value-ingredient.getAmount();
-//
-//                                Log.e(TAG, Float.toString(other));
-//                                mDatabase.getReference("loadout").child(data.getKey()).child(f.getKey()).setValue(other);
-//                            }
-//                        }
-//                    }
-//                }
+                for(String ingKey: order.getDrink().getIngredients().keySet()) {
+                    Float ingAmount = order.getDrink().getIngredients().get(ingKey);
 
+                    // for each ingredient we have to take out the amount that is needed
+                    //      from each drink
 
+                    // read the loadout from the database
+                    for(DataSnapshot data: dataSnapshot.getChildren()){
+                        for(DataSnapshot loadoutChild: data.getChildren()) {
+                            Log.e(TAG, "    key: "+loadoutChild.getKey());
+                            // if the ingredient name matches the key of the loadout stored:
+                            //      key: name_of_drink
+                            //      value: amount_left
+                            // then take ingredient.amount off of what's in the database
+                            if(ingKey.equals(loadoutChild.getKey())) {
 
+                                Log.e(TAG, "they equal");
 
+                                Long value = loadoutChild.getValue(Long.class);
+                                Float other = value - ingAmount;
 
-
-
-
+                                Log.e(TAG, Float.toString(other));
+                                mDatabase.getReference("loadout").child(data.getKey()).child(loadoutChild.getKey()).setValue(other);
+                            }
+                        }
+                    }
+                }
+                // when it gets here it means all the backend stuff is done, so throw it on the drinkQueue
+                lstDrinkQueue.add(order);
+                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+                Log.e(TAG, "order completed");
             }
 
             @Override

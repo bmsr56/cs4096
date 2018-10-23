@@ -42,7 +42,7 @@
 
             <EditText
                 android:id="@+id/editText_custName"
-                android:layout_width="303dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Customer Name"
                 android:inputType="textPersonName"
