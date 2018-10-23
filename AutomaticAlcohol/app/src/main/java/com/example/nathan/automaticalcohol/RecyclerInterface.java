@@ -7,4 +7,3 @@ public interface RecyclerInterface {
     void onTagClicked(Drink tagName);
     void onTagClicked(Order order);
 }
-

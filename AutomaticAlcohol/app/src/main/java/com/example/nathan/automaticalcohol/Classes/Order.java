@@ -1,11 +1,15 @@
 package com.example.nathan.automaticalcohol.Classes;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
+
 
 public class Order {
     private String orderNumber;
     private String name;        // name of person who ordered
     private String email;       // email of person ordering??
+    private Pair<String, Float> addOn = new Pair("", 0f);      // name and price of the add on
     private Float totalPrice;
 
     // pick 1 depending if orders support multiple drinks
@@ -22,6 +26,7 @@ public class Order {
         this.name = name;
         this.email = email;
         this.drink = drink;
+        this.totalPrice = 0f;
     }
 
     public String getOrderNumber() {
@@ -37,7 +42,7 @@ public class Order {
     }
 
     public Float getTotalPrice() {
-        return totalPrice;
+        return drink.getPrice() + addOn.second;
     }
 
     public Drink getDrink() {
@@ -58,6 +63,10 @@ public class Order {
 
     public void setTotalPrice(Float totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public void setAddOn(String name, Float price) {
+        addOn = new Pair(name, price);
     }
 
     public void setDrink(Drink drink) {

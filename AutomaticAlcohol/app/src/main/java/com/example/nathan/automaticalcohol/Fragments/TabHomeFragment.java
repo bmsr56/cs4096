@@ -43,12 +43,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class TabHomeFragment extends Fragment{
     private static final String TAG = "TabHomeFragment";
@@ -74,7 +71,6 @@ public class TabHomeFragment extends Fragment{
 
     private RecyclerView mRecyclerViewSpecials;
     private SpecialsRecyclerAdapter mRecyclerAdapterSpecials;
-    private List<String> lstSpecialsNames = new ArrayList<>();
     private List<Drink> lstSpecials;
 
     private GoogleSignInClient mGoogleSignInClient;
@@ -90,6 +86,7 @@ public class TabHomeFragment extends Fragment{
     private RecyclerInterface recyclerInterface;
 
     private Order order;
+    private HashMap<String, Float> shotPrice = new HashMap<>();
 
 
     /**
@@ -133,26 +130,35 @@ public class TabHomeFragment extends Fragment{
         spinner_addItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
+                String addOn = "";
+                try {
+                    switch (position) {
 
-                    // TODO: each these are going to have to change some "total cost" variable based on price of individual shot
+                        // TODO: each these are going to have to change some "total cost" variable based on price of individual shot
 
-                    case 0:
-                        orderDrink.setText("Order Drink:");
-                        break;
-                    case 1:
-                        orderDrink.setText("Tequila");
-                        break;
-                    case 2:
-                        orderDrink.setText("Whiskey");
-                        break;
-                    case 3:
-                        orderDrink.setText("Vodka");
-                        break;
+                        case 0:
+                            addOn = "none";
+                            break;
+                        case 1:
+                            addOn = "tequila";
+                            break;
+                        case 2:
+                            addOn = "whiskey";
+                            break;
+                        case 3:
+                            addOn = "vodka";
+                            break;
+                    }
+                    // TODO: update total drink cost
+                    // computeCost(baseDrink, addOn_List?? - MULTIPLE ADD ON SUPPORT??)
+                    // TODO: MULTIPLE-ADD-ON SUPPORT??'
+                    Float updatedCost = updateCost(order, addOn);
+                    textView_totalCost.setText(String.format(Locale.US, "$ %.2f", updatedCost));
+
+                } catch (Exception e) {
+                    Log.e(TAG, "Error: ", e);
                 }
-                // TODO: update total drink cost
-                // computeCost(baseDrink, addOn_List?? - MULTIPLE ADD ON SUPPORT??)
-                // TODO: MULTIPLE-ADD-ON SUPPORT??
+
             }
 
             @Override
@@ -251,6 +257,23 @@ public class TabHomeFragment extends Fragment{
         mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
 
+        // grab shot prices
+        mRefSpecials = mDatabase.getReference("extra");
+        mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    // for each of the children
+                    Log.e("TAG12", data.getKey()+"  "+data.getValue(Float.class));
+                    shotPrice.put(data.getKey(), data.getValue(Float.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+
+            }
+        });
         return view;
     }
 
@@ -369,8 +392,13 @@ public class TabHomeFragment extends Fragment{
      * @param addItem - item to be added on, comes from the spinner
      * @return cost of drink after adding item
      */
-    private int computeCost(Drink drink, String addItem) {
-        return 0;
+    private Float updateCost(final Order order, final String addItem) {
+        if(addItem.equals("none")) {
+            order.setAddOn("", 0f);
+        } else {
+            order.setAddOn("", shotPrice.get(addItem));
+        }
+        return order.getTotalPrice();
     }
 
 
