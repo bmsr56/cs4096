@@ -1,5 +1,6 @@
 *.code-workspace
 *.pyc
 drinkmasterplus-ec13a-firebase-adminsdk-0ek53-cd1c117f9d.json
-*.json
 *.pyc
+cs4096_workspace*
+*.json
