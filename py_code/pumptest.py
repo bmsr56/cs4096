@@ -17,6 +17,7 @@ def main():
             gpioRun(pumps[1], 2)
             gpioRun(pumps[2], 2)
             gpioRun(pumps[3], 2)
+
     except KeyboardInterrupt:
         gpio.cleanup()
         
