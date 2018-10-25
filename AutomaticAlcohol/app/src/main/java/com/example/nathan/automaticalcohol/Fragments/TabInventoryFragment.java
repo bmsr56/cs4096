@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
 import com.example.nathan.automaticalcohol.R;
 
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +28,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import java.util.ArrayList;
 
 public class TabInventoryFragment extends Fragment{
@@ -110,10 +112,6 @@ public class TabInventoryFragment extends Fragment{
                         Log.e(TAG, "loadout: "+newLoadout.toString());
                     }
                 }
-
-
-
-
             }
 
             @Override
@@ -123,31 +121,45 @@ public class TabInventoryFragment extends Fragment{
         });
         // TODO: connect data grabbed from database to graphs
 
-
         ArrayList<BarEntry> BarEntry = new ArrayList<>();
-        BarEntry.add(new BarEntry(2f, 0));
-        BarEntry.add(new BarEntry(4f, 1));
-        BarEntry.add(new BarEntry(6f, 2));
-        BarEntry.add(new BarEntry(8f, 3));
-        BarEntry.add(new BarEntry(7f, 4));
-        BarEntry.add(new BarEntry(3f, 5));
+            BarEntry.add(new BarEntry(0, 1f));
+            BarEntry.add(new BarEntry(1, .1f));
+            BarEntry.add(new BarEntry(2, .2f));
+            BarEntry.add(new BarEntry(3, .3f));
+            BarEntry.add(new BarEntry(4, .4f));
+            BarEntry.add(new BarEntry(5, .5f));
+
 
 
         BarDataSet dataSet = new BarDataSet(BarEntry, "Projects");
 
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
+        final ArrayList<String> labels = new ArrayList<>();
+            labels.add("Drink 1");
+            labels.add("Drink 2");
+            labels.add("Drink 3");
+            labels.add("Drink 4");
+            labels.add("Drink 5");
+            labels.add("Drink 6");
 
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new AxisValueFormatter(){
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return labels.get((int) value);
+            }
+            // we don't draw numbers, so no decimal digits needed
+            @Override
+            public int getDecimalDigits() {  return 0; }
+        });
         BarData data = new BarData(dataSet);
+        data.setBarWidth(0.9f);
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         chart.setData(data);
+        chart.setFitBars(true);
+        chart.setDescription("Inventory of Bottles");
 
-        chart.setDescription("No of Projects");
+        chart.invalidate();
         return view;
     }
 }
