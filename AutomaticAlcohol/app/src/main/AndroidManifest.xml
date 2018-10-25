@@ -27,6 +27,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Activities.PinActivity"
+            android:label="@string/title_activity_bartender"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"></activity>
+        <activity
             android:name=".Activities.BartenderActivity"
             android:label="@string/title_activity_bartender"
             android:theme="@style/AppTheme.NoActionBar"
@@ -36,6 +41,11 @@
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
