@@ -67,17 +67,17 @@ public class TabHomeFragment extends Fragment{
 
     private RecyclerView mRecyclerViewDrinkQueue;
     private DrinkQueueRecyclerAdapter mRecyclerAdapterDrinkQueue;
-    private List<Order> lstDrinkQueue;
+    private List<Order> lstDrinkQueue = new ArrayList<>();
 
     private RecyclerView mRecyclerViewSpecials;
     private SpecialsRecyclerAdapter mRecyclerAdapterSpecials;
-    private List<Drink> lstSpecials;
+    private List<Drink> lstSpecials = new ArrayList<>();
 
     private GoogleSignInClient mGoogleSignInClient;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    private FirebaseDatabase mDatabase;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRefSpecials;
     private DatabaseReference mRefDrinkQueue;
 
@@ -257,7 +257,7 @@ public class TabHomeFragment extends Fragment{
         mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
 
-        // grab shot prices
+        // grab shot prices and stick them into an array for easier lookup
         mRefSpecials = mDatabase.getReference("extra");
         mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -282,34 +282,21 @@ public class TabHomeFragment extends Fragment{
      * more stuff needed by android to make the screen and connecting logic
      * @param savedInstanceState
      */
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Log.e(TAG, "onCreate");
 
+        // grabs the data passed from the bartender activity
+        // data is passed as key-value pairs
         if (getArguments() != null) {
             Log.e(TAG, "getArguments != null");
-            pin = getArguments().getString("bartenderPin");
+            // if the string passed was passed with key 'Constants.BARTENDER_TO_HOME_TAB_PIN' then it grabs the value and assigns it to 'pin'
+            pin = getArguments().getString(Constants.BARTENDER_TO_HOME_TAB_PIN);
         } else {
             Log.e(TAG, "getArguments == null");
         }
         Log.e(TAG, "onCreate"+pin);
-
-
-        // initialize the drink queue
-        // TODO: this has to be setup to listen for incoming messages to the queue
-        /*  connect to database
-            for each entry in database
-                lstDrinkQueue.add(entry);
-         */
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
-        lstDrinkQueue = new ArrayList<>();
-        lstSpecials = new ArrayList<>();
 
 
         /*
