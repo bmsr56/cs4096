@@ -1,6 +1,6 @@
 from functions import *
 import RPi.GPIO as gpio
-import pyrebase, pyfcm
+import pyrebase
 
 # https://www.raspberrypi.org/documentation/configuration/security.md
 
