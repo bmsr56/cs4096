@@ -8,6 +8,8 @@ public interface Constants {
 
     int REQUEST_ENABLE_BT = 1;
 
+    int MIN_BOTTLE = 1;
+    int MAX_BOTTLE = 6;
 
     int RC_SIGN_IN = 20;
 
@@ -16,4 +18,6 @@ public interface Constants {
     String EMAIL_ALREADY_USED = "The email address is already in use by another account.";
     String WEAK_PASS = "The given password is invalid. [ Password should be at least 6 characters ]";
 
+    String DRINK_QUEUE = "drinkQueue";
+    String SPECIALS = "specials";
 }

@@ -32,17 +32,14 @@ public class BartenderActivity extends AppCompatActivity {
 
     private final String TAG = "BartenderActivity";
 
-//    private SectionsPageAdapter mSectionsPageAdapter;
-
     private ViewPager mViewPager;
+    private String pin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bartender);
         Log.d(TAG, "onCreate: Starting");
-
-//        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         // Setup the ViewPager with the sections adapter
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -54,11 +51,28 @@ public class BartenderActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabHomeFragment(), "Home");
+
+        pin = getIntent().getStringExtra("PinActivity_passPin");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("bartenderPin", pin);
+        Log.e(TAG, "setupViewPager... pin is: "+ pin);
+
+        // set fragment Arguments
+        TabHomeFragment homeFragment = new TabHomeFragment();
+        homeFragment.setArguments(bundle);
+        adapter.addFragment(homeFragment, "Home");
+
         adapter.addFragment(new TabCookbookFragment(), "Cookbook");
         adapter.addFragment(new TabInventoryFragment(), "Inventory");
         adapter.addFragment(new TabReportsFragment(), "Reports");
-        adapter.addFragment(new TabTabsFragment(), "Tabs");
+
+        // have to do these differently because they need to know what the 'pin' is
+        TabTabsFragment tabTabsFragment = new TabTabsFragment();
+        tabTabsFragment.setArguments(bundle);
+        adapter.addFragment(tabTabsFragment, "Tabs");
+
+
         viewPager.setAdapter(adapter);
     }
 
