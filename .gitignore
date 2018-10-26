@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 *.code-workspace
 *.pyc
 drinkmasterplus-ec13a-firebase-adminsdk-0ek53-cd1c117f9d.json
 *.json
 *.pyc
+=======
+cs4096_workspace*
+*.json
+>>>>>>> 27fa66732f9103eabf8986c3a39c62e8d4cdbb61

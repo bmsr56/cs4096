@@ -4,17 +4,109 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    tools:context=".Activities.BartenderActivity$PlaceholderFragment">
 
 
-    <TextView
+    <EditText
         android:id="@+id/textView4"
-        android:layout_width="333dp"
+        android:layout_width="620dp"
         android:layout_height="54dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="92dp"
-        android:text="Cookbook Page Info"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/colorAccent"
+        android:text="  Search..."
         android:textSize="30sp"
+        android:textColor="#707278"
+        tools:layout_editor_absoluteX="252dp"
+        tools:layout_editor_absoluteY="204dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="317dp"
+        android:layout_height="316dp"
+        android:src="@mipmap/ic_launcher"
+        tools:layout_editor_absoluteX="483dp"
+        tools:layout_editor_absoluteY="335dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="317dp"
+        android:layout_height="316dp"
+        android:src="@mipmap/ic_launcher"
+        tools:layout_editor_absoluteX="871dp"
+        tools:layout_editor_absoluteY="335dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="317dp"
+        android:layout_height="316dp"
+        android:src="@mipmap/ic_launcher"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="335dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="19dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="550dp">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="236dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="216dp">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="107dp"
+        android:layout_height="20dp"
+        android:background="@color/colorBg"
+        android:text="Advanced Search"
+        android:textAllCaps="false"
+        android:textColor="@color/colorHeader"
+        android:textSize="10dp"
+        tools:layout_editor_absoluteX="765dp"
+        tools:layout_editor_absoluteY="258dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="317dp"
+        android:layout_height="72dp"
+        android:background="@color/colorBg"
+        android:text="Button"
+        tools:layout_editor_absoluteX="482dp"
+        tools:layout_editor_absoluteY="651dp" />
+
+    <Button
+        android:id="@+id/button16"
+        android:layout_width="317dp"
+        android:layout_height="72dp"
+        android:background="@color/colorBg"
+        android:text="Button"
+        tools:layout_editor_absoluteX="872dp"
+        tools:layout_editor_absoluteY="651dp" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="317dp"
+        android:layout_height="72dp"
+        android:background="@color/colorBg"
+        android:gravity="left"
+        android:text=" DrinkName \n drinkPrice"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="651dp" />
+
 </android.support.constraint.ConstraintLayout>
