@@ -8,6 +8,8 @@ public interface Constants {
 
     int REQUEST_ENABLE_BT = 1;
 
+    int MIN_BOTTLE = 1;
+    int MAX_BOTTLE = 6;
 
     int RC_SIGN_IN = 20;
 

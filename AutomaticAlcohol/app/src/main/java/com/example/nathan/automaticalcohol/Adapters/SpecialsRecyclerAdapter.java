@@ -1,8 +1,7 @@
-package com.example.nathan.automaticalcohol;
+package com.example.nathan.automaticalcohol.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,19 +14,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nathan.automaticalcohol.Classes.Drink;
+import com.example.nathan.automaticalcohol.Constants;
+import com.example.nathan.automaticalcohol.R;
+import com.example.nathan.automaticalcohol.RecyclerInterface;
+
 import java.util.List;
+import java.util.Locale;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecyclerAdapter.MyViewHolder> {
 
-    private static final String TAG = "TabHomeFragment__REC";
+    private static final String TAG = "SpecialsRecyclerAdapter";
 
     private Context mContext;
-    private List<String> mData;
+    private List<Drink> mData;
     private String mType;
     private RecyclerInterface recyclerInterface;
     private Dialog myDialog;
 
-    public RecyclerViewAdapter(Context mContext, List<String> mData, String type, RecyclerInterface recyclerInterface) {
+    public SpecialsRecyclerAdapter(Context mContext, List<Drink> mData, String type, RecyclerInterface recyclerInterface) {
         this.mContext = mContext;
         this.mData = mData;
         this.mType = type;
@@ -38,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        Log.e(TAG, this.mType);
+        Log.e(TAG, "onCreateViewHolder");
         View view;
 
         // TODO: I think a separate one of thses is going to have to be made for the drink queue if we want it to look different
@@ -59,6 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // all of this was for the dialog (pop up)
 //                    TextView dialog_name_tv = myDialog.findViewById(R.id.dialog_name_id);
 //                    TextView dialog_phone_tv = myDialog.findViewById(R.id.dialog_phone_id);
 //                    ImageView dialog_contact_img = myDialog.findViewById(R.id.dialog_img);
@@ -68,8 +74,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     Toast.makeText(mContext, "Test Click" + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
 
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
 
 
 //                    myDialog.show();
@@ -77,8 +83,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
         } else if (this.mType.equals(Constants.DRINK_QUEUE)) {
-            // TODO: handle logic for creating "button" pushes for the drink queue
-            // TODO: handle logic for making new "view = LayoutInflater..." stuff
         }
 
         return vHolder;
@@ -86,14 +90,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textView_name.setText(mData.get(position));
-        holder.textView_phone.setText(mData.get(position));
+
+        Log.e(TAG, "size: "+Integer.toString(mData.size()));
+
+
+        holder.textView_name.setText(mData.get(position).getName());
+        // might use string.format instead
+        holder.textView_price.setText(String.format(Locale.US, "$ %.2f", mData.get(position).getPrice()));
 
         final int index = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, mData.get(index), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mData.get(index).getName(), Toast.LENGTH_SHORT).show();
                 recyclerInterface.onTagClicked(mData.get(index));
             }
         });
@@ -109,15 +118,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         private LinearLayout item_contact;
         private TextView textView_name;
-        private TextView textView_phone;
+        private TextView textView_price;
         private ImageView img;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             item_contact = (LinearLayout) itemView.findViewById(R.id.contact_item_id);
-            textView_name = (TextView) itemView.findViewById(R.id.name_contact);
-            textView_phone = (TextView) itemView.findViewById(R.id.phone_contact);
-            img = (ImageView) itemView.findViewById(R.id.img_contact);
+            textView_name = (TextView) itemView.findViewById(R.id.drink_name);
+            textView_price = (TextView) itemView.findViewById(R.id.drink_price);
+            img = (ImageView) itemView.findViewById(R.id.img_drink);
 
 
         }
