@@ -96,9 +96,6 @@ public class TabInventoryFragment extends Fragment{
         // TODO: or should it just look once?...   above is more robust
         // currently just looking once
 
-        final BarChart chart = view.findViewById(R.id.bar_chart);
-
-
         mLoadoutReference = mDatabase.getReference("loadout");
         mLoadoutReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -121,27 +118,29 @@ public class TabInventoryFragment extends Fragment{
         });
         // TODO: connect data grabbed from database to graphs
 
+        //initializes the inventory chart
+        final BarChart inventoryChart = view.findViewById(R.id.bar_chart);
+
+        //add new entries to the barchart
         ArrayList<BarEntry> BarEntry = new ArrayList<>();
-            BarEntry.add(new BarEntry(0, 1f));
-            BarEntry.add(new BarEntry(1, .1f));
-            BarEntry.add(new BarEntry(2, .2f));
-            BarEntry.add(new BarEntry(3, .3f));
-            BarEntry.add(new BarEntry(4, .4f));
-            BarEntry.add(new BarEntry(5, .5f));
-
-
+        BarEntry.add(new BarEntry(0, 1000f));
+        BarEntry.add(new BarEntry(1, 900f));
+        BarEntry.add(new BarEntry(2, 800f));
+        BarEntry.add(new BarEntry(3, 700f));
+        BarEntry.add(new BarEntry(4, 600f));
+        BarEntry.add(new BarEntry(5, 500f));
 
         BarDataSet dataSet = new BarDataSet(BarEntry, "Projects");
 
         final ArrayList<String> labels = new ArrayList<>();
-            labels.add("Drink 1");
-            labels.add("Drink 2");
-            labels.add("Drink 3");
-            labels.add("Drink 4");
-            labels.add("Drink 5");
-            labels.add("Drink 6");
+        labels.add("Drink 1");
+        labels.add("Drink 2");
+        labels.add("Drink 3");
+        labels.add("Drink 4");
+        labels.add("Drink 5");
+        labels.add("Drink 6");
 
-        XAxis xAxis = chart.getXAxis();
+        XAxis xAxis = inventoryChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new AxisValueFormatter(){
             @Override
@@ -155,11 +154,12 @@ public class TabInventoryFragment extends Fragment{
         BarData data = new BarData(dataSet);
         data.setBarWidth(0.9f);
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        chart.setData(data);
-        chart.setFitBars(true);
-        chart.setDescription("Inventory of Bottles");
+        inventoryChart.setData(data);
+        inventoryChart.setFitBars(true);
+        //inventoryChart.setDescription("Inventory of Bottles");
 
-        chart.invalidate();
+        //reloads the chart with all the changes
+        inventoryChart.invalidate();
         return view;
     }
 }
