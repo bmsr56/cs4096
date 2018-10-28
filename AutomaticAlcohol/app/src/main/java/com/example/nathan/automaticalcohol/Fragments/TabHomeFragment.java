@@ -36,13 +36,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -204,7 +210,7 @@ public class TabHomeFragment extends Fragment{
 
         button_quick1.setText("To Pin Page");
 //        button_quick2.setText("Add to Queue");
-        button_quick2.setText("Button 2");
+        button_quick2.setText("Show Date");
         button_quick3.setText("Order Highball");
 
         // each of these calls a function that orders a drink based on the name of the special
@@ -219,6 +225,12 @@ public class TabHomeFragment extends Fragment{
             public void onClick(View v) {
 //                Toast.makeText(getActivity(), "Add to queue", Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity(), "Button 2", Toast.LENGTH_SHORT).show();
+
+
+
+                Date timeStamp1 = new Date();
+                Toast.makeText(getActivity(), timeStamp1.toString(), Toast.LENGTH_SHORT).show();
+
 //                lstDrinkQueue.add("new item");
                 mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
 
@@ -371,6 +383,52 @@ public class TabHomeFragment extends Fragment{
             }
         };
 
+
+        DatabaseReference drinkQueueRef = mDatabase.getReference("queue");
+        final DatabaseReference orderRef = mDatabase.getReference("order");
+        ValueEventListener valueEventListener1 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                lstDrinkQueue.clear();
+                for(DataSnapshot specialsName: dataSnapshot.getChildren()) {
+                    final String orderId = specialsName.getKey();
+                    Log.e("TAG11", orderId);
+                    ValueEventListener eventListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            ArrayList<Order> lst = new ArrayList<>();
+                            for(DataSnapshot drinkName : dataSnapshot.getChildren()) {
+                                Log.e("TAG11", "    "+drinkName.getKey());
+
+                                if(drinkName.getKey().equals(orderId)) {
+                                    Order fart = drinkName.getValue(Order.class);
+                                    lstDrinkQueue.add(fart);
+                                }
+                            }
+
+                            // after grabbing all the data sort the list
+                            Collections.sort(lst);
+
+                            for(Order i: lst) {
+                                Log.d("TAG11", i.toString());
+                            }
+                            mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {}
+                    };
+                    orderRef.addListenerForSingleValueEvent(eventListener);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        drinkQueueRef.addValueEventListener(valueEventListener1);
+
+
+
     }
 
     /**
@@ -507,13 +565,20 @@ public class TabHomeFragment extends Fragment{
 
                                 Log.e(TAG, Float.toString(other));
                                 mDatabase.getReference("loadout").child(data.getKey()).child(loadoutChild.getKey()).setValue(other);
+
+                                DatabaseReference orderRef = mDatabase.getReference("order");
+                                Toast.makeText(getActivity(), "added order", Toast.LENGTH_SHORT).show();
+
+                                order.setOrderNumber(orderRef.push().getKey());
+                                orderRef.child(order.getOrderNumber()).setValue(order);
+                                mDatabase.getReference().child("queue").child(order.getOrderNumber()).setValue("1");
                             }
                         }
                     }
                 }
                 // when it gets here it means all the backend stuff is done, so throw it on the drinkQueue
-                lstDrinkQueue.add(order);
-                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+//                lstDrinkQueue.add(order);
+//                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
                 Log.e(TAG, "order completed");
             }
 
