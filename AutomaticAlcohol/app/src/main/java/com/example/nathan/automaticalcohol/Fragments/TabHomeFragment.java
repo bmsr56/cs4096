@@ -384,42 +384,46 @@ public class TabHomeFragment extends Fragment{
         };
 
 
+        // grab a section of the database
         DatabaseReference drinkQueueRef = mDatabase.getReference("queue");
+        // this has to be marked 'final' because it is going to be used in an inner class
         final DatabaseReference orderRef = mDatabase.getReference("order");
+        // start listening on the 'drinkQueueRef'
         ValueEventListener valueEventListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // clear what was in the queue as to not re-add the same drinks
                 lstDrinkQueue.clear();
                 for(DataSnapshot specialsName: dataSnapshot.getChildren()) {
+                    // id of the order in the queue
                     final String orderId = specialsName.getKey();
                     Log.e("TAG11", orderId);
-                    ValueEventListener eventListener = new ValueEventListener() {
+
+                    // start listening to the 'orderRef'
+                    ValueEventListener singleEventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            ArrayList<Order> lst = new ArrayList<>();
                             for(DataSnapshot drinkName : dataSnapshot.getChildren()) {
-                                Log.e("TAG11", "    "+drinkName.getKey());
-
+                                // if the order id matches an 'Order Object' then remember it
                                 if(drinkName.getKey().equals(orderId)) {
                                     Order fart = drinkName.getValue(Order.class);
                                     lstDrinkQueue.add(fart);
                                 }
                             }
 
-                            // after grabbing all the data sort the list
-                            Collections.sort(lst);
-
-                            for(Order i: lst) {
-                                Log.d("TAG11", i.toString());
-                            }
+                            // sort the queue by time
+                            // is sorted by time because that's how 'compare' is written in Order Class
+                            Collections.sort(lstDrinkQueue);
+                            // let the recyclerView know it needs to change
                             mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
-
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {}
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
                     };
-                    orderRef.addListenerForSingleValueEvent(eventListener);
+                    orderRef.addListenerForSingleValueEvent(singleEventListener);
                 }
             }
             @Override
