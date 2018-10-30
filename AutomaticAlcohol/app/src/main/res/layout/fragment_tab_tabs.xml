@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+
+
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="952dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorBg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- text needs to be pulled from UI Logic-->
+            <TextView
+                android:id="@+id/number15"
+                android:layout_width="600dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="100dp"
+                android:background="@color/colorHeader"
+                android:drawableTint="@color/whiteText"
+                android:gravity="center_vertical"
+                android:text="  Person Name"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <LinearLayout
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:gravity="clip_horizontal">
+
+                <TextView
+                    android:id="@+id/editText4"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:backgroundTint="@color/colorBg"
+                    android:text="Drink Name" />
+
+                <TextView
+                    android:id="@+id/editText5"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorBg"
+                    android:gravity="right"
+                    android:text="(amount)" />
+
+                <TextView
+                    android:id="@+id/editText6"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorBg"
+                    android:gravity="right"
+                    android:text="$price" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:gravity="clip_horizontal">
+
+                <TextView
+                    android:id="@+id/editText8"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:backgroundTint="@color/colorBg"
+                    android:text="Drink Name" />
+
+                <TextView
+                    android:id="@+id/editText9"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorBg"
+                    android:gravity="right"
+                    android:text="(amount)" />
+
+                <TextView
+                    android:id="@+id/editText10"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorBg"
+                    android:gravity="right"
+                    android:text="$price" />
+
+
+            </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/editText7"
+                    android:layout_width="599dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="104dp"
+                    android:backgroundTint="@color/colorBg"
+                    android:gravity="right"
+                    android:text="Total: $total"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+                <!--tools:ignore="MissingConstraints"-->
+                <!--tools:layout_editor_absoluteX="174dp"-->
+                <Button
+                    android:id="@+id/button15"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="92dp"
+                    android:backgroundTint="@color/colorButton"
+                    android:text="Close Tab"
+                    android:textColor="@color/whiteText"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+                <!--tools:ignore="MissingConstraints"-->
+                <!--tools:layout_editor_absoluteX="174dp"-->
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="352dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorBg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- If clicked, should change color-->
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="95dp"
+                android:backgroundTint="@color/colorButton"
+                android:text="Name1"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <Button
+                android:id="@+id/button12"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:backgroundTint="@color/colorButton"
+                android:text="Name2"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <Button
+                android:id="@+id/button13"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:backgroundTint="@color/colorButton"
+                android:text="Name3"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <Button
+                android:id="@+id/button14"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:backgroundTint="@color/colorButton"
+                android:text="Name4"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

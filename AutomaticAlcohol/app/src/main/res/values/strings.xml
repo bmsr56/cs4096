@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Automatic Alcohol</string>
+    <string name="toggle_led">Toggle LED</string>
+    <string name="rx">RX:</string>
+    <string name="read_buffer">&lt;Read Buffer></string>
+    <string name="status">Status:</string>
+    <string name="bluetooth_status">&lt;Bluetooth Status></string>
+    <string name="bt_on">Bluetooth ON</string>
+    <string name="bt_off">Bluetooth OFF</string>
+    <string name="show_paired_devices">Show Paired Devices</string>
+    <string name="discover_new_devices">Discover New Devices</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_bartender">BartenderActivity</string>
+    <string name="title_activity_user">User Activity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">%1$d</string>
+
+    <!-- Strings related to home tab -->
+    <string name="addition1">No Extras</string>
+    <string name="addition2">Add Shot of Tequila</string>
+    <string name="addition3">Add Shot of Whiskey</string>
+    <string name="addition4">Add Shot of Vodka</string>
+    <string name="addition_select">Select a drink</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <!--tools:context=".Activities.BartenderActivity$PlaceholderFragment"-->
+
+
+    <!-- this puts the whole thing in a linear layout -->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- order drink division -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_orderDrink"
+                android:layout_width="303dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:background="@color/colorHeader"
+                android:gravity="center"
+                android:text="Order Drink:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+            <!--android:layout_height="80dp"-->
+
+            <EditText
+                android:id="@+id/editText_custName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Customer Name"
+                android:inputType="textPersonName"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/editText_drinkName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="display drink name"
+                android:inputType="text"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/spinner_addItem"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:entries="@array/addition_list"
+                android:prompt="@string/addition_select" />
+
+            <TextView
+                android:id="@+id/textView_totalCost"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="right"
+                android:text="Total Cost:"
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/buttonSubmitOrder"
+                android:layout_width="303dp"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/colorButton"
+                android:gravity="right"
+                android:text="Submit Order"
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteText" />
+
+        </LinearLayout>
+
+
+        <!--Bartender Specials division -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorBg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_bartenderSpecials"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:layout_margin="30dp"
+                android:background="@color/colorHeader"
+                android:gravity="center"
+                android:text="Bartender Specials:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <Button
+                android:id="@+id/button_special1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:text="Sign Out"
+                android:textColor="@color/whiteText" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/specials_recyclerView">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+         <!--Quick Add division-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorBg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/number1"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:layout_margin="30dp"
+                android:background="@color/colorHeader"
+                android:gravity="center"
+                android:text="Quick Add:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <Button
+                android:id="@+id/button_quick1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button1"
+                android:textColor="@color/whiteText" />
+
+            <Button
+                android:id="@+id/button_quick2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button2"
+                android:textColor="@color/whiteText" />
+
+            <Button
+                android:id="@+id/button_quick3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button3"
+                android:textColor="@color/whiteText" />
+
+
+            <Button
+                android:id="@+id/button_quick4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button4"
+                android:textColor="@color/whiteText" />
+
+            <Button
+                android:id="@+id/button_quick5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:text="Button5"
+                android:textColor="@color/whiteText" />
+
+        </LinearLayout>
+
+        <!-- Drink Queue Division -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorBg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/number14"
+                android:layout_width="303dp"
+                android:layout_height="80dp"
+                android:layout_margin="30dp"
+                android:background="@color/colorHeader"
+                android:gravity="center"
+                android:text="Drink Queue:"
+                android:textColor="@color/whiteText"
+                android:textSize="30dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/drinkQueue_recyclerView">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+
