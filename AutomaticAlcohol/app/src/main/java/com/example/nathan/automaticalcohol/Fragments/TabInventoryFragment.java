@@ -33,8 +33,6 @@ public class TabInventoryFragment extends Fragment{
     private static final String TAG = "TabInventoryFragment";
 
     private EditText et_amountLeft;
-
-    // TODO: is this the position of the bottle??   -> bottleLocation
     private EditText et_bottleNumber;
     private EditText et_bottleName;
 
@@ -111,7 +109,6 @@ public class TabInventoryFragment extends Fragment{
 
         final BarChart chart = view.findViewById(R.id.bar_chart);
 
-
         mLoadoutReference = mDatabase.getReference("loadout");
         mLoadoutReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -126,9 +123,6 @@ public class TabInventoryFragment extends Fragment{
                     }
                 }
 
-
-
-
             }
 
             @Override
@@ -139,30 +133,6 @@ public class TabInventoryFragment extends Fragment{
         // TODO: connect data grabbed from database to graphs
 
 
-        ArrayList<BarEntry> BarEntry = new ArrayList<>();
-        BarEntry.add(new BarEntry(2f, 0));
-        BarEntry.add(new BarEntry(4f, 1));
-        BarEntry.add(new BarEntry(6f, 2));
-        BarEntry.add(new BarEntry(8f, 3));
-        BarEntry.add(new BarEntry(7f, 4));
-        BarEntry.add(new BarEntry(3f, 5));
-
-
-        BarDataSet dataSet = new BarDataSet(BarEntry, "Projects");
-
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-
-        BarData data = new BarData(dataSet);
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        chart.setData(data);
-
-        chart.setDescription("No of Projects");
         return view;
     }
 }
