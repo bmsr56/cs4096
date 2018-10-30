@@ -156,7 +156,7 @@ public class TabInventoryFragment extends Fragment{
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         inventoryChart.setData(data);
         inventoryChart.setFitBars(true);
-        //inventoryChart.setDescription("Inventory of Bottles");
+        inventoryChart.setDescription("Inventory of Bottles");
 
         //reloads the chart with all the changes
         inventoryChart.invalidate();

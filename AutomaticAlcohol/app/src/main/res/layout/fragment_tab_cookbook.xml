@@ -5,6 +5,7 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,11 +15,15 @@
         android:id="@+id/textView4"
         android:layout_width="620dp"
         android:layout_height="54dp"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/rectangle"
         android:backgroundTint="@color/colorAccent"
         android:text="  Search..."
+        android:textColor="#707278"
         android:textSize="30sp"
-        android:textColor="#707278"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <!--tools:layout_editor_absoluteX="252dp"-->
@@ -54,34 +59,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="19dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        >
-
-        <!--tools:layout_editor_absoluteX="550dp"-->
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="236dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-        <!--tools:layout_editor_absoluteY="216dp"-->
-    </android.support.constraint.ConstraintLayout>
-
     <Button
         android:id="@+id/button2"
         android:layout_width="107dp"
         android:layout_height="20dp"
-        android:layout_marginStart="764dp"
+        android:layout_marginStart="604dp"
         android:background="@color/colorBg"
         android:text="Advanced Search"
         android:textAllCaps="false"
