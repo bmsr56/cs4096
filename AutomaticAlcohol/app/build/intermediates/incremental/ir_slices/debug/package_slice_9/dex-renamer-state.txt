@@ -1,0 +1,4 @@
+#Thu Oct 25 01:27:36 CDT 2018
+base.0=/home/nathan/Documents/rolla/cs4096/AutomaticAlcohol/app/build/intermediates/transforms/dexMerger/debug/9
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,5 +1,6 @@
 package com.example.nathan.automaticalcohol.Classes;
 
+<<<<<<< HEAD
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -72,4 +73,14 @@ public class Order {
     public void setDrink(Drink drink) {
         this.drink = drink;
     }
+=======
+import java.util.ArrayList;
+
+public class Order {
+    private String orderNumber;
+    private ArrayList<Drink> drinks;
+    private String email;       // email of person ordering??
+
+
+>>>>>>> added some class files, started to update accordingly
 }

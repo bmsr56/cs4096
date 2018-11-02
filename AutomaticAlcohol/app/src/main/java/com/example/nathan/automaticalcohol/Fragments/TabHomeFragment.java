@@ -19,7 +19,12 @@ import android. widget.TextView;
 import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.Activities.MainActivity;
+<<<<<<< HEAD
 import com.example.nathan.automaticalcohol.Adapters.DrinkQueueRecyclerAdapter;
+=======
+import com.example.nathan.automaticalcohol.Activities.PinActivity;
+import com.example.nathan.automaticalcohol.Activities.UserActivity;
+>>>>>>> added some class files, started to update accordingly
 import com.example.nathan.automaticalcohol.Classes.Drink;
 import com.example.nathan.automaticalcohol.Classes.Ingredient;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
@@ -202,12 +207,16 @@ public class TabHomeFragment extends Fragment{
         button_quick4 = view.findViewById(R.id.button_quick4);
         button_quick5 = view.findViewById(R.id.button_quick5);
 
+<<<<<<< HEAD
         button_quick1.setText("To Pin Page");
 //        button_quick2.setText("Add to Queue");
         button_quick2.setText("Button 2");
         button_quick3.setText("Order Highball");
 
         // each of these calls a function that orders a drink based on the name of the special
+=======
+//         each of these calls a function that orders a drink based on the name of the special
+>>>>>>> added some class files, started to update accordingly
         Log.e(TAG, "onCreateView"+pin);
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -226,18 +235,30 @@ public class TabHomeFragment extends Fragment{
         });
         button_quick3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+<<<<<<< HEAD
                 Toast.makeText(getActivity(), "Order Highball", Toast.LENGTH_SHORT).show();
                 Ingredient ingredient1 = new Ingredient("sprite", 456f);
                 Ingredient ingredient2 = new Ingredient("whiskey", 44f);
+=======
+                Toast.makeText(getActivity(), "Get Loadout", Toast.LENGTH_SHORT).show();
+                orderDrink(button_quick3.getText().toString());
+                Ingredient ingredient1 = new Ingredient("sprite", "456");
+                Ingredient ingredient2 = new Ingredient("whiskey", "44");
+>>>>>>> added some class files, started to update accordingly
 
                 ArrayList<Ingredient> ingList = new ArrayList<>();
                 ingList.add(ingredient1);
                 ingList.add(ingredient2);
 
+<<<<<<< HEAD
 //                acquireLoadout(new Drink("Highball", "description", "image", ingList, 1.20f));
 //                Drink fart = new Drink("Highball", "description", "image", 1.20f);
 //                fart.setIngredients(ingList);
 //                acquireLoadout(fart);
+=======
+
+                checkDrinkOrder(new Drink("description", "image", ingList, "1.2"));
+>>>>>>> added some class files, started to update accordingly
             }
         });
         button_quick4.setOnClickListener(new View.OnClickListener() {
@@ -363,9 +384,41 @@ public class TabHomeFragment extends Fragment{
 
         recyclerInterface = new RecyclerInterface() {
             @Override
+<<<<<<< HEAD
             public void onTagClicked(Order order) {
                 // TODO: Make this happen when a "Drink Queue" object is clicked
             }
+=======
+            public void onTagClicked(String tagName) {
+                bs.setText(tagName);
+                mRefSpecials = mDatabase.getReference("drinks").child(tagName).child("ingredients");
+                mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+
+                            /*  this is grabbing the drink ingredients from the "drinks" table
+                                of the drink that was clicked on in EITHER of the recyclerViews
+                                TODO: we should probably have one of these for each of the recyclerViews
+                                TODO: (cont.) as we will probably (maybe) need to process clicks separately
+                            */
+
+
+                            // this isn't going to work
+                            String d = "";
+                            if(data.getKey().equals("amount")) {
+                                Long num = data.getValue(Long.class);
+                                d = Long.toString(num);
+                            } else if(data.getKey().equals("")) {
+                                d = data.getValue(String.class);
+                            }
+
+                            Log.e(TAG, "-"+d+"-");
+                            lstDrinkQueue.add(d);
+                            mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+                        }
+                    }
+>>>>>>> added some class files, started to update accordingly
 
             @Override
             public void onTagClicked(final Drink tagName) {
@@ -419,6 +472,24 @@ public class TabHomeFragment extends Fragment{
 
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     for(DataSnapshot f: data.getChildren()) {
+<<<<<<< HEAD
+=======
+                         /*  this is grabbing the drink ingredients from the "drinks" table
+                            of the drink that was clicked on in EITHER of the recyclerViews
+                            TODO: we should probably have one of these for each of the recyclerViews
+                            TODO: (cont.) as we will probably (maybe) need to process clicks separately
+                        */
+
+                        if(f.getKey().equals("amount")) {
+                            Long load = f.getValue(Long.class);
+                            Log.e(TAG, Long.toString(load));
+                            lstDrinkQueue.add(load.toString());
+                        } else if(f.getKey().equals("name")) {
+                            String load = f.getValue(String.class);
+                            Log.e(TAG, load.toString());
+                            lstDrinkQueue.add(load.toString());
+                        }
+>>>>>>> added some class files, started to update accordingly
 
                         // for each element in the loadout in the database grab it's
                         // key (drinkName) and value (amountLeft) and add it to a list

@@ -67,6 +67,7 @@ public class TabInventoryFragment extends Fragment{
             public void onClick(View v) {
 
                 try{
+<<<<<<< HEAD
                     int bottleNumber = Integer.parseInt(et_bottleNumber.getText().toString());
                     String bottleName = et_bottleName.getText().toString();
 
@@ -75,17 +76,31 @@ public class TabInventoryFragment extends Fragment{
                     Long amt_left = Long.parseLong(amountLeft);
 
 
+=======
+                    String amountLeft = et_amountLeft.getText().toString();
+                    int bottleNumber = Integer.parseInt(et_bottleNumber.getText().toString());
+                    String bottleName = et_bottleName.getText().toString();
+
+>>>>>>> added some class files, started to update accordingly
                     // make sure number entered is a valid loadout position
                     if (bottleNumber < 1 || bottleNumber > 6) {
                         Toast.makeText(getActivity(), "Enter valid loadout location", Toast.LENGTH_SHORT).show();
                     } else {
                         // overwrite bottle position with new loadout
+<<<<<<< HEAD
                         mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(bottleName, amt_left));
+=======
+                        mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(amountLeft, bottleName));
+>>>>>>> added some class files, started to update accordingly
                     }
                 } catch (Exception e) {
                     Log.e(TAG, " problem", e);
                 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> added some class files, started to update accordingly
             }
         });
 
