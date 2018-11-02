@@ -19,12 +19,7 @@ import android. widget.TextView;
 import android.widget.Toast;
 
 import com.example.nathan.automaticalcohol.Activities.MainActivity;
-<<<<<<< HEAD
 import com.example.nathan.automaticalcohol.Adapters.DrinkQueueRecyclerAdapter;
-=======
-import com.example.nathan.automaticalcohol.Activities.PinActivity;
-import com.example.nathan.automaticalcohol.Activities.UserActivity;
->>>>>>> added some class files, started to update accordingly
 import com.example.nathan.automaticalcohol.Classes.Drink;
 import com.example.nathan.automaticalcohol.Classes.Ingredient;
 import com.example.nathan.automaticalcohol.Classes.Loadout;
@@ -41,13 +36,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,17 +73,17 @@ public class TabHomeFragment extends Fragment{
 
     private RecyclerView mRecyclerViewDrinkQueue;
     private DrinkQueueRecyclerAdapter mRecyclerAdapterDrinkQueue;
-    private List<Order> lstDrinkQueue;
+    private List<Order> lstDrinkQueue = new ArrayList<>();
 
     private RecyclerView mRecyclerViewSpecials;
     private SpecialsRecyclerAdapter mRecyclerAdapterSpecials;
-    private List<Drink> lstSpecials;
+    private List<Drink> lstSpecials = new ArrayList<>();
 
     private GoogleSignInClient mGoogleSignInClient;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    private FirebaseDatabase mDatabase;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRefSpecials;
     private DatabaseReference mRefDrinkQueue;
 
@@ -207,16 +208,12 @@ public class TabHomeFragment extends Fragment{
         button_quick4 = view.findViewById(R.id.button_quick4);
         button_quick5 = view.findViewById(R.id.button_quick5);
 
-<<<<<<< HEAD
         button_quick1.setText("To Pin Page");
 //        button_quick2.setText("Add to Queue");
-        button_quick2.setText("Button 2");
+        button_quick2.setText("Show Date");
         button_quick3.setText("Order Highball");
 
         // each of these calls a function that orders a drink based on the name of the special
-=======
-//         each of these calls a function that orders a drink based on the name of the special
->>>>>>> added some class files, started to update accordingly
         Log.e(TAG, "onCreateView"+pin);
         button_quick1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -228,6 +225,12 @@ public class TabHomeFragment extends Fragment{
             public void onClick(View v) {
 //                Toast.makeText(getActivity(), "Add to queue", Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity(), "Button 2", Toast.LENGTH_SHORT).show();
+
+
+
+                Date timeStamp1 = new Date();
+                Toast.makeText(getActivity(), timeStamp1.toString(), Toast.LENGTH_SHORT).show();
+
 //                lstDrinkQueue.add("new item");
                 mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
 
@@ -235,30 +238,18 @@ public class TabHomeFragment extends Fragment{
         });
         button_quick3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-<<<<<<< HEAD
                 Toast.makeText(getActivity(), "Order Highball", Toast.LENGTH_SHORT).show();
                 Ingredient ingredient1 = new Ingredient("sprite", 456f);
                 Ingredient ingredient2 = new Ingredient("whiskey", 44f);
-=======
-                Toast.makeText(getActivity(), "Get Loadout", Toast.LENGTH_SHORT).show();
-                orderDrink(button_quick3.getText().toString());
-                Ingredient ingredient1 = new Ingredient("sprite", "456");
-                Ingredient ingredient2 = new Ingredient("whiskey", "44");
->>>>>>> added some class files, started to update accordingly
 
                 ArrayList<Ingredient> ingList = new ArrayList<>();
                 ingList.add(ingredient1);
                 ingList.add(ingredient2);
 
-<<<<<<< HEAD
 //                acquireLoadout(new Drink("Highball", "description", "image", ingList, 1.20f));
 //                Drink fart = new Drink("Highball", "description", "image", 1.20f);
 //                fart.setIngredients(ingList);
 //                acquireLoadout(fart);
-=======
-
-                checkDrinkOrder(new Drink("description", "image", ingList, "1.2"));
->>>>>>> added some class files, started to update accordingly
             }
         });
         button_quick4.setOnClickListener(new View.OnClickListener() {
@@ -278,7 +269,7 @@ public class TabHomeFragment extends Fragment{
         mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
 
-        // grab shot prices
+        // grab shot prices and stick them into an array for easier lookup
         mRefSpecials = mDatabase.getReference("extra");
         mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -303,39 +294,26 @@ public class TabHomeFragment extends Fragment{
      * more stuff needed by android to make the screen and connecting logic
      * @param savedInstanceState
      */
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Log.e(TAG, "onCreate");
 
+        // grabs the data passed from the bartender activity
+        // data is passed as key-value pairs
         if (getArguments() != null) {
             Log.e(TAG, "getArguments != null");
-            pin = getArguments().getString("bartenderPin");
+            // if the string passed was passed with key 'Constants.BARTENDER_TO_HOME_TAB_PIN' then it grabs the value and assigns it to 'pin'
+            pin = getArguments().getString(Constants.BARTENDER_TO_HOME_TAB_PIN);
         } else {
             Log.e(TAG, "getArguments == null");
         }
         Log.e(TAG, "onCreate"+pin);
 
 
-        // initialize the drink queue
-        // TODO: this has to be setup to listen for incoming messages to the queue
-        /*  connect to database
-            for each entry in database
-                lstDrinkQueue.add(entry);
-         */
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
-        lstDrinkQueue = new ArrayList<>();
-        lstSpecials = new ArrayList<>();
-
-
         /*
          *  this inputs drinks into the Specials array that is what the "Bartender Specials" section is made of
-          */
+         */
         // initialize database references
         DatabaseReference specialsRef = mDatabase.getReference("bartenders").child(mAuth.getUid()).child(pin).child("specials");
         final DatabaseReference drinkRef = mDatabase.getReference().child("drinks");
@@ -384,41 +362,9 @@ public class TabHomeFragment extends Fragment{
 
         recyclerInterface = new RecyclerInterface() {
             @Override
-<<<<<<< HEAD
             public void onTagClicked(Order order) {
                 // TODO: Make this happen when a "Drink Queue" object is clicked
             }
-=======
-            public void onTagClicked(String tagName) {
-                bs.setText(tagName);
-                mRefSpecials = mDatabase.getReference("drinks").child(tagName).child("ingredients");
-                mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot data: dataSnapshot.getChildren()){
-
-                            /*  this is grabbing the drink ingredients from the "drinks" table
-                                of the drink that was clicked on in EITHER of the recyclerViews
-                                TODO: we should probably have one of these for each of the recyclerViews
-                                TODO: (cont.) as we will probably (maybe) need to process clicks separately
-                            */
-
-
-                            // this isn't going to work
-                            String d = "";
-                            if(data.getKey().equals("amount")) {
-                                Long num = data.getValue(Long.class);
-                                d = Long.toString(num);
-                            } else if(data.getKey().equals("")) {
-                                d = data.getValue(String.class);
-                            }
-
-                            Log.e(TAG, "-"+d+"-");
-                            lstDrinkQueue.add(d);
-                            mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
-                        }
-                    }
->>>>>>> added some class files, started to update accordingly
 
             @Override
             public void onTagClicked(final Drink tagName) {
@@ -436,6 +382,56 @@ public class TabHomeFragment extends Fragment{
                 order = new Order("order1", "", "email", tagName);
             }
         };
+
+
+        // grab a section of the database
+        DatabaseReference drinkQueueRef = mDatabase.getReference("queue");
+        // this has to be marked 'final' because it is going to be used in an inner class
+        final DatabaseReference orderRef = mDatabase.getReference("order");
+        // start listening on the 'drinkQueueRef'
+        ValueEventListener valueEventListener1 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // clear what was in the queue as to not re-add the same drinks
+                lstDrinkQueue.clear();
+                for(DataSnapshot specialsName: dataSnapshot.getChildren()) {
+                    // id of the order in the queue
+                    final String orderId = specialsName.getKey();
+                    Log.e("TAG11", orderId);
+
+                    // start listening to the 'orderRef'
+                    ValueEventListener singleEventListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot drinkName : dataSnapshot.getChildren()) {
+                                // if the order id matches an 'Order Object' then remember it
+                                if(drinkName.getKey().equals(orderId)) {
+                                    Order fart = drinkName.getValue(Order.class);
+                                    lstDrinkQueue.add(fart);
+                                }
+                            }
+
+                            // sort the queue by time
+                            // is sorted by time because that's how 'compare' is written in Order Class
+                            Collections.sort(lstDrinkQueue);
+                            // let the recyclerView know it needs to change
+                            mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    };
+                    orderRef.addListenerForSingleValueEvent(singleEventListener);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        drinkQueueRef.addValueEventListener(valueEventListener1);
+
+
 
     }
 
@@ -472,24 +468,6 @@ public class TabHomeFragment extends Fragment{
 
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     for(DataSnapshot f: data.getChildren()) {
-<<<<<<< HEAD
-=======
-                         /*  this is grabbing the drink ingredients from the "drinks" table
-                            of the drink that was clicked on in EITHER of the recyclerViews
-                            TODO: we should probably have one of these for each of the recyclerViews
-                            TODO: (cont.) as we will probably (maybe) need to process clicks separately
-                        */
-
-                        if(f.getKey().equals("amount")) {
-                            Long load = f.getValue(Long.class);
-                            Log.e(TAG, Long.toString(load));
-                            lstDrinkQueue.add(load.toString());
-                        } else if(f.getKey().equals("name")) {
-                            String load = f.getValue(String.class);
-                            Log.e(TAG, load.toString());
-                            lstDrinkQueue.add(load.toString());
-                        }
->>>>>>> added some class files, started to update accordingly
 
                         // for each element in the loadout in the database grab it's
                         // key (drinkName) and value (amountLeft) and add it to a list
@@ -591,13 +569,20 @@ public class TabHomeFragment extends Fragment{
 
                                 Log.e(TAG, Float.toString(other));
                                 mDatabase.getReference("loadout").child(data.getKey()).child(loadoutChild.getKey()).setValue(other);
+
+                                DatabaseReference orderRef = mDatabase.getReference("order");
+                                Toast.makeText(getActivity(), "added order", Toast.LENGTH_SHORT).show();
+
+                                order.setOrderNumber(orderRef.push().getKey());
+                                orderRef.child(order.getOrderNumber()).setValue(order);
+                                mDatabase.getReference().child("queue").child(order.getOrderNumber()).setValue("1");
                             }
                         }
                     }
                 }
                 // when it gets here it means all the backend stuff is done, so throw it on the drinkQueue
-                lstDrinkQueue.add(order);
-                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+//                lstDrinkQueue.add(order);
+//                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
                 Log.e(TAG, "order completed");
             }
 

@@ -1,2 +1,2 @@
-# Referenced at C:\Users\Butterfly\AndroidStudioProjects\cs4096-master\AutomaticAlcohol\app\build\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:24
+# Referenced at /home/nathan/Documents/rolla/cs4096/AutomaticAlcohol/app/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:24
 -keep class android.support.multidex.MultiDexApplication { <init>(...); }
