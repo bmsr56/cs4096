@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,15 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 public class PinActivity extends AppCompatActivity {
 
     private final String TAG = "PinActivity";
-    private final String EXTRA_PASS_PIN = "PinActivity_passPin";
-
 
     private FirebaseAuth mAuth;
     private DatabaseReference mBartenderRef;
     private FirebaseDatabase mDatabase;
 
     private String input = "";
-
 
     private Button button_login1;
     private Button button_login2;
@@ -53,16 +51,14 @@ public class PinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bartender_pin);
 
-//        editText_pinInput = findViewById(R.id.editText_pinInput);
-
-//        btn_enterPin = findViewById(R.id.button_enterPin);
-
+        // database connection / setup
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mBartenderRef = mDatabase.getReference("bartenders").child(mAuth.getUid());
 
 
 
+        // defining buttons and what happens when you click them
         button_login1 = findViewById(R.id.button_login1);
         button_login1.setOnClickListener(mClickListener);
         button_login2 = findViewById(R.id.button_login2);
@@ -96,8 +92,11 @@ public class PinActivity extends AppCompatActivity {
 
             switch (id) {
                 case R.id.button_loginEnter:
+                    // check if bartender pin when clicked enter
                     checkBartenderLogin(input);
                     break;
+
+                // when number buttons clicked, remember it and add a '*' to screen
                 case R.id.button_login1:
                     input = input+"1";
                     textView_pinInput.setText(textView_pinInput.getText()+"*");
@@ -138,6 +137,11 @@ public class PinActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Checks if the input pin is the pin of a bartender. If so it opens a new activity
+     *
+     * @param pin
+     */
     private void checkBartenderLogin(final String pin) {
 
         mBartenderRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -148,21 +152,23 @@ public class PinActivity extends AppCompatActivity {
 
                     Log.e(TAG, data.getKey());
 
+                    // if the pin entered matches a pin in the database
                     if (data.getKey().equals(pin)) {
                         Log.e(TAG, "pin IS in database");
-                        // TODO: this is going to have to pass info to a the next intent
 
+                        // reset the pin and what's on the screen
                         textView_pinInput.setText("");
                         input = "";
 
+                        // start another page and pass the pin with it
                         Intent intent = new Intent(PinActivity.this, BartenderActivity.class);
-                        intent.putExtra(EXTRA_PASS_PIN, pin);
+                        intent.putExtra(Constants.PIN_TO_BARTENDER_PIN, pin);
                         startActivity(intent);
                         check = true;
                     }
                 }
                 if (!check) {
-                    // means the pin was not in the database
+                    // means the pin was not in the database, so start over
                     Log.e(TAG, "pin not in database");
                     input = "";
                     textView_pinInput.setText("");

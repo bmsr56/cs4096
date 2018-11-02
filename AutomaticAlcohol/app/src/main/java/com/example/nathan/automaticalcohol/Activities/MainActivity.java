@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.nathan.automaticalcohol.Classes.Color;
 import com.example.nathan.automaticalcohol.Classes.User;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
@@ -74,8 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
         // init email/pass views
         email = findViewById(R.id.email);
+        email.setText("nawwx3@mst.edu");
         password = findViewById(R.id.password);
-
+        password.setText("password");
 
         Button login_button = findViewById(R.id.email_sign_in_button);
         login_button.setOnClickListener(mSignInListener);
@@ -107,14 +107,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        try {
-//            updateUI(currentUser);
-//        } catch (Exception e) {
-//            Log.e(TAG, "Exception", e);
-//        }
-
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -123,11 +115,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "ACCOUNT IS NULL");
         }
-//        try {
-//            updateUI(account);
-//        } catch (Exception e) {
-//            Log.e(TAG, "Exception", e);
-//        }
     }
 
     @Override
@@ -157,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Logs in a Google account
+     * @param account
+     */
     // for now assumes all Google accounts are users and not bartenders
     private void updateUI(GoogleSignInAccount account) {
         Log.e(TAG, "updateUI (user) -> " + account.getEmail());
@@ -164,6 +155,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     *    Operates under the assumption that if they were able to get this far they have to be an
+     * authenticated email address. This is true because in the 'onClick' portion of
+     * 'View.OnClickListener mSignInListener' where the switchc-case is 'email_sign_in_button' it
+     * checks whether or not the user has been authenticated (signed in before)
+     *
+     *    So this part grabs their info and checks if they are a bartender, as that is the smaller
+     * list and therefore faster. If they are a bartender it sends them to the 'PinActivity'
+     * otherwise it sends them to the 'UserActivity'
+     *
+     * @param user
+     */
     private void loginUser(final FirebaseUser user) {
 
         // if they aren't in the "bartender" table and made it this far they have to be a user in "accounts" table
@@ -172,11 +175,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
+                    // checks if 'user' is a bartender
                     if (data.getKey().equals(user.getUid())) {
                         Log.e(TAG, "account is a bartender");
                         Intent intent = new Intent(MainActivity.this, PinActivity.class);
                         startActivity(intent);
                         check = true;
+                        break;
                     }
                 }
                 if (!check) {
@@ -194,11 +199,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * The user is now an authenticated user within the Firebase app, but is not recorded in our
+     * database. This records them in our database.
+     *
+     * @param user
+     */
     private void addUser(final FirebaseUser user) {
         String uid = user.getUid();
         mUserRef.child(uid).setValue(new User(user.getEmail()));
     }
 
+        /**
+         * Handles what happens when clickables that are liked with this listener are clicked
+         */
     private View.OnClickListener mSignInListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

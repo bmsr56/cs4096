@@ -1,19 +1,19 @@
 package com.example.nathan.automaticalcohol.Classes;
 
 public class Loadout {
-    private String amountLeft;
     private String bottleName;
+    private Long amountLeft;
 
     public Loadout() {
 
     }
 
-    public Loadout(String amountLeft, String bottleName) {
+    public Loadout(String bottleName, Long amountLeft) {
         this.amountLeft = amountLeft;
         this.bottleName = bottleName;
     }
 
-    public String getAmountLeft() {
+    public Long getAmountLeft() {
         return amountLeft;
     }
 
@@ -21,7 +21,7 @@ public class Loadout {
         return bottleName;
     }
 
-    public void setAmountLeft(String amountLeft) {
+    public void setAmountLeft(Long amountLeft) {
         this.amountLeft = amountLeft;
     }
 

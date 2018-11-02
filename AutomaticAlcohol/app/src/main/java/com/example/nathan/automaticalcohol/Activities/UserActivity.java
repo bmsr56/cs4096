@@ -41,6 +41,9 @@ public class UserActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Signs out the user
+     */
     private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(UserActivity.this, new OnCompleteListener<Void>() {
@@ -52,6 +55,9 @@ public class UserActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Handles what happens when clickables that are liked with this listener are clicked
+     */
     private View.OnClickListener mUserActivityListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
