@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,8 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 public class PinActivity extends AppCompatActivity {
 
     private final String TAG = "PinActivity";
-    private final String EXTRA_PASS_PIN = "PinActivity_passPin";
-
 
     private FirebaseAuth mAuth;
     private DatabaseReference mBartenderRef;
@@ -163,7 +162,7 @@ public class PinActivity extends AppCompatActivity {
 
                         // start another page and pass the pin with it
                         Intent intent = new Intent(PinActivity.this, BartenderActivity.class);
-                        intent.putExtra(EXTRA_PASS_PIN, pin);
+                        intent.putExtra(Constants.PIN_TO_BARTENDER_PIN, pin);
                         startActivity(intent);
                         check = true;
                     }
