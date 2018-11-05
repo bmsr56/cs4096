@@ -455,7 +455,8 @@ public class TabHomeFragment extends Fragment{
      * grabs the loadout from the database and makes it
      * @param order
      */
-    private void acquireLoadout(final Order order) {
+    private void
+    acquireLoadout(final Order order) {
         Log.e(TAG, "Starting: acquireLoadout");
 
         final ArrayList<Loadout> loadout = new ArrayList<>();
