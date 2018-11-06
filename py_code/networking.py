@@ -2,7 +2,7 @@ from functions import *
 import RPi.GPIO as gpio
 import pyrebase
 
-def stream_handler(message):
+def streamTester(message):
     print(message["event"]) # put
     print(message["path"]) # /-K7yGTTEp7O549EzTYtI
     print(message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
