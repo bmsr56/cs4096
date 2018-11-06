@@ -11,7 +11,7 @@ def main():
         #     print(item.key())
         #     print(item.val())
 
-        loadout_stream = db.child("loadout").stream(streamHandler(item = 'loadout'))
+        loadout_stream = db.child("loadout").stream(sh_Loadout)
 
         db.child("loadout").child("1").set({"poojuice": 9000})
         db.child("loadout").child("2").set({"poojuice2": 900000000000})

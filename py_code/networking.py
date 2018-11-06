@@ -7,10 +7,9 @@ def streamTester(message):
     print('Path: ', message["path"]) # /-K7yGTTEp7O549EzTYtI
     print('Data: ', message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
 
-def streamHandler(message, item):
-    if item is 'loadout':
-        if message['event'] == 'put':
-            print('putted')
+def sh_loadout(message):
+    if message['event'] == 'put':
+        print('putted')
     return
 
 def connectFB(email, password):
