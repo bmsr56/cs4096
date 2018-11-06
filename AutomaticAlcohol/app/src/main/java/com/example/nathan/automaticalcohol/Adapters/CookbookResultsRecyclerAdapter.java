@@ -23,7 +23,7 @@ import java.util.Locale;
 
 public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<CookbookResultsRecyclerAdapter.MyViewHolder> {
 
-    private static final String TAG = "CookbookResultsRecyclerAdapter";
+    private static final String TAG = "CookbookRecyclerAdapter";
     private Context mContext;
     private List<Drink> mData;
     private String mType;
@@ -44,10 +44,8 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
         Log.e(TAG, "onCreateViewHolder");
         View view;
 
-        // TODO: I think a separate one of thses is going to have to be made for the drink queue if we want it to look different
-        view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
-
-
+        // this makes the stuff in the RecyclerView look the way we want it to
+        view = LayoutInflater.from(mContext).inflate(R.layout.cookbook_results, parent, false);
 
         final CookbookResultsRecyclerAdapter.MyViewHolder vHolder = new CookbookResultsRecyclerAdapter.MyViewHolder(view);
 
