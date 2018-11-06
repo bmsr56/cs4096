@@ -2,6 +2,11 @@ from functions import *
 import RPi.GPIO as gpio
 import pyrebase
 
+def stream_handler(message):
+    print(message["event"]) # put
+    print(message["path"]) # /-K7yGTTEp7O549EzTYtI
+    print(message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
+
 def connectFB(email, password):
     config = {
         "apiKey": "AIzaSyDoofjCqY0kx9IPrjwY0ZD_RaXuqY4kQ5k",
