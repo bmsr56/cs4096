@@ -10,12 +10,13 @@ def sh_show(message):
 def sh_loadout(message):
     event = message['event']
     path = message['path']
-    data = message['date']
+    data = message['data']
     if event == 'put':
         print(type(data))
     return
 
 def connectFB(email, password):
+    print('FB Configuration initiated...\n---')
     config = {
         "apiKey": "AIzaSyDoofjCqY0kx9IPrjwY0ZD_RaXuqY4kQ5k",
         "authDomain": "drinkmasterplus-ec13a.firebaseapp.com",
