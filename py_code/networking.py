@@ -3,9 +3,9 @@ import RPi.GPIO as gpio
 import pyrebase
 
 def streamTester(message):
-    print(message["event"]) # put
-    print(message["path"]) # /-K7yGTTEp7O549EzTYtI
-    print(message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
+    print('Event: ', message["event"]) # put
+    print('Path: ', message["path"]) # /-K7yGTTEp7O549EzTYtI
+    print('Data: ', message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
 
 def connectFB(email, password):
     config = {
