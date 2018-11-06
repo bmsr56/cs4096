@@ -8,12 +8,12 @@ def sh_show(message):
     print('Data: ', message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
 
 def sh_loadout(message):
-    event = message['event']
-    path = message['path']
-    data = message['data']
-    if event == 'put':
-        print(data)
-        print(type(data))
+    event = message["event"]
+    path = message["path"]
+    data = message["data"]
+    if event == "put":
+        print(path)
+        print(type(path))
     return
 
 def connectFB(email, password):
