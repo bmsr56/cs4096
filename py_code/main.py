@@ -7,7 +7,8 @@ import RPi.GPIO as gpio
 def main():
     try:
         db, user = connectFB("DrinkMasterPlusPlus@gmail.com", "thisisapassword")
-        db.child
+        loadout = db.child("loadout").get()
+        print(loadout.val())
     
     finally:
         gpio.cleanup()
