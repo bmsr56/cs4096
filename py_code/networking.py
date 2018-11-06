@@ -2,14 +2,17 @@ from functions import *
 import RPi.GPIO as gpio
 import pyrebase
 
-def streamTester(message):
+def sh_show(message):
     print('Event: ', message["event"]) # put
     print('Path: ', message["path"]) # /-K7yGTTEp7O549EzTYtI
     print('Data: ', message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
 
 def sh_loadout(message):
-    if message['event'] == 'put':
-        print('putted')
+    event = message['event']
+    path = message['path']
+    data = message['date']
+    if event == 'put':
+        print(type(data))
     return
 
 def connectFB(email, password):
