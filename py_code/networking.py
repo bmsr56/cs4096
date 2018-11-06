@@ -12,6 +12,7 @@ def sh_loadout(message):
     path = message['path']
     data = message['data']
     if event == 'put':
+        print(data)
         print(type(data))
     return
 
