@@ -18,6 +18,7 @@ def main():
 
     finally:
         gpio.cleanup()
+        loadout_stream.close()
     return
 
 if __name__ == '__main__':
