@@ -432,8 +432,6 @@ public class TabHomeFragment extends Fragment{
         };
         drinkQueueRef.addValueEventListener(valueEventListener1);
 
-
-
     }
 
     /**

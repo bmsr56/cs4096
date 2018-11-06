@@ -2,10 +2,10 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBg">
 
     <EditText
         android:id="@+id/tv_searchBar"
@@ -52,10 +52,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_searchBar" />
 
     <Button
-        android:id="@+id/btn_advencedSearch"
+        android:id="@+id/btn_advancedSearch"
         android:layout_width="107dp"
         android:layout_height="18dp"
-        android:layout_marginStart="608dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorBg"
         android:text="Advanced Search"
         android:textAllCaps="false"
