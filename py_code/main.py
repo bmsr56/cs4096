@@ -1,4 +1,3 @@
-from bt import *
 from pump import *
 from functions import *
 from networking import *
