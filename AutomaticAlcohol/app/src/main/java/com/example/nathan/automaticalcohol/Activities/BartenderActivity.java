@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.Fragments.TabCookbookFragment;
 import com.example.nathan.automaticalcohol.Fragments.TabHomeFragment;
 import com.example.nathan.automaticalcohol.Fragments.TabInventoryFragment;
@@ -52,10 +53,10 @@ public class BartenderActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
 
-        pin = getIntent().getStringExtra("PinActivity_passPin");
+        pin = getIntent().getStringExtra(Constants.PIN_TO_BARTENDER_PIN);
 
         Bundle bundle = new Bundle();
-        bundle.putString("bartenderPin", pin);
+        bundle.putString(Constants.BARTENDER_TO_HOME_TAB_PIN, pin);
         Log.e(TAG, "setupViewPager... pin is: "+ pin);
 
         // set fragment Arguments
