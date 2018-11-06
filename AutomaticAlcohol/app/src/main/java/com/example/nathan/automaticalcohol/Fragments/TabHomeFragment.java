@@ -129,6 +129,7 @@ public class TabHomeFragment extends Fragment{
                 String custName = editText_custName.getText().toString();
                 order.setName(custName);
                 acquireLoadout(order);
+                order.acquireLoadout(order);
             }
         });
 
