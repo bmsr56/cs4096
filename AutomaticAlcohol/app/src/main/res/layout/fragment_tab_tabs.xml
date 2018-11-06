@@ -180,6 +180,10 @@
                 android:text="Name4"
                 android:textColor="@color/whiteText"
                 android:textSize="30dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
 

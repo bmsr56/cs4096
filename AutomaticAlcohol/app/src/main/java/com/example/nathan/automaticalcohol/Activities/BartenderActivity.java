@@ -68,6 +68,7 @@ public class BartenderActivity extends AppCompatActivity {
         adapter.addFragment(new TabInventoryFragment(), "Inventory");
         adapter.addFragment(new TabReportsFragment(), "Reports");
 
+
         // have to do these differently because they need to know what the 'pin' is
         TabTabsFragment tabTabsFragment = new TabTabsFragment();
         tabTabsFragment.setArguments(bundle);
