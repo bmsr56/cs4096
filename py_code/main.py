@@ -13,7 +13,8 @@ def main():
 
         loadout_stream = db.child("loadout").stream(streamTester)
 
-        db.child("loadout").child("1").set({"poojuice": "9000"})
+        db.child("loadout").child("1").set({"poojuice": 9000})
+        db.child("loadout").child("2").set({"poojuice2": 900000000000})
 
 
     finally:
