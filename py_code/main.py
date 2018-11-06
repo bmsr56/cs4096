@@ -7,7 +7,9 @@ def main():
     try:
         db, user = connectFB("DrinkMasterPlusPlus@gmail.com", "thisisapassword")
         loadout = db.child("loadout").get()
-        print(loadout.val())
+        for item in loadout.each():
+            print(item.key())
+            print(item.val())
     
     finally:
         gpio.cleanup()
