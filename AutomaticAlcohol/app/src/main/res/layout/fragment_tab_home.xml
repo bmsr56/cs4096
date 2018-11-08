@@ -183,6 +183,13 @@
                 android:text="Button5"
                 android:textColor="@color/whiteText" />
 
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/quick_recyclerView">
+
+            </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
 
         <!-- Drink Queue Division -->

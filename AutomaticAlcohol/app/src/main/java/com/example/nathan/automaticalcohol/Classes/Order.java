@@ -2,6 +2,7 @@ package com.example.nathan.automaticalcohol.Classes;
 
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -108,7 +109,7 @@ public class Order implements Comparable<Order>{
     /**
      * grabs the loadout from the database and makes it
      */
-    public void acquireLoadout(final Order order) {
+    public void acquireLoadout(final Order order, final View view) {
         Log.e(TAG, "Starting: acquireLoadout");
 
         final ArrayList<Loadout> loadout = new ArrayList<>();
@@ -129,7 +130,7 @@ public class Order implements Comparable<Order>{
                         Log.e(TAG, "loadout: "+newLoadout.toString());
                     }
                 }
-                checkDrinkOrder(order, loadout);
+                checkDrinkOrder(order, loadout, view);
             }
 
             @Override
@@ -146,7 +147,7 @@ public class Order implements Comparable<Order>{
      * @param order - order to be made
      * @param loadouts - loadout of what's in the machine
      */
-    private void checkDrinkOrder(Order order, ArrayList<Loadout> loadouts) {
+    private void checkDrinkOrder(Order order, ArrayList<Loadout> loadouts, final View view) {
         Log.e(TAG, "Starting: checkDrinkOrder");
         boolean makeDrink = true;
         for(String key: order.getDrink().getIngredients().keySet()) {
@@ -165,7 +166,7 @@ public class Order implements Comparable<Order>{
             // if check is false, then ingredient is not in loadout -> can't make the drink
             if(!check) {
                 Log.e(TAG, "        checkDrinkOrder -> failed -"+key+"-");
-//                Toast.makeText(getActivity(), "Drink order could not be made. Check loadout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Drink order could not be made. Check loadout", Toast.LENGTH_SHORT).show();
                 makeDrink = false;
                 break;
             }
@@ -174,7 +175,7 @@ public class Order implements Comparable<Order>{
         // if got all the way through without changing "makeDrink" to false
         // means all the ingredients are in the loadout, so make the drink
         if(makeDrink) {
-            orderDrink(order);
+            orderDrink(order, view);
         }
     }
 
@@ -186,7 +187,7 @@ public class Order implements Comparable<Order>{
      *
      * @param order - order to be processed
      */
-    private void orderDrink(final Order order) {
+    private void orderDrink(final Order order, final View view) {
         // now have to actually interface with the database
 
         Log.e(TAG, "Starting: orderDrink");
@@ -221,7 +222,7 @@ public class Order implements Comparable<Order>{
                                 mDatabase.getReference("loadout").child(data.getKey()).child(loadoutChild.getKey()).setValue(other);
 
                                 DatabaseReference orderRef = mDatabase.getReference("order");
-//                                Toast.makeText(getActivity(), "added order", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(view.getContext(), "added order", Toast.LENGTH_SHORT).show();
 
                                 order.setOrderNumber(orderRef.push().getKey());
                                 orderRef.child(order.getOrderNumber()).setValue(order);
