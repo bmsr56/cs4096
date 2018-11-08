@@ -373,12 +373,6 @@ public class TabHomeFragment extends Fragment{
                 editText_drinkName.setText(tagName.getName());
                 textView_totalCost.setText(String.format(Locale.US, "$ %.2f", tagName.getPrice()));
 
-                // TODO: make order drink read from an order instead of setting here
-
-                // TODO: update this accordingly when we know how database will be setup
-                mRefSpecials = mDatabase.getReference("orders");
-                // TODO: is the 'Order' Object what gets passed to the drink queue?
-
                 // order goes into the drink queue whenever submit button is pressed
                 order = new Order("order1", "", "email", tagName);
             }
@@ -503,7 +497,6 @@ public class TabHomeFragment extends Fragment{
             for(Loadout loadout: loadouts) {
                 Log.e(TAG, "-"+loadout.getBottleName()+"-");
                 // check to make sure "ingredient" is in the loadout and there is enough of it to make a drink
-                // TODO: error handling for letting user/bartender know there is not enough of something / drink can't be made
                 if(loadout.getBottleName().equals(key) && loadout.getAmountLeft() >= amount) {
                     check = true;
                 }
@@ -534,8 +527,6 @@ public class TabHomeFragment extends Fragment{
      *
      * @param order - order to be processed
      */
-    // TODO: if we passed "loadouts" from calling then we may not have to search database again...
-    // TODO: (cont.) as "loadouts" has the amounts in it.
     private void orderDrink(final Order order) {
         // now have to actually interface with the database
 
@@ -601,7 +592,7 @@ public class TabHomeFragment extends Fragment{
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // TODO: might throw "logout successful" kind of a thing in here
+                        Toast.makeText(getActivity(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
