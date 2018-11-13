@@ -72,18 +72,13 @@ public class TabTabsFragment extends Fragment{
         //recycler
 
         // connects the layout to the java code
-        mRecyclerViewTabs = view.findViewById(R.id.drinkQueue_recyclerView);
+        mRecyclerViewTabs = view.findViewById(R.id.rv);
         // makes a new adapter that connects the layout to a list
         mRecyclerAdapterTabs = new DrinkQueueRecyclerAdapter(getContext(), lstTabs, Constants.TABS, recyclerInterface);
         // sets how the layout should look
-        //mRecyclerViewTabs.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewTabs.setLayoutManager(new LinearLayoutManager(getActivity()));
         // sets the adapter (what is run when the RecyclerView is clicked)
-        //mRecyclerViewTabs.setAdapter(mRecyclerAdapterTabs);
-
-
-
-
-
+        mRecyclerViewTabs.setAdapter(mRecyclerAdapterTabs);
 
         return view;
     }
@@ -134,6 +129,7 @@ public class TabTabsFragment extends Fragment{
 
                 for(DataSnapshot order : dataSnapshot.getChildren()) {
                     Order currOrder = order.getValue(Order.class);
+                    lstTabs.add(currOrder);
                     Log.e(TAG, "asdflijhasflkhfdsa");
                     Log.e(TAG, currOrder.getOrderNumber());
                     Log.e(TAG, currOrder.getName());
@@ -143,6 +139,7 @@ public class TabTabsFragment extends Fragment{
                     Log.e(TAG, currOrder.getDate().toString());
                     //Log.e(TAG, currOrder.getEmail());
                 }
+
 
             }
 
