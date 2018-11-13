@@ -183,7 +183,7 @@ public class Order implements Comparable<Order>{
      * This will interface with the database to...
      *      - make an order (being kept in the database)
      *      - order the drink (throw it in the drink queue)
-     *          - take away x amount of ingredient from database
+     *          - take away x amount of ingredient from database (loadout)
      *
      * @param order - order to be processed
      */
@@ -197,6 +197,7 @@ public class Order implements Comparable<Order>{
         mRefSpecials.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for(String ingKey: order.getDrink().getIngredients().keySet()) {
                     Float ingAmount = order.getDrink().getIngredients().get(ingKey);
 
@@ -213,27 +214,28 @@ public class Order implements Comparable<Order>{
                             // then take ingredient.amount off of what's in the database
                             if(ingKey.equals(loadoutChild.getKey())) {
 
-                                Log.e(TAG, "they equal");
-
+                                // take away ingredient amount from table in database
                                 Long value = loadoutChild.getValue(Long.class);
-                                Float other = value - ingAmount;
+                                Float newValue = value - ingAmount;
 
-                                Log.e(TAG, Float.toString(other));
-                                mDatabase.getReference("loadout").child(data.getKey()).child(loadoutChild.getKey()).setValue(other);
-
-                                DatabaseReference orderRef = mDatabase.getReference("order");
-                                Toast.makeText(view.getContext(), "added order", Toast.LENGTH_SHORT).show();
-
-                                order.setOrderNumber(orderRef.push().getKey());
-                                orderRef.child(order.getOrderNumber()).setValue(order);
-                                mDatabase.getReference().child("queue").child(order.getOrderNumber()).setValue("1");
+                                // set the new value to the database (loadout table)
+                                mDatabase.getReference("loadout").child(data.getKey()).child(loadoutChild.getKey()).setValue(newValue);
                             }
                         }
                     }
                 }
+
                 // when it gets here it means all the backend stuff is done, so throw it on the drinkQueue
-//                lstDrinkQueue.add(order);
-//                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+                DatabaseReference orderRef = mDatabase.getReference("order");
+                Toast.makeText(view.getContext(), "added order testing", Toast.LENGTH_SHORT).show();
+
+                // grab the key from the database
+                order.setOrderNumber(orderRef.push().getKey());
+                // make the data object (Order) in the database at that key
+                orderRef.child(order.getOrderNumber()).setValue(order);
+                // make put the key in the queue for reference
+                mDatabase.getReference().child("queue").child(order.getOrderNumber()).setValue("1");
+
                 Log.e(TAG, "order completed");
             }
 

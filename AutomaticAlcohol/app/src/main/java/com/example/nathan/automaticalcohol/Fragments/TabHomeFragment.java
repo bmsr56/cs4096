@@ -129,8 +129,10 @@ public class TabHomeFragment extends Fragment{
 
 //         goes here when order button is clicked
         buttonSubmitOrder = view.findViewById(R.id.buttonSubmitOrder);
-        buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        button_quick1 = view.findViewById(R.id.button_quick1);
+        button_quick1.setOnClickListener(new View.OnClickListener() {
+//        buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                 // when submit button clicked make sure start ordering process
                 String custName = editText_custName.getText().toString();
                 if(custName.isEmpty()) {
@@ -207,18 +209,18 @@ public class TabHomeFragment extends Fragment{
         button_quick4 = view.findViewById(R.id.button_quick4);
         button_quick5 = view.findViewById(R.id.button_quick5);
 
-        button_quick1.setText("To Pin Page");
+        button_quick1.setText("Submit Order");
         button_quick2.setText("Show Date");
         button_quick3.setText("Order Highball");
 
         // each of these calls a function that orders a drink based on the name of the special
         Log.e(TAG, "onCreateView"+pin);
-        button_quick1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
-                getActivity().onBackPressed();
-            }
-        });
+//        button_quick1.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
+//                getActivity().onBackPressed();
+//            }
+//        });
         button_quick2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Button 2", Toast.LENGTH_SHORT).show();
@@ -365,16 +367,13 @@ public class TabHomeFragment extends Fragment{
             }
         };
 
-
-
+        // TODO: actually implement this
         reportsInterface = new ReportsInterface() {
             @Override
             public void fartFunction(String fart) {
                 Toast.makeText(getActivity(), fart, Toast.LENGTH_SHORT).show();
             }
         };
-
-
 
         // grab a section of the database
         DatabaseReference drinkQueueRef = mDatabase.getReference("queue");
@@ -389,7 +388,7 @@ public class TabHomeFragment extends Fragment{
                 for(DataSnapshot specialsName: dataSnapshot.getChildren()) {
                     // id of the order in the queue
                     final String orderId = specialsName.getKey();
-                    Log.e("TAG11", orderId);
+                    Log.e(TAG, "first for 'listening for queue changes'");
 
                     // start listening to the 'orderRef'
                     ValueEventListener singleEventListener = new ValueEventListener() {
