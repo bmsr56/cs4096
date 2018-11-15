@@ -15,7 +15,6 @@ import com.example.nathan.automaticalcohol.R;
 public class TabCookbookFragment extends Fragment {
     private static final String TAG = "TabCookbookFragment";
 
-    private Button btn_advancedSearch;
 
     @Nullable
     @Override

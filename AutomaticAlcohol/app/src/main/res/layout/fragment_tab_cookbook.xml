@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-
-
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/colorBg"
-    >
+    android:backgroundTint="@color/colorBg">
 
     <LinearLayout
+        android:id="@+id/cookbook_linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="514dp"
         android:layout_weight="1"
         android:background="@color/colorBg"
         android:gravity="bottom"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="982dp"
-        tools:layout_editor_absoluteY="154dp">
+        tools:layout_editor_absoluteX="497dp"
+        tools:layout_editor_absoluteY="213dp">
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/cookbook_recyclerView"
             android:layout_width="1264dp"
             android:layout_height="454dp"
             tools:layout_editor_absoluteX="8dp"
@@ -34,19 +32,16 @@
         android:id="@+id/SearchBar"
         android:layout_width="620dp"
         android:layout_height="54dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="  Search..."
+        android:textColor="#707278"
+        android:textSize="30sp"
         android:layout_marginStart="280dp"
         android:layout_marginTop="128dp"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="@color/colorAccent"
-        android:hint="  Search..."
-        android:textSize="30sp"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!--tools:layout_editor_absoluteX="252dp"-->
-    <!--tools:layout_editor_absoluteY="204dp"-->
 
 
     <Button
