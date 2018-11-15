@@ -68,9 +68,9 @@ public class TabInventoryFragment extends Fragment{
             public void onClick(View v) {
 
                 try{
+                    // grabs info from the screen
                     int bottleNumber = Integer.parseInt(et_bottleNumber.getText().toString());
                     String bottleName = et_bottleName.getText().toString();
-
                     String amountLeft = et_amountLeft.getText().toString();
                     Long amt_left = Long.parseLong(amountLeft);
 
@@ -103,9 +103,12 @@ public class TabInventoryFragment extends Fragment{
 
         final ArrayList<String> labels = new ArrayList<>();
 
-        YAxis yAxisLeft = inventoryChart.getAxisLeft();
         YAxis yAxisRight = inventoryChart.getAxisRight();
         yAxisRight.setDrawLabels(false);
+
+        YAxis yAxisLeft = inventoryChart.getAxisLeft();
+        yAxisLeft.mAxisMinimum = 0f;
+        yAxisLeft.mAxisMaximum = 1500f;
         yAxisLeft.setTextSize(20f);
 
         final XAxis xAxis = inventoryChart.getXAxis();
@@ -124,14 +127,10 @@ public class TabInventoryFragment extends Fragment{
 
                 barEntries.clear();
                 labels.clear();
-                for(DataSnapshot loadout: dataSnapshot.getChildren()){
-                    for(DataSnapshot data: loadout.getChildren()) {
-                        // for each element in the loadout in the database grab it's
-                        // key (drinkName) and value (amountLeft) and add it to a list
-                        labels.add(data.getKey());
-
-                        barEntries.add(new BarEntry(iter, data.getValue(Long.class)));
-                    }
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    Loadout loadout = data.getValue(Loadout.class);
+                    labels.add(loadout.getBottleName());
+                    barEntries.add(new BarEntry(iter, loadout.getAmountLeft()));
                     iter++;
                 }
                 BarData data = new BarData(dataSet);
