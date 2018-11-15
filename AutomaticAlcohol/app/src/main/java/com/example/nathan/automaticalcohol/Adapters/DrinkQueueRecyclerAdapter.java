@@ -30,7 +30,6 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
 
     private Context mContext;
     private List<Order> mData;   // this is a list of all the orders in the RecyclerView (passed in when created/updated)
-    private String mType;
     private RecyclerInterface recyclerInterface;
     private Dialog myDialog;
 
@@ -38,13 +37,11 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
      *
      * @param mContext  - this is basically the Activity I think...
      * @param mData     - lost of all orders in RecyclerView
-     * @param type
      * @param recyclerInterface
      */
-    public DrinkQueueRecyclerAdapter(Context mContext, List<Order> mData, String type, RecyclerInterface recyclerInterface) {
+    public DrinkQueueRecyclerAdapter(Context mContext, List<Order> mData, RecyclerInterface recyclerInterface) {
         this.mContext = mContext;
         this.mData = mData;
-        this.mType = type;
         this.recyclerInterface = recyclerInterface;
     }
 
@@ -101,7 +98,7 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
 
                 // does the image handling
                 Picasso.get()
-                        .load("https://www.chowstatic.com/assets/recipe_photos/10207_highball.jpg")
+                        .load(mData.get(vHolder.getAdapterPosition()).getDrink().getImage())
                         .into(dialog_img);
 
                 // sets the names and opens the dialog

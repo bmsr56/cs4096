@@ -18,6 +18,7 @@ import com.example.nathan.automaticalcohol.Classes.Drink;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerInterface;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
@@ -49,48 +50,13 @@ public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecycl
         // TODO: I think a separate one of thses is going to have to be made for the drink queue if we want it to look different
         view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
 
-
-
         final MyViewHolder vHolder = new MyViewHolder(view);
-
-        if (this.mType.equals(Constants.SPECIALS)) {
-
-            // Dialog init
-            // TODO: this will have to be removed (maybe refactored for other use)
-            myDialog = new Dialog(mContext);
-            myDialog.setContentView(R.layout.dialog_contact);
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
-
-            vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // all of this was for the dialog (pop up)
-//                    TextView dialog_name_tv = myDialog.findViewById(R.id.dialog_name_id);
-//                    TextView dialog_phone_tv = myDialog.findViewById(R.id.dialog_phone_id);
-//                    ImageView dialog_contact_img = myDialog.findViewById(R.id.dialog_img);
-//                    dialog_name_tv.setText(mData.get(vHolder.getAdapterPosition()));
-//                    dialog_phone_tv.setText(mData.get(vHolder.getAdapterPosition()));
-
-                    Toast.makeText(mContext, "Test Click" + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
-
-
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
-
-
-//                    myDialog.show();
-                    // TODO: figure out how to make drink then send it to pi??
-                }
-            });
-        } else if (this.mType.equals(Constants.DRINK_QUEUE)) {
-        }
 
         return vHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
         Log.e(TAG, "size: "+Integer.toString(mData.size()));
 
 
@@ -105,6 +71,10 @@ public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecycl
                 recyclerInterface.onTagClicked(mData.get(index));
             }
         });
+
+        Picasso.get()
+                .load(mData.get(holder.getAdapterPosition()).getImage())
+                .into(holder.img);
 
     }
 
@@ -126,8 +96,6 @@ public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecycl
             textView_name = (TextView) itemView.findViewById(R.id.drink_name);
             textView_price = (TextView) itemView.findViewById(R.id.drink_price);
             img = (ImageView) itemView.findViewById(R.id.img_drink);
-
-
         }
     }
 

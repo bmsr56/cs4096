@@ -121,14 +121,12 @@ public class Order implements Comparable<Order>{
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot data: dataSnapshot.getChildren()){
-                    for(DataSnapshot f: data.getChildren()) {
 
-                        // for each element in the loadout in the database grab it's
-                        // key (drinkName) and value (amountLeft) and add it to a list
-                        Loadout newLoadout = new Loadout(f.getKey(), f.getValue(Long.class));
-                        loadout.add(newLoadout);
-                        Log.e(TAG, "loadout: "+newLoadout.toString());
-                    }
+                    // for each element in the loadout in the database grab it's
+                    // key (drinkName) and value (amountLeft) and add it to a list
+                    Loadout newLoadout = data.getValue(Loadout.class);
+                    loadout.add(newLoadout);
+                    Log.e(TAG, "loadout: "+newLoadout.toString());
                 }
                 checkDrinkOrder(order, loadout, view);
             }

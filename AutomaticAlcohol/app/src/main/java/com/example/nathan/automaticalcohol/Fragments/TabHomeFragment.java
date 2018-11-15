@@ -262,7 +262,7 @@ public class TabHomeFragment extends Fragment{
 
         // initialize recycler view for the drink queue
         mRecyclerViewDrinkQueue = view.findViewById(R.id.drinkQueue_recyclerView);
-        mRecyclerAdapterDrinkQueue = new DrinkQueueRecyclerAdapter(getContext(), lstDrinkQueue, Constants.DRINK_QUEUE, recyclerInterface);
+        mRecyclerAdapterDrinkQueue = new DrinkQueueRecyclerAdapter(getContext(), lstDrinkQueue, recyclerInterface);
         mRecyclerViewDrinkQueue.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewDrinkQueue.setAdapter(mRecyclerAdapterDrinkQueue);
 
