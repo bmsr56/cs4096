@@ -102,7 +102,6 @@ public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecycl
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, mData.get(index).getName(), Toast.LENGTH_SHORT).show();
                 recyclerInterface.onTagClicked(mData.get(index));
             }
         });

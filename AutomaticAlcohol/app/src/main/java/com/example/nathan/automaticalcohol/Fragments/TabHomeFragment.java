@@ -122,6 +122,7 @@ public class TabHomeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tab_home, container, false);
 
+        // init textviews and such
         editText_custName = view.findViewById(R.id.editText_custName);
         editText_drinkName = view.findViewById(R.id.editText_drinkName);
         spinner_addItem = view.findViewById(R.id.spinner_addItem);
@@ -138,6 +139,12 @@ public class TabHomeFragment extends Fragment{
                 if(custName.isEmpty()) {
                     Toast.makeText(getActivity(), "Name can't be blank", Toast.LENGTH_SHORT).show();
                 } else {
+                    // clear the inputs
+                    editText_custName.setText("");
+                    editText_drinkName.setText("");
+                    spinner_addItem.setSelection(0);
+
+                    // drink order attempt
                     order.setName(custName);
                     order.acquireLoadout(order, view);
                 }

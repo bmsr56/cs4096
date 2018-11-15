@@ -45,13 +45,13 @@ public class TabTabsFragment extends Fragment{
 
 
         // connects the layout to the java code
-        mRecyclerViewTabs = view.findViewById(R.id.drinkQueue_recyclerView);
+//        mRecyclerViewTabs = view.findViewById(R.id.drinkQueue_recyclerView);
         // makes a new adapter that connects the layout to a list
-        mRecyclerAdapterTabs = new DrinkQueueRecyclerAdapter(getContext(), lstTabs, Constants.TABS, recyclerInterface);
+//        mRecyclerAdapterTabs = new DrinkQueueRecyclerAdapter(getContext(), lstTabs, Constants.TABS, recyclerInterface);
         // sets how the layout should look
-        mRecyclerViewTabs.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mRecyclerViewTabs.setLayoutManager(new LinearLayoutManager(getActivity()));
         // sets the adapter (what is run when the RecyclerView is clicked)
-        mRecyclerViewTabs.setAdapter(mRecyclerAdapterTabs);
+//        mRecyclerViewTabs.setAdapter(mRecyclerAdapterTabs);
 
 
 

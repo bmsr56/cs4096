@@ -227,7 +227,7 @@ public class Order implements Comparable<Order>{
 
                 // when it gets here it means all the backend stuff is done, so throw it on the drinkQueue
                 DatabaseReference orderRef = mDatabase.getReference("order");
-                Toast.makeText(view.getContext(), "added order testing", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Order Added", Toast.LENGTH_SHORT).show();
 
                 // grab the key from the database
                 order.setOrderNumber(orderRef.push().getKey());
@@ -244,6 +244,12 @@ public class Order implements Comparable<Order>{
 
             }
         });
+    }
+
+
+    public void removeOrder(String orderNumber) {
+        mDatabase.getReference().child("queue").child(orderNumber).removeValue();
+        mDatabase.getReference().child("order").child(orderNumber).removeValue();
     }
 
 }
