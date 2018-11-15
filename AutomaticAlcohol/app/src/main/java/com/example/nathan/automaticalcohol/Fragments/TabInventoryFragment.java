@@ -35,15 +35,13 @@ public class TabInventoryFragment extends Fragment{
     private static final String TAG = "TabInventoryFragment";
 
     private EditText et_amountLeft;
-
-    // TODO: is this the position of the bottle??   -> bottleLocation
     private EditText et_bottleNumber;
     private EditText et_bottleName;
 
     private Button btn_bottleChange;
 
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mDatabase;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mLoadoutReference;
 
     private ArrayList<Loadout> mLoadouts = new ArrayList<>();
@@ -55,7 +53,6 @@ public class TabInventoryFragment extends Fragment{
 
         // init Firebase instance
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
 
         mLoadoutReference = mDatabase.getReference("loadout");
 
@@ -96,6 +93,8 @@ public class TabInventoryFragment extends Fragment{
         // TODO: or should it just look once?...   above is more robust
         // currently just looking once
 
+        final BarChart chart = view.findViewById(R.id.bar_chart);
+
         mLoadoutReference = mDatabase.getReference("loadout");
         mLoadoutReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -109,6 +108,7 @@ public class TabInventoryFragment extends Fragment{
                         Log.e(TAG, "loadout: "+newLoadout.toString());
                     }
                 }
+
             }
 
             @Override
@@ -160,6 +160,7 @@ public class TabInventoryFragment extends Fragment{
 
         //reloads the chart with all the changes
         inventoryChart.invalidate();
+
         return view;
     }
 }

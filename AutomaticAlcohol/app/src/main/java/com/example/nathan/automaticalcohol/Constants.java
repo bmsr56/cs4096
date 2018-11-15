@@ -20,4 +20,11 @@ public interface Constants {
 
     String DRINK_QUEUE = "drinkQueue";
     String SPECIALS = "specials";
+    String TABS = "tabs";
+
+    String PIN_TO_BARTENDER_PIN = "fromPinToBartender";
+    String BARTENDER_TO_HOME_TAB_PIN = "fromBartenderToFragment";
 }
+
+
+
