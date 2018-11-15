@@ -16,6 +16,7 @@ import com.example.nathan.automaticalcohol.R;
 
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +40,7 @@ public class TabInventoryFragment extends Fragment{
     private EditText et_bottleName;
 
     private Button btn_bottleChange;
+    private ArrayList<BarEntry> barEntries = new ArrayList<>();
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -69,10 +71,8 @@ public class TabInventoryFragment extends Fragment{
                     int bottleNumber = Integer.parseInt(et_bottleNumber.getText().toString());
                     String bottleName = et_bottleName.getText().toString();
 
-
                     String amountLeft = et_amountLeft.getText().toString();
                     Long amt_left = Long.parseLong(amountLeft);
-
 
                     // make sure number entered is a valid loadout position
                     if (bottleNumber < 1 || bottleNumber > 6) {
@@ -93,22 +93,64 @@ public class TabInventoryFragment extends Fragment{
         // TODO: or should it just look once?...   above is more robust
         // currently just looking once
 
-        final BarChart chart = view.findViewById(R.id.bar_chart);
+        // TODO: connect data grabbed from database to graphs
+
+        //initializes the inventory chart
+        final BarChart inventoryChart = view.findViewById(R.id.bar_chart);
+
+        //add new entries to the barchart
+        final BarDataSet dataSet = new BarDataSet(barEntries, "Projects");
+
+        final ArrayList<String> labels = new ArrayList<>();
+
+        YAxis yAxisLeft = inventoryChart.getAxisLeft();
+        YAxis yAxisRight = inventoryChart.getAxisRight();
+        yAxisRight.setDrawLabels(false);
+        yAxisLeft.setTextSize(20f);
+
+        final XAxis xAxis = inventoryChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(20f);
+
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        inventoryChart.setFitBars(true);
+        inventoryChart.setDescription("Inventory of Bottles");
 
         mLoadoutReference = mDatabase.getReference("loadout");
         mLoadoutReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data: dataSnapshot.getChildren()){
-                    for(DataSnapshot f: data.getChildren()) {
+                int iter = 0;
+
+                barEntries.clear();
+                labels.clear();
+                for(DataSnapshot loadout: dataSnapshot.getChildren()){
+                    for(DataSnapshot data: loadout.getChildren()) {
                         // for each element in the loadout in the database grab it's
                         // key (drinkName) and value (amountLeft) and add it to a list
-                        Loadout newLoadout = new Loadout(f.getKey(), f.getValue(Long.class));
-                        mLoadouts.add(newLoadout);
-                        Log.e(TAG, "loadout: "+newLoadout.toString());
-                    }
-                }
+                        labels.add(data.getKey());
 
+                        barEntries.add(new BarEntry(iter, data.getValue(Long.class)));
+                    }
+                    iter++;
+                }
+                BarData data = new BarData(dataSet);
+                data.setBarWidth(0.9f);
+                inventoryChart.setData(data);
+
+
+                xAxis.setValueFormatter(new AxisValueFormatter(){
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return labels.get((int) value);
+                    }
+                    // we don't draw numbers, so no decimal digits needed
+                    @Override
+                    public int getDecimalDigits() {  return 0; }
+                });
+                //reloads the chart with all the changes
+                inventoryChart.invalidate();
+                Log.e(TAG, "It's all done");
             }
 
             @Override
@@ -116,51 +158,8 @@ public class TabInventoryFragment extends Fragment{
 
             }
         });
-        // TODO: connect data grabbed from database to graphs
-
-        //initializes the inventory chart
-        final BarChart inventoryChart = view.findViewById(R.id.bar_chart);
-
-        //add new entries to the barchart
-        ArrayList<BarEntry> BarEntry = new ArrayList<>();
-        BarEntry.add(new BarEntry(0, 1000f));
-        BarEntry.add(new BarEntry(1, 900f));
-        BarEntry.add(new BarEntry(2, 800f));
-        BarEntry.add(new BarEntry(3, 700f));
-        BarEntry.add(new BarEntry(4, 600f));
-        BarEntry.add(new BarEntry(5, 500f));
-
-        BarDataSet dataSet = new BarDataSet(BarEntry, "Projects");
-
-        final ArrayList<String> labels = new ArrayList<>();
-        labels.add("Drink 1");
-        labels.add("Drink 2");
-        labels.add("Drink 3");
-        labels.add("Drink 4");
-        labels.add("Drink 5");
-        labels.add("Drink 6");
-
-        XAxis xAxis = inventoryChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setValueFormatter(new AxisValueFormatter(){
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return labels.get((int) value);
-            }
-            // we don't draw numbers, so no decimal digits needed
-            @Override
-            public int getDecimalDigits() {  return 0; }
-        });
-        BarData data = new BarData(dataSet);
-        data.setBarWidth(0.9f);
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        inventoryChart.setData(data);
-        inventoryChart.setFitBars(true);
-        inventoryChart.setDescription("Inventory of Bottles");
-
-        //reloads the chart with all the changes
         inventoryChart.invalidate();
-
         return view;
     }
+
 }
