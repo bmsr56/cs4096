@@ -29,11 +29,18 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
     private static final String TAG = "DrinkQueueRecyclerAdapt";
 
     private Context mContext;
-    private List<Order> mData;
+    private List<Order> mData;   // this is a list of all the orders in the RecyclerView (passed in when created/updated)
     private String mType;
     private RecyclerInterface recyclerInterface;
     private Dialog myDialog;
 
+    /**
+     *
+     * @param mContext  - this is basically the Activity I think...
+     * @param mData     - lost of all orders in RecyclerView
+     * @param type
+     * @param recyclerInterface
+     */
     public DrinkQueueRecyclerAdapter(Context mContext, List<Order> mData, String type, RecyclerInterface recyclerInterface) {
         this.mContext = mContext;
         this.mData = mData;
@@ -62,7 +69,6 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
         // initialize the dialog (popup)
         myDialog = new Dialog(mContext);
         myDialog.setContentView(R.layout.dialog_contact);
-        // TODO:  grab the picture too
 
         // this is called when an entry in the Drink Queue is clicked
         vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
@@ -79,10 +85,16 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
                 dialog_remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        /**
+                         * when grabbing info from a specific entry in the RecyclerView (ie. the one that has been clicked)
+                         * mData    - list of entries in RecyclerView
+                         * .get()   - getter for a list
+                         * vHolder.getAdapterPosition()     - the location in the list that was clicked on
+                         *
+                         * // the rest of it are class functions of an order
+                         * // making, IN THIS CASE,  "mData.get(vHolder.getAdapterPosition())" of type Order.class (an Order object)
+                         */
                         mData.get(vHolder.getAdapterPosition()).removeOrder(mData.get(vHolder.getAdapterPosition()).getOrderNumber());
-
-
                         myDialog.dismiss();
                     }
                 });
@@ -114,6 +126,8 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
     public void onBindViewHolder(@NonNull DrinkQueueRecyclerAdapter.MyViewHolder holder, int position) {
         Log.e(TAG, "onBindViewHolder");
 
+        // sets the customerName and drinkName of each entry in the RecyclerView
+        // happens iteratively (implicitly) for each entry in a RecyclerView
         holder.textView_name.setText(mData.get(position).getName());
         holder.textView_price.setText(mData.get(position).getDrink().getName());
     }
@@ -132,6 +146,8 @@ public class DrinkQueueRecyclerAdapter extends RecyclerView.Adapter<DrinkQueueRe
 
         public MyViewHolder(View itemView) {
             super(itemView);
+
+            // initializes the buttons and such on each RecyclerView entry
             item_contact = (LinearLayout) itemView.findViewById(R.id.contact_item_id);
             textView_name = (TextView) itemView.findViewById(R.id.drink_name);
             textView_price = (TextView) itemView.findViewById(R.id.drink_price);
