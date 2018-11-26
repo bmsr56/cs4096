@@ -56,12 +56,15 @@ public class TabInventoryFragment extends Fragment{
         // init Firebase instance
         mAuth = FirebaseAuth.getInstance();
 
+        // grab the loadout from the database
         mLoadoutReference = mDatabase.getReference("loadout");
 
+        // this assigns variable names to the text fields
         et_amountLeft = view.findViewById(R.id.editText_amountLeft);
         et_bottleNumber = view.findViewById(R.id.editText_bottleNumber);
         et_bottleName = view.findViewById(R.id.editText_bottleName);
 
+        // submit change button, the listener will add changes to database
         btn_bottleChange = view.findViewById(R.id.button_bottleChange);
         btn_bottleChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,55 +92,64 @@ public class TabInventoryFragment extends Fragment{
         });
 
 
-        // TODO: make data change listener thing for bottle amounts
-        // TODO: or should it just look once?...   above is more robust
-        // currently just looking once
-
-        // TODO: connect data grabbed from database to graphs
-
         //initializes the inventory chart
         final BarChart inventoryChart = view.findViewById(R.id.bar_chart);
 
         //add new entries to the barchart
         final BarDataSet dataSet = new BarDataSet(barEntries, "Projects");
 
+        //contains the labels for the drink names
         final ArrayList<String> labels = new ArrayList<>();
 
+        //turns off the y axis numbering on right side
         YAxis yAxisRight = inventoryChart.getAxisRight();
         yAxisRight.setDrawLabels(false);
 
+        //sets up the y axis numbering on the left side
         YAxis yAxisLeft = inventoryChart.getAxisLeft();
-        yAxisLeft.mAxisMinimum = 0f;
-        yAxisLeft.mAxisMaximum = 1500f;
+        yAxisLeft.mAxisMinimum = 0;
+        yAxisLeft.mAxisMaximum = 1500;
+        yAxisLeft.setStartAtZero(true);
         yAxisLeft.setTextSize(20f);
+        inventoryChart.getAxisLeft().setDrawGridLines(false);
+        inventoryChart.getXAxis().setDrawGridLines(false);
 
+        //set up the x axis
         final XAxis xAxis = inventoryChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(20f);
 
+        //set up bar display configurations
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         inventoryChart.setFitBars(true);
         inventoryChart.setDescription("Inventory of Bottles");
 
         mLoadoutReference = mDatabase.getReference("loadout");
+
+        //pulls loadout data from the database for displaying graphs
         mLoadoutReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int iter = 0;
 
+                //clear out all the bar entries and labels
                 barEntries.clear();
                 labels.clear();
+
+                //gets all the data from the database and puts it to be loaded into the graphs
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     Loadout loadout = data.getValue(Loadout.class);
                     labels.add(loadout.getBottleName());
                     barEntries.add(new BarEntry(iter, loadout.getAmountLeft()));
                     iter++;
                 }
+
+                //takes the database data and puts into bar data
                 BarData data = new BarData(dataSet);
                 data.setBarWidth(0.9f);
                 inventoryChart.setData(data);
 
-
+                //This is necessary to put labels on the graphs
                 xAxis.setValueFormatter(new AxisValueFormatter(){
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
@@ -147,6 +159,7 @@ public class TabInventoryFragment extends Fragment{
                     @Override
                     public int getDecimalDigits() {  return 0; }
                 });
+                
                 //reloads the chart with all the changes
                 inventoryChart.invalidate();
                 Log.e(TAG, "It's all done");

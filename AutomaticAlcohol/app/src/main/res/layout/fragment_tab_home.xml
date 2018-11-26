@@ -25,14 +25,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/background"
-            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView_orderDrink"
                 android:layout_width="303dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="30dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
                 android:background="@color/colorHeader"
                 android:gravity="center"
                 android:text="Order Drink:"
@@ -68,6 +68,7 @@
                 android:id="@+id/textView_totalCost"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginRight="10dp"
                 android:gravity="right"
                 android:text="Total Cost:"
                 android:textSize="18dp" />
@@ -114,15 +115,15 @@
                 android:textColor="@color/whiteText" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/specials_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/specials_recyclerView">
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
-         <!--Quick Add division-->
+        <!--Quick Add division-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -184,9 +185,9 @@
                 android:textColor="@color/whiteText" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/quick_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/quick_recyclerView">
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -213,9 +214,9 @@
                 android:textSize="30dp" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/drinkQueue_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/drinkQueue_recyclerView">
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
 
