@@ -107,9 +107,12 @@ public class TabInventoryFragment extends Fragment{
 
         //sets up the y axis numbering on the left side
         YAxis yAxisLeft = inventoryChart.getAxisLeft();
-        yAxisLeft.mAxisMinimum = 0f;
-        yAxisLeft.mAxisMaximum = 1500f;
+        yAxisLeft.mAxisMinimum = 0;
+        yAxisLeft.mAxisMaximum = 1500;
+        yAxisLeft.setStartAtZero(true);
         yAxisLeft.setTextSize(20f);
+        inventoryChart.getAxisLeft().setDrawGridLines(false);
+        inventoryChart.getXAxis().setDrawGridLines(false);
 
         //set up the x axis
         final XAxis xAxis = inventoryChart.getXAxis();
