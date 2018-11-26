@@ -130,8 +130,7 @@ public class TabHomeFragment extends Fragment{
 
 //         goes here when order button is clicked
         buttonSubmitOrder = view.findViewById(R.id.buttonSubmitOrder);
-        button_quick1 = view.findViewById(R.id.button_quick1);
-        button_quick1.setOnClickListener(new View.OnClickListener() {
+        buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
 //        buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                 // when submit button clicked make sure start ordering process
@@ -216,37 +215,30 @@ public class TabHomeFragment extends Fragment{
         button_quick4 = view.findViewById(R.id.button_quick4);
         button_quick5 = view.findViewById(R.id.button_quick5);
 
-        button_quick1.setText("Submit Order");
-        button_quick2.setText("Show Date");
-        button_quick3.setText("Order Highball");
+        button_quick1.setText("To Pin Page");
+        button_quick2.setText(" -- This Still");
+        button_quick3.setText("Needs");
+        button_quick4.setText("To Be");
+        button_quick5.setText("Implemented");
 
         // each of these calls a function that orders a drink based on the name of the special
         Log.e(TAG, "onCreateView"+pin);
-//        button_quick1.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
-//                getActivity().onBackPressed();
-//            }
-//        });
+        button_quick1 = view.findViewById(R.id.button_quick1);
+        button_quick1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
+            }
+        });
         button_quick2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Button 2", Toast.LENGTH_SHORT).show();
-
-                Date timeStamp1 = new Date();
-                Toast.makeText(getActivity(), timeStamp1.toString(), Toast.LENGTH_SHORT).show();
-                mRecyclerAdapterDrinkQueue.notifyDataSetChanged();
+                Toast.makeText(getActivity(), "Testing button quick 2", Toast.LENGTH_SHORT).show();
 
             }
         });
         button_quick3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Order Highball", Toast.LENGTH_SHORT).show();
-                Ingredient ingredient1 = new Ingredient("sprite", 456f);
-                Ingredient ingredient2 = new Ingredient("whiskey", 44f);
-
-                ArrayList<Ingredient> ingList = new ArrayList<>();
-                ingList.add(ingredient1);
-                ingList.add(ingredient2);
+                Toast.makeText(getActivity(), "Testing button quick 3", Toast.LENGTH_SHORT).show();
             }
         });
         button_quick4.setOnClickListener(new View.OnClickListener() {
