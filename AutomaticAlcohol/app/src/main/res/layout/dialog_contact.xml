@@ -44,7 +44,8 @@
             android:drawablePadding="20dp"
             android:padding="20dp"
             android:text="Remove Drink"
-            android:textAlignment="textStart" />
+            android:textColor="#FFFFFF"
+            android:textAlignment="center" />
     </LinearLayout>
 
     <ImageView
