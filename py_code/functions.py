@@ -2,9 +2,9 @@ import RPi.GPIO as gpio
 import time
 import threading
 
-gpio.setmode(gpio.BCM)
 
 def gpioRun(pinNumber, seconds, verbose = False):
+    gpio.setmode(gpio.BCM)
     """Turns a gpio pin on for the given time
         Args:
             pinNumber (int): the BCM gpio pin
