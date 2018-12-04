@@ -1,15 +1,21 @@
 import RPi.GPIO as gpio
 import time
 
-def gpioRun(pinNumber, seconds):
+def gpioRun(pinNumber, seconds, verbose = False):
     """Turns a gpio pin on for the given time
         Args:
             pinNumber (int): the BCM gpio pin
             seconds (float): the length of time to run it
     """
     gpio.output(pinNumber, 1)
+    if verbose is True:
+        print('{} on'.format(pinNumber))
+
     time.sleep(seconds)
+    
     gpio.output(pinNumber, 0)
+    if verbose is True:
+        print('{} off'.format(pinNumber))
     return
 
 def setAsOutput(*args):
