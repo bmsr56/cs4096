@@ -22,7 +22,7 @@ def queue_handler(message):
     event = message["event"]
     path = message["path"]
     data = message["data"]
-    if event == "put":
+    if event == "put" and path != "/":
         drinkQueue.append(data)
         # db.child("users").get()
         print("HANDLER TRIGGERED")

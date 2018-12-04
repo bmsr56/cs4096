@@ -5,6 +5,7 @@ import RPi.GPIO as gpio
 import threading
 
 drinkProcessedFlag = False
+
 pumpToPin = {
     '1': 10, 
     '2': 9, 
@@ -34,11 +35,13 @@ def processQueueItem():
                 ]).start()
     else:
         print('fail in processQueueItem')
-    
-    # remove the just processed item from the queue
-    # db.child
+        return
+    # remove item from the queue
+    drinkQueue.pop(0)
+
+    # remove the item from firebase db
     # set flag to True
-    
+    drinkProcessedFlag = True
     return  
 
 def parser(msg):
