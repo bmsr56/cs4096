@@ -15,21 +15,11 @@ import com.example.nathan.automaticalcohol.R;
 public class TabCookbookFragment extends Fragment {
     private static final String TAG = "TabCookbookFragment";
 
-    private Button btn_advancedSearch;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_cookbook, container, false);
-
-        btn_advancedSearch = view.findViewById(R.id.btn_advancedSearch);
-        btn_advancedSearch.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "This button works!!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
 
         return view;
     }

@@ -43,3 +43,7 @@ data = {
 
 # Pass the user's idToken to the push method
 results = db.child("accounts").get()
+
+
+queue = db.child("queue").get()
+print(queue)

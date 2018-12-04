@@ -30,7 +30,7 @@ public class Loadout {
     }
 
     public String toString() {
-        return this.amountLeft+" of "+this.bottleName;
+        return this.amountLeft+"mL of "+this.bottleName;
     }
 }
 
