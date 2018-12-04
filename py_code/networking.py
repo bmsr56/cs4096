@@ -12,8 +12,8 @@ def sh_loadout(message):
     path = message["path"]
     data = message["data"]
     if event == "put":
-        print(path)
-        print(type(path))
+        print("[ Data: ]", data)
+        print(type(data))
     return
 
 def connectFB(email, password):
