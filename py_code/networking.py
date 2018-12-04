@@ -2,6 +2,8 @@ from functions import *
 import RPi.GPIO as gpio
 import pyrebase
 
+drinkQueue = []
+
 def sh_show(message):
     print('Event: ', message["event"]) # put
     print('Path: ', message["path"]) # /-K7yGTTEp7O549EzTYtI
@@ -21,7 +23,7 @@ def queue_handler(message):
     path = message["path"]
     data = message["data"]
     if event == "put":
-        print("STREAM DATA:", data)
+        drinkQueue.append(data)
         print("STREAM DATA TYPE:", type(data))
     return
 
