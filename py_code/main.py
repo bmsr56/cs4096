@@ -5,17 +5,12 @@ import RPi.GPIO as gpio
 import threading
 
 drinkProcessedFlag = False
-pumps = {
+pumpToPin = {
     '1': 10, 
     '2': 9, 
     '3': 11, 
     '4': 8 
 }
-pumpPins = [10, 9, 11, 8]
-pump1 = 10
-pump2 = 9
-pump3 = 11
-pump4 = 8
 
 def mlToSeconds(ml):
     ml = float(ml)
@@ -26,17 +21,22 @@ def processQueueItem():
     """Items stored in the drinkQueue consist of specially formatted strings
     """
     # handle garbage that might be in there at first
-    # extract drink string
+
     # call parser on the string
     pumpNumbers, amounts = parser(drinkQueue[0]) # this is the first item in the drink queue
-    
 
     # process each ingredient with calls to threaded pumprun fns
     if len(pumpNumbers) == len(amounts): # this should always be true... just a check
-        for i in range(len(pumpNumbers)):
+        for pumpNumber, amount in zip(pumpNumbers, amounts):
             # run pumps with threading
-            threading.Thread(target=gpioRun, args=[]).start()            
+            threading.Thread(target=gpioRun, args=[
+                pumpToPin[pumpNumber], mlToSeconds(amount), True
+                ]).start()
+    else:
+        print('fail in processQueueItem')
+    
     # remove the just processed item from the queue
+    # db.child
     # set flag to True
     
     return  
@@ -53,8 +53,9 @@ def parser(msg):
 
 def main():
     
-    setAsOutput(pumpPins)
-    setOutputValue(1, pumpPins)
+    
+    setAsOutput([10, 9, 11, 8])
+    setOutputValue(1, [10, 9, 11, 8])
 
     try:
         db, user = connectFB("DrinkMasterPlusPlus@gmail.com", "thisisapassword")
@@ -65,12 +66,10 @@ def main():
     
         stream = db.child("queue").stream(queue_handler)
 
-        print('STREAM TYPE', type(stream))
-        print('DRINKQ', drinkQueue)
+        # print('STREAM TYPE', type(stream))
 
-        while len(drinkQueue) > 0 and drinkProcessedFlag is False:
-            processQueueItem()
-
+        # while len(drinkQueue) > 0 and drinkProcessedFlag is False:
+        #     processQueueItem()
 
         # the schema of the database was changed so this had to change
         # db.child("loadout").child("1").set({"amountLeft": 9000})

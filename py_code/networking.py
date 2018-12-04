@@ -24,7 +24,10 @@ def queue_handler(message):
     data = message["data"]
     if event == "put":
         drinkQueue.append(data)
-        print("HANDLER - ADDED TO QUEUE")
+        # db.child("users").get()
+        print("HANDLER TRIGGERED")
+        print("DRINKQUEUE:", drinkQueue)
+        print("PATH", path)
     return
 
 def connectFB(email, password):
