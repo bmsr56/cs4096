@@ -46,10 +46,6 @@ def queue_handler(message):
             t.join()        
         # wait for these to end, this is important and might not work
 
-        else:
-            print('fail in processQueueItem in queue handler')
-            return
-
         return
 
 def mlToSeconds(ml):
