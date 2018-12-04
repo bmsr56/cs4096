@@ -92,14 +92,12 @@ public class TabInventoryFragment extends Fragment{
                         mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(bottleName, amt_left));
                     }
 
-
                 } catch (Exception e) {
                     Log.e(TAG, " problem", e);
                 }
 
             }
         });
-
 
         //initializes the inventory chart
         final BarChart inventoryChart = view.findViewById(R.id.bar_chart);

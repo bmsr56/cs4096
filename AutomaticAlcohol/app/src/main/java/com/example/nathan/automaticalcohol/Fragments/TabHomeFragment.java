@@ -129,9 +129,7 @@ public class TabHomeFragment extends Fragment{
 
 //         goes here when order button is clicked
         buttonSubmitOrder = view.findViewById(R.id.buttonSubmitOrder);
-        button_quick1 = view.findViewById(R.id.button_quick1);
-        button_quick1.setOnClickListener(new View.OnClickListener() {
-//        buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
+        buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                 // when submit button clicked make sure start ordering process
                 String custName = editText_custName.getText().toString();
@@ -209,7 +207,7 @@ public class TabHomeFragment extends Fragment{
         mRecyclerViewQuick.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerViewQuick.setAdapter(mRecyclerAdapterQuick);
 
-//        button_quick1 = view.findViewById(R.id.button_quick1);
+        button_quick1 = view.findViewById(R.id.button_quick1);
         button_quick2 = view.findViewById(R.id.button_quick2);
         button_quick3 = view.findViewById(R.id.button_quick3);
         button_quick4 = view.findViewById(R.id.button_quick4);
@@ -223,13 +221,13 @@ public class TabHomeFragment extends Fragment{
 
         // each of these calls a function that orders a drink based on the name of the special
         Log.e(TAG, "onCreateView"+pin);
-//        button_quick1 = view.findViewById(R.id.button_quick1);
-//        button_quick1.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
-//                getActivity().onBackPressed();
-//            }
-//        });
+        button_quick1 = view.findViewById(R.id.button_quick1);
+        button_quick1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "To Pin Page", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
+            }
+        });
         button_quick2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 2", Toast.LENGTH_SHORT).show();

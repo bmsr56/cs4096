@@ -237,9 +237,6 @@ public class Order implements Comparable<Order>{
 
                 mDatabase.getReference().child("queue").child(order.getOrderNumber()).setValue(command);
 
-                Log.e("fart", "command: "+command);
-                Toast.makeText(view.getContext(), command, Toast.LENGTH_SHORT).show();
-
                 Log.e(TAG, "order completed");
             }
 
