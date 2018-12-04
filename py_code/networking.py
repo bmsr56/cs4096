@@ -86,13 +86,14 @@ def processQueueItem(event, path, data):
     return  
 
 def parser(msg):
-    pumpNumbers = []
-    amounts = []
-    msg = msg.split("+")
-    for x in msg:
-        wigit = x.split("_")
-        pumpNumbers.append(wigit[0])
-        amounts.append(wigit[1])
+    if msg is not None:
+        pumpNumbers = []
+        amounts = []
+        msg = msg.split("+")
+        for x in msg:
+            wigit = x.split("_")
+            pumpNumbers.append(wigit[0])
+            amounts.append(wigit[1])
     return pumpNumbers, amounts
 
 
