@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.example.nathan.automaticalcohol.Classes.Drink;
 import com.example.nathan.automaticalcohol.Constants;
 import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerInterface;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +43,7 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
     @Override
     public CookbookResultsRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        Log.e(TAG, "onCreateViewHolder");
+        Log.e("fart", "onCreateViewHolder");
         View view;
 
         // this makes the stuff in the RecyclerView look the way we want it to
@@ -49,15 +51,15 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
 
         final CookbookResultsRecyclerAdapter.MyViewHolder vHolder = new CookbookResultsRecyclerAdapter.MyViewHolder(view);
 
-        if (this.mType.equals(Constants.SPECIALS)) {
+//        if (this.mType.equals(Constants.DRINKS)) {
 
             // Dialog init
             // TODO: this will have to be removed (maybe refactored for other use)
             myDialog = new Dialog(mContext);
-            myDialog.setContentView(R.layout.dialog_contact);
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
+            myDialog.setContentView(R.layout.cookbook_results);
+            view = LayoutInflater.from(mContext).inflate(R.layout.cookbook_results, parent, false);
 
-            vHolder.item_contact.setOnClickListener(new View.OnClickListener() {
+            vHolder.cookbook_results.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // all of this was for the dialog (pop up)
@@ -67,19 +69,24 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
 //                    dialog_name_tv.setText(mData.get(vHolder.getAdapterPosition()));
 //                    dialog_phone_tv.setText(mData.get(vHolder.getAdapterPosition()));
 
+                    ImageView dialog_img = myDialog.findViewById(R.id.drink_image);
+
                     Toast.makeText(mContext, "Test Click" + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
 
 
 //                    Bundle bundle = new Bundle();
 //                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
 
+                    // does the image handling
+                    Picasso.get()
+                            .load(mData.get(vHolder.getAdapterPosition()).getImage())
+                            .into(dialog_img);
 
-//                    myDialog.show();
+                    myDialog.show();
                     // TODO: figure out how to make drink then send it to pi??
                 }
             });
-        } else if (this.mType.equals(Constants.DRINK_QUEUE)) {
-        }
+//        }
 
         return vHolder;
     }
@@ -92,14 +99,14 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
 
         holder.textView_name.setText(mData.get(position).getName());
         // might use string.format instead
-        holder.textView_price.setText(String.format(Locale.US, "$ %.2f", mData.get(position).getPrice()));
+       // holder.textView_price.setText(String.format(Locale.US, "$ %.2f", mData.get(position).getPrice()));
 
         final int index = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, mData.get(index).getName(), Toast.LENGTH_SHORT).show();
-                recyclerInterface.onTagClicked(mData.get(index));
+                //Toast.makeText(mContext, mData.get(index).getName(), Toast.LENGTH_SHORT).show();
+                //recyclerInterface.onTagClicked(mData.get(index));
             }
         });
 
@@ -112,17 +119,15 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private LinearLayout item_contact;
+        private LinearLayout cookbook_results;
         private TextView textView_name;
-        private TextView textView_price;
         private ImageView img;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            item_contact = (LinearLayout) itemView.findViewById(R.id.contact_item_id);
-            textView_name = (TextView) itemView.findViewById(R.id.drink_name);
-            textView_price = (TextView) itemView.findViewById(R.id.drink_price);
-            img = (ImageView) itemView.findViewById(R.id.img_drink);
+            cookbook_results = itemView.findViewById(R.id.cookbook_results_id);
+            textView_name = itemView.findViewById(R.id.btn_drink);
+            img = itemView.findViewById(R.id.drink_image);
 
 
         }

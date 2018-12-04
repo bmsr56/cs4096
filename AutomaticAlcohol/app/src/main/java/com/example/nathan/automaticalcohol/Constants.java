@@ -22,6 +22,7 @@ public interface Constants {
     String SPECIALS = "specials";
     String TABS = "tabs";
     String QUICK = "quick";
+    String DRINKS = "lottaDrinks";
 
     String PIN_TO_BARTENDER_PIN = "fromPinToBartender";
     String BARTENDER_TO_HOME_TAB_PIN = "fromBartenderToFragment";
