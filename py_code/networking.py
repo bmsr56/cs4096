@@ -12,8 +12,17 @@ def sh_loadout(message):
     path = message["path"]
     data = message["data"]
     if event == "put":
-        print("[ Data: ]", data)
-        print(type(data))
+        print("STREAM DATA:", data)
+        print("STREAM DATA TYPE:", type(data))
+    return
+
+def queue_handler(message):
+    event = message["event"]
+    path = message["path"]
+    data = message["data"]
+    if event == "put":
+        print("STREAM DATA:", data)
+        print("STREAM DATA TYPE:", type(data))
     return
 
 def connectFB(email, password):

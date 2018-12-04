@@ -11,7 +11,9 @@ def main():
         #     print(item.key())
         #     print(item.val())
 
-        loadout_stream = db.child("queue").stream(sh_loadout)
+        loadout_stream = db.child("queue").stream(queue_handler)
+
+        print('STREAM TYPE', type(loadout_stream))
 
         # the schema of the database was changed so this had to change
         # db.child("loadout").child("1").set({"amountLeft": 9000})
