@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         // grab the google button
         SignInButton signInButton = findViewById(R.id.sign_in_button);
-//        signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

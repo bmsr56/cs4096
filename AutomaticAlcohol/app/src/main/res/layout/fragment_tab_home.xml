@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@color/colorBg">
     <!--tools:context=".Activities.BartenderActivity$PlaceholderFragment"-->
 
 
@@ -24,21 +24,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView_orderDrink"
-                android:layout_width="303dp"
-                android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginRight="7dp"
                 android:background="@color/colorHeader"
                 android:gravity="center"
+                android:padding="19dp"
+                android:singleLine="true"
                 android:text="Order Drink:"
                 android:textColor="@color/whiteText"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
             <!--android:layout_height="80dp"-->
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <EditText
                 android:id="@+id/editText_custName"
@@ -46,16 +54,16 @@
                 android:layout_height="50dp"
                 android:hint="Customer Name"
                 android:inputType="textPersonName"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editText_drinkName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
-                android:hint="display drink name"
+                android:hint="Drink Name"
                 android:inputType="text"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <Spinner
                 android:id="@+id/spinner_addItem"
@@ -64,27 +72,50 @@
                 android:entries="@array/addition_list"
                 android:prompt="@string/addition_select" />
 
-            <TextView
-                android:id="@+id/textView_totalCost"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="Total Cost:"
-                android:textSize="18dp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_totalCostAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right"
+                    android:text="Total Cost:"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView_totalCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right"
+                    android:text="$ 0.00"
+                    android:textAlignment="textStart"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/buttonSubmitOrder"
-                android:layout_width="303dp"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorButton"
                 android:gravity="center"
                 android:text="Submit Order"
                 android:textAlignment="gravity"
                 android:textColor="@color/whiteText" />
 
-        </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="13" />
 
+        </LinearLayout>
 
         <!--Bartender Specials division -->
         <LinearLayout
@@ -97,14 +128,19 @@
 
             <TextView
                 android:id="@+id/textView_bartenderSpecials"
-                android:layout_width="303dp"
-                android:layout_height="80dp"
-                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="30dp"
                 android:background="@color/colorHeader"
                 android:gravity="center"
+                android:padding="19dp"
+                android:singleLine="true"
                 android:text="Bartender Specials:"
                 android:textColor="@color/whiteText"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <Button
                 android:id="@+id/button_special1"
@@ -128,20 +164,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorBg"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/number1"
-                android:layout_width="303dp"
-                android:layout_height="80dp"
-                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="30dp"
                 android:background="@color/colorHeader"
                 android:gravity="center"
+                android:padding="19dp"
+                android:singleLine="true"
                 android:text="Quick Add:"
                 android:textColor="@color/whiteText"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <Button
                 android:id="@+id/button_quick1"
@@ -198,29 +238,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorBg"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/number14"
-                android:layout_width="303dp"
-                android:layout_height="80dp"
-                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginBottom="30dp"
                 android:background="@color/colorHeader"
                 android:gravity="center"
+                android:padding="19dp"
+                android:singleLine="true"
                 android:text="Drink Queue:"
                 android:textColor="@color/whiteText"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/drinkQueue_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:scrollbars="vertical">
 
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -91,7 +91,6 @@ public class TabHomeFragment extends Fragment{
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRefSpecials;
-    private DatabaseReference mRefDrinkQueue;
 
     private String pin;
 
@@ -131,7 +130,6 @@ public class TabHomeFragment extends Fragment{
 //         goes here when order button is clicked
         buttonSubmitOrder = view.findViewById(R.id.buttonSubmitOrder);
         buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
-//        buttonSubmitOrder.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                 // when submit button clicked make sure start ordering process
                 String custName = editText_custName.getText().toString();
@@ -216,10 +214,10 @@ public class TabHomeFragment extends Fragment{
         button_quick5 = view.findViewById(R.id.button_quick5);
 
         button_quick1.setText("To Pin Page");
-        button_quick2.setText(" -- This Still");
-        button_quick3.setText("Needs");
-        button_quick4.setText("To Be");
-        button_quick5.setText("Implemented");
+        button_quick2.setText("Order Most Popular Drink");
+        button_quick3.setText("Replace Bottle");
+        button_quick4.setText("Blacklist Customer");
+        button_quick5.setText("Logout");
 
         // each of these calls a function that orders a drink based on the name of the special
         Log.e(TAG, "onCreateView"+pin);

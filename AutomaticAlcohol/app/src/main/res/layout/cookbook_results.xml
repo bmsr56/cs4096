@@ -3,26 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:orientation="horizontal"
     android:id="@+id/cookbook_results_id">
 
     <ImageView
-        android:id="@+id/drink_image"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="false"
-        android:gravity="center_horizontal"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:padding="10dp"
+        android:id="@+id/drink_image"/>
 
-    <Button
-        android:id="@+id/btn_drink"
+    <TextView
+        android:id="@+id/tv_drink"
         android:layout_width="500dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="170dp"
-        android:gravity="clip_vertical"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
         android:text="Drink Name"
+        android:padding="15dp"
         android:textSize="30dp" />
+    <!--android:layout_marginTop="150dp"-->
+    <!--android:layout_marginEnd="170dp"-->
 
 </LinearLayout>

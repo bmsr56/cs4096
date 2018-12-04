@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class Order implements Comparable<Order>{
@@ -196,29 +197,31 @@ public class Order implements Comparable<Order>{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                String command = "";
+
+                // for each ingredient in an order
                 for(String ingKey: order.getDrink().getIngredients().keySet()) {
+                    // grab the amount
                     Float ingAmount = order.getDrink().getIngredients().get(ingKey);
 
-                    // for each ingredient we have to take out the amount that is needed
-                    //      from each drink
-
                     // read the loadout from the database
-                    for(DataSnapshot data: dataSnapshot.getChildren()){
-                        for(DataSnapshot loadoutChild: data.getChildren()) {
-                            Log.e(TAG, "    key: "+loadoutChild.getKey());
-                            // if the ingredient name matches the key of the loadout stored:
-                            //      key: name_of_drink
-                            //      value: amount_left
-                            // then take ingredient.amount off of what's in the database
-                            if(ingKey.equals(loadoutChild.getKey())) {
+                    for(DataSnapshot loadoutEntry: dataSnapshot.getChildren()){
 
-                                // take away ingredient amount from table in database
-                                Long value = loadoutChild.getValue(Long.class);
-                                Float newValue = value - ingAmount;
+                        Loadout loadEnt = loadoutEntry.getValue(Loadout.class);
+                        if (ingKey.equals(loadEnt.getBottleName())) {
+                            // take away ingredient amount from table in database
+                            Long oldValue = loadEnt.getAmountLeft();
+                            Float newValue = oldValue - ingAmount;
+//                            Float newValue = value - ingred.getAmount();
 
-                                // set the new value to the database (loadout table)
-                                mDatabase.getReference("loadout").child(data.getKey()).child(loadoutChild.getKey()).setValue(newValue);
+                            if (command.equals("")) {
+                                command = loadoutEntry.getKey() + "_" + Float.toString(ingAmount);
+                            } else {
+                                command += "+" + loadoutEntry.getKey() + "_" + Float.toString(ingAmount);
                             }
+
+                            // set the new value to the database (loadout table)
+                            mDatabase.getReference("loadout").child(loadoutEntry.getKey()).child("amountLeft").setValue(newValue);
                         }
                     }
                 }
@@ -231,8 +234,8 @@ public class Order implements Comparable<Order>{
                 order.setOrderNumber(orderRef.push().getKey());
                 // make the data object (Order) in the database at that key
                 orderRef.child(order.getOrderNumber()).setValue(order);
-                // make put the key in the queue for reference
-                mDatabase.getReference().child("queue").child(order.getOrderNumber()).setValue("1");
+
+                mDatabase.getReference().child("queue").child(order.getOrderNumber()).setValue(command);
 
                 Log.e(TAG, "order completed");
             }
@@ -250,4 +253,29 @@ public class Order implements Comparable<Order>{
         mDatabase.getReference().child("order").child(orderNumber).removeValue();
     }
 
+
+    public void makeCommand(Order order) {
+
+        // variable for command to send to pie
+        String command = "";
+
+        HashMap<String, Float> ingredients = order.getDrink().getIngredients();
+
+        // for each ingredient in order, put key value pairs into command -> string delimited
+        for(String ingredient: order.getDrink().getIngredients().keySet()) {
+            Log.e(TAG, "Ingredient: "+ingredient);
+
+            Float amount = ingredients.get(ingredient);
+
+            if(command.equals("")) {
+                command = ingredient+"_"+Float.toString(amount);
+            } else {
+                command += "+"+ingredient+"_"+Float.toString(amount);
+            }
+        }
+
+
+
+        // make put the key in the queue for reference
+    }
 }

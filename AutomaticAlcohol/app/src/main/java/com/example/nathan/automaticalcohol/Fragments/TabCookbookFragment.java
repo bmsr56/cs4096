@@ -101,21 +101,7 @@ public class TabCookbookFragment extends Fragment {
 
          }});
 
+
         return view;
-    }
-
-
-    /**
-     * more stuff needed by android to make the screen and connecting logic
-     *
-     * @param savedInstanceState
-     */
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.e(TAG, "onCreate");
-
-
-
     }
 }
