@@ -3,17 +3,39 @@ from functions import *
 from networking import *
 import RPi.GPIO as gpio
 
+def processQueue():
+    pass
+    # handle garbage
+    # LOOP: check length of drinkQueue and process one at a time
+        # extract drink string
+        # call parser on the string
+        # process each ingredient with calls to threaded pumprun fns
+
+    # if len(drinkQueue) > 0:
+    #     if drinkFinished is True:
+
+
+    # return  
+
 def parser(msg):
-    ingrident = []
-    location =[]
+    pumpNumbers = []
+    amounts = []
     msg = msg.split("+")
     for x in msg:
         wigit = x.split("_")
-        ingrident.append(wigit[0])
-        location.append(wigit[1])
-    return ingrident,location
+        pumpNumbers.append(wigit[0])
+        amounts.append(wigit[1])
+    return pumpNumbers, amounts
 
 def main():
+    pumpPins = [10, 9, 11, 8]
+    setAsOutput(pumpPins)
+    setOutputValue(1, pumpPins)
+    pump1 = 10
+    pump2 = 9
+    pump3 = 11
+    pump4 = 8
+
     try:
         db, user = connectFB("DrinkMasterPlusPlus@gmail.com", "thisisapassword")
         # loadout = db.child("loadout").get()
@@ -22,7 +44,7 @@ def main():
         #     print(item.val())
 
         stream = db.child("queue").stream(queue_handler)
-    
+
         print('STREAM TYPE', type(stream))
         print('DRINKQ', drinkQueue)
         # the schema of the database was changed so this had to change
@@ -33,7 +55,7 @@ def main():
 	
     finally:
         gpio.cleanup()
-        stream.close()
+        # stream.close()
     return
 
 

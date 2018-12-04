@@ -4,7 +4,7 @@ import pyrebase
 
 drinkQueue = []
 
-def sh_show(message):
+def show_handler(message):
     print('Event: ', message["event"]) # put
     print('Path: ', message["path"]) # /-K7yGTTEp7O549EzTYtI
     print('Data: ', message["data"]) # {'title': 'Pyrebase', "body": "etc..."}
@@ -24,7 +24,7 @@ def queue_handler(message):
     data = message["data"]
     if event == "put":
         drinkQueue.append(data)
-        print("STREAM DATA TYPE:", type(data))
+        print("HANDLER - ADDED TO QUEUE")
     return
 
 def connectFB(email, password):
