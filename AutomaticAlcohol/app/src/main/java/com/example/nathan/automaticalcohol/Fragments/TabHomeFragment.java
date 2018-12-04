@@ -233,7 +233,6 @@ public class TabHomeFragment extends Fragment{
         button_quick2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Testing button quick 2", Toast.LENGTH_SHORT).show();
-
             }
         });
         button_quick3.setOnClickListener(new View.OnClickListener() {
