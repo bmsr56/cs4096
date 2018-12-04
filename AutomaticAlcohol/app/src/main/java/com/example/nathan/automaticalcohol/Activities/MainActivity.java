@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         // init email/pass views
         email = findViewById(R.id.email);
-        email.setText("nawwx3@mst.edu");
+        email.setText("reorh6@mst.edu");
         password = findViewById(R.id.password);
         password.setText("password");
 
@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         // grab the google button
         SignInButton signInButton = findViewById(R.id.sign_in_button);
-//        signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

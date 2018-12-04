@@ -91,7 +91,6 @@ public class TabHomeFragment extends Fragment{
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRefSpecials;
-    private DatabaseReference mRefDrinkQueue;
 
     private String pin;
 
