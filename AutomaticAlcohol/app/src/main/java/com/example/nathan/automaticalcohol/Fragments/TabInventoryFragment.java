@@ -77,6 +77,13 @@ public class TabInventoryFragment extends Fragment{
                     String amountLeft = et_amountLeft.getText().toString();
                     Long amt_left = Long.parseLong(amountLeft);
 
+                    // clear the input
+                    et_amountLeft.setText("");
+                    et_bottleName.setText("");
+                    et_bottleNumber.setText("");
+
+                    Toast.makeText(getActivity(), "Info updated. Graph will update on refresh.", Toast.LENGTH_SHORT).show();
+
                     // make sure number entered is a valid loadout position
                     if (bottleNumber < 1 || bottleNumber > 6) {
                         Toast.makeText(getActivity(), "Enter valid loadout location", Toast.LENGTH_SHORT).show();
@@ -84,6 +91,8 @@ public class TabInventoryFragment extends Fragment{
                         // overwrite bottle position with new loadout
                         mLoadoutReference.child(Integer.toString(bottleNumber)).setValue(new Loadout(bottleName, amt_left));
                     }
+
+
                 } catch (Exception e) {
                     Log.e(TAG, " problem", e);
                 }
