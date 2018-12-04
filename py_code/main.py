@@ -23,11 +23,11 @@ def main():
 
         # print('STREAM TYPE', type(stream))
 
-        while 1:
-            if nonlocal currentPath is not None:
-                db.child("queue").child(currentPath).remove()
-                currentPath = None
-            time.sleep(1)
+        # while 1:
+        #     if currentPath is not None:
+        #         db.child("queue").child(currentPath).remove()
+        #         currentPath = None
+        #     time.sleep(1)
 
         # the schema of the database was changed so this had to change
         # db.child("loadout").child("1").set({"amountLeft": 9000})
