@@ -42,16 +42,16 @@ def main():
         # for item in loadout.each():
         #     print(item.key())
         #     print(item.val())
-        while True:
-            stream = db.child("queue").stream(queue_handler)
+    
+        stream = db.child("queue").stream(queue_handler)
 
-            print('STREAM TYPE', type(stream))
-            print('DRINKQ', drinkQueue)
-            # the schema of the database was changed so this had to change
-            # db.child("loadout").child("1").set({"amountLeft": 9000})
-            # db.child("loadout").child("1").set({"bottleName": "poojuice"})
-            # db.child("loadout").child("2").set({"amountLeft": 900000000000})
-            # db.child("loadout").child("2").set({"bottleName": "poojuice2"})
+        print('STREAM TYPE', type(stream))
+        print('DRINKQ', drinkQueue)
+        # the schema of the database was changed so this had to change
+        # db.child("loadout").child("1").set({"amountLeft": 9000})
+        # db.child("loadout").child("1").set({"bottleName": "poojuice"})
+        # db.child("loadout").child("2").set({"amountLeft": 900000000000})
+        # db.child("loadout").child("2").set({"bottleName": "poojuice2"})
     except KeyboardInterrupt:
         stream.close()
     finally:
