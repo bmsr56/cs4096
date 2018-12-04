@@ -57,4 +57,3 @@ def connectFB(email, password):
     print('Firebase reference obtained\n---')
     
     return db, user
-
