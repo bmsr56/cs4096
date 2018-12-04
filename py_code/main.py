@@ -5,8 +5,8 @@ import RPi.GPIO as gpio
 import threading
 
 currentPath = None
-
 def main():
+    gpio.setmode(gpio.BCM)
     
     
     setAsOutput([10, 9, 11, 8])

@@ -27,7 +27,9 @@ def queue_handler(message):
 
         # call parser on the string
         pumpNumbers, amounts = parser(data) # this is the first item in the drink queue
-
+        print('pumpnumbers and amounts')
+        print(pumpNumbers)
+        print(amounts)
         # process each ingredient with calls to threaded pumprun fns
         threadList = []
         if len(pumpNumbers) == len(amounts): # this should always be true... just a check
