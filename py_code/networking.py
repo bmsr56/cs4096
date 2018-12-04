@@ -21,6 +21,7 @@ def queue_handler(message):
         print("PATH", path)
         print("DATA", data)
         drinkDict = data[0]
+        print('drinkdict', drinkDict)
         drinkString = drinkDict[path] # data is a list of dicts
         print('This should be the drink string: ', drinkString)
 
