@@ -4,7 +4,7 @@ from networking import *
 import RPi.GPIO as gpio
 import threading
 
-global currentPath = None
+currentPath = None
 
 def main():
     
@@ -24,7 +24,7 @@ def main():
         # print('STREAM TYPE', type(stream))
 
         while 1:
-            if currentPath is not None:
+            if nonlocal currentPath is not None:
                 db.child("queue").child(currentPath).remove()
                 currentPath = None
             time.sleep(1)
