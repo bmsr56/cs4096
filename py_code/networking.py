@@ -4,7 +4,6 @@ import pyrebase
 
 # drinkProcessedFlag = False
 
-
 pumpToPin = {
     '1': 10, 
     '2': 9, 
@@ -21,8 +20,8 @@ def queue_handler(message):
         print("HANDLER PUT TRIGGERED")
         print("PATH", path)
         print("DATA", data)
-
-        drinkString = data[0][path] # data is a list of dicts
+        drinkDict = data[0]
+        drinkString = drinkDict[path] # data is a list of dicts
         print('This should be the drink string: ', drinkString)
 
         # call parser on the string
