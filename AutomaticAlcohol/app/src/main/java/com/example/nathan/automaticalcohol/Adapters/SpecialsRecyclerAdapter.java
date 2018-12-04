@@ -45,10 +45,7 @@ public class SpecialsRecyclerAdapter extends RecyclerView.Adapter<SpecialsRecycl
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Log.e(TAG, "onCreateViewHolder");
-        View view;
-
-        // TODO: I think a separate one of thses is going to have to be made for the drink queue if we want it to look different
-        view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, parent, false);
 
         final MyViewHolder vHolder = new MyViewHolder(view);
 

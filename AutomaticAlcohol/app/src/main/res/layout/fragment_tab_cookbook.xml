@@ -6,34 +6,39 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/colorBg">
+    android:background="@color/colorBg">
 
-    <LinearLayout
-        android:id="@+id/cookbook_linearLayout"
+    <!--<LinearLayout-->
+        <!--android:id="@+id/cookbook_linearLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="bottom"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="15dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent">-->
+
+        <!---->
+    <!--</LinearLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cookbook_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="514dp"
-        android:layout_weight="1"
-        android:background="@color/colorBg"
+        android:layout_height="497dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="bottom"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="497dp"
-        tools:layout_editor_absoluteY="213dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AdvancedSearch" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/cookbook_recyclerView"
-            android:layout_width="1264dp"
-            android:layout_height="454dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="265dp" />
-
-    </LinearLayout>
 
     <EditText
         android:id="@+id/SearchBar"
         android:layout_width="620dp"
         android:layout_height="54dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="  Search..."
+        android:hint="  Search..."
         android:textColor="#707278"
         android:textSize="30sp"
         android:layout_marginStart="280dp"
