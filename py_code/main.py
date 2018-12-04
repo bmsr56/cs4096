@@ -4,6 +4,7 @@ from networking import *
 import RPi.GPIO as gpio
 import threading
 
+currentPath = None
 
 def main():
     

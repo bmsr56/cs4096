@@ -3,7 +3,7 @@ import RPi.GPIO as gpio
 import pyrebase
 
 # drinkProcessedFlag = False
-currentPath = None
+
 
 pumpToPin = {
     '1': 10, 
