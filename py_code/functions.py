@@ -2,13 +2,6 @@ import RPi.GPIO as gpio
 import time
 import threading
 
-# threading.Thread(target=runForTime, args=[PUMP1, 10]  ).start()
-# threading.Thread(target=runForTime, args=[PUMP2, 10]  ).start()
-# threading.Thread(target=runForTime, args=[PUMP3, 10]  ).start()
-# threading.Thread(target=runForTime, args=[PUMP4, 10]  ).start()
-
-
-
 def gpioRun(pinNumber, seconds, verbose = False):
     """Turns a gpio pin on for the given time
         Args:

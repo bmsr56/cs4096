@@ -4,55 +4,6 @@ from networking import *
 import RPi.GPIO as gpio
 import threading
 
-drinkProcessedFlag = False
-
-pumpToPin = {
-    '1': 10, 
-    '2': 9, 
-    '3': 11, 
-    '4': 8 
-}
-
-def mlToSeconds(ml):
-    ml = float(ml)
-    rate = 44 / 30
-    return (ml / rate)
-
-def processQueueItem():
-    """Items stored in the drinkQueue consist of specially formatted strings
-    """
-    # handle garbage that might be in there at first
-
-    # call parser on the string
-    pumpNumbers, amounts = parser(drinkQueue[0]) # this is the first item in the drink queue
-
-    # process each ingredient with calls to threaded pumprun fns
-    if len(pumpNumbers) == len(amounts): # this should always be true... just a check
-        for pumpNumber, amount in zip(pumpNumbers, amounts):
-            # run pumps with threading
-            threading.Thread(target=gpioRun, args=[
-                pumpToPin[pumpNumber], mlToSeconds(amount), True
-                ]).start()
-    else:
-        print('fail in processQueueItem')
-        return
-    # remove item from the queue
-    drinkQueue.pop(0)
-
-    # remove the item from firebase db
-    # set flag to True
-    drinkProcessedFlag = True
-    return  
-
-def parser(msg):
-    pumpNumbers = []
-    amounts = []
-    msg = msg.split("+")
-    for x in msg:
-        wigit = x.split("_")
-        pumpNumbers.append(wigit[0])
-        amounts.append(wigit[1])
-    return pumpNumbers, amounts
 
 def main():
     
@@ -71,8 +22,11 @@ def main():
 
         # print('STREAM TYPE', type(stream))
 
-        # while len(drinkQueue) > 0 and drinkProcessedFlag is False:
-        #     processQueueItem()
+        while 1:
+            if currentPath is not None:
+                db.child("queue").child(currentPath).remove()
+                currentPath = None
+            time.sleep(1)
 
         # the schema of the database was changed so this had to change
         # db.child("loadout").child("1").set({"amountLeft": 9000})
