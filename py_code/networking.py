@@ -20,13 +20,13 @@ def queue_handler(message):
         print("HANDLER PUT TRIGGERED")
         print("PATH", path)
         print("DATA", data)
-        drinkDict = data[0]
-        print('drinkdict', drinkDict)
-        drinkString = drinkDict[path] # data is a list of dicts
-        print('This should be the drink string: ', drinkString)
+        # drinkDict = data[0]
+        # print('drinkdict', drinkDict)
+        # drinkString = drinkDict[path] # data is a list of dicts
+        # print('This should be the drink string: ', drinkString)
 
         # call parser on the string
-        pumpNumbers, amounts = parser(drinkString) # this is the first item in the drink queue
+        pumpNumbers, amounts = parser(data) # this is the first item in the drink queue
 
         # process each ingredient with calls to threaded pumprun fns
         threadList = []
