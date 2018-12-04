@@ -6,26 +6,32 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/colorBg">
+    android:background="@color/colorBg">
 
-    <LinearLayout
-        android:id="@+id/cookbook_linearLayout"
-        android:layout_width="1459dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/colorBg"
+    <!--<LinearLayout-->
+        <!--android:id="@+id/cookbook_linearLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="bottom"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="15dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent">-->
+
+        <!---->
+    <!--</LinearLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cookbook_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="497dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="bottom"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/AdvancedSearch" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/cookbook_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:gravity="bottom" />
-
-    </LinearLayout>
 
     <EditText
         android:id="@+id/SearchBar"

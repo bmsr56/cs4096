@@ -50,26 +50,7 @@ public class TabCookbookFragment extends Fragment {
         mRecyclerViewCookbook.setAdapter(mRecyclerAdapterCookbook);
 
 
-        // grab shot prices and stick them into an array for easier lookup
-        final DatabaseReference orderRef = mDatabase.getReference("drinks");
-        orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot drinkName : dataSnapshot.getChildren()) {
-                    // if the order id matches an 'Order Object' then remember it
-                        Drink fart = drinkName.getValue(Drink.class);
-                        lstCookbookResults.add(fart);
-                }
 
-                // let the recyclerView know it needs to change
-                mRecyclerAdapterCookbook.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-
-            }
-        });
 
         return view;
     }
@@ -85,6 +66,26 @@ public class TabCookbookFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate");
 
+        // grab shot prices and stick them into an array for easier lookup
+        final DatabaseReference orderRef = mDatabase.getReference("drinks");
+        orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot drinkName : dataSnapshot.getChildren()) {
+                    // if the order id matches an 'Order Object' then remember it
+                    Drink fart = drinkName.getValue(Drink.class);
+                    lstCookbookResults.add(fart);
+                }
+
+                // let the recyclerView know it needs to change
+                mRecyclerAdapterCookbook.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+
+            }
+        });
 
 
     }

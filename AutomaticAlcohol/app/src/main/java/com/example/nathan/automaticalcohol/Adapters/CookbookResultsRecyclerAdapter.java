@@ -20,6 +20,7 @@ import com.example.nathan.automaticalcohol.R;
 import com.example.nathan.automaticalcohol.RecyclerInterface;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,46 +42,62 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
 
     @NonNull
     @Override
-    public CookbookResultsRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        Log.e("fart", "onCreateViewHolder");
+        Log.e(TAG, "onCreateViewHolder");
         View view;
 
         // this makes the stuff in the RecyclerView look the way we want it to
         view = LayoutInflater.from(mContext).inflate(R.layout.cookbook_results, parent, false);
-
-        final CookbookResultsRecyclerAdapter.MyViewHolder vHolder = new CookbookResultsRecyclerAdapter.MyViewHolder(view);
+        final MyViewHolder vHolder = new MyViewHolder(view);
 
 //        if (this.mType.equals(Constants.DRINKS)) {
 
             // Dialog init
             // TODO: this will have to be removed (maybe refactored for other use)
             myDialog = new Dialog(mContext);
-            myDialog.setContentView(R.layout.cookbook_results);
-            view = LayoutInflater.from(mContext).inflate(R.layout.cookbook_results, parent, false);
+            myDialog.setContentView(R.layout.dialog_search);
 
             vHolder.cookbook_results.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // all of this was for the dialog (pop up)
-//                    TextView dialog_name_tv = myDialog.findViewById(R.id.dialog_name_id);
-//                    TextView dialog_phone_tv = myDialog.findViewById(R.id.dialog_phone_id);
-//                    ImageView dialog_contact_img = myDialog.findViewById(R.id.dialog_img);
-//                    dialog_name_tv.setText(mData.get(vHolder.getAdapterPosition()));
-//                    dialog_phone_tv.setText(mData.get(vHolder.getAdapterPosition()));
+                    TextView dialog_name = myDialog.findViewById(R.id.dialog_searchDrinkName);
+                    TextView dialog_ing1 = myDialog.findViewById(R.id.dialog_searchIng1);
+                    TextView dialog_ing2 = myDialog.findViewById(R.id.dialog_searchIng2);
+                    TextView dialog_ing3 = myDialog.findViewById(R.id.dialog_searchIng3);
 
-                    ImageView dialog_img = myDialog.findViewById(R.id.drink_image);
+                    ImageView dialog_searchImg = myDialog.findViewById(R.id.dialog_searchImg);
 
                     Toast.makeText(mContext, "Test Click" + String.valueOf(vHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
-
-
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("drinkName", mData.get(vHolder.getAdapterPosition()));
 
                     // does the image handling
                     Picasso.get()
                             .load(mData.get(vHolder.getAdapterPosition()).getImage())
-                            .into(dialog_img);
+                            .into(dialog_searchImg);
+
+                    // sets the name of the drink in the dialog
+                    dialog_name.setText(mData.get(vHolder.getAdapterPosition()).getName());
+
+                    HashMap<String, Float> ing = mData.get(vHolder.getAdapterPosition()).getIngredients();
+                    Toast.makeText(mContext, ing.toString(), Toast.LENGTH_SHORT).show();
+                    int i = 0;
+                    for(String h: ing.keySet()) {
+                        Toast.makeText(mContext, h, Toast.LENGTH_SHORT).show();
+                        Log.e("FART", h);
+
+
+                        if(i == 0) {
+                            dialog_ing1.setText(h+", "+mData.get(vHolder.getAdapterPosition()).getIngredients().get(h)+" ml");
+                        } else if (i == 1) {
+                            dialog_ing2.setText(h+", "+mData.get(vHolder.getAdapterPosition()).getIngredients().get(h)+" ml");
+                        } else if (i == 2) {
+                            dialog_ing3.setText(h+", "+mData.get(vHolder.getAdapterPosition()).getIngredients().get(h)+" ml");
+                        }
+
+                        i++;
+                    }
+
 
                     myDialog.show();
                     // TODO: figure out how to make drink then send it to pi??
@@ -92,7 +109,7 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CookbookResultsRecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Log.e(TAG, "size: "+Integer.toString(mData.size()));
 
@@ -101,15 +118,10 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
         // might use string.format instead
        // holder.textView_price.setText(String.format(Locale.US, "$ %.2f", mData.get(position).getPrice()));
 
-        final int index = position;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(mContext, mData.get(index).getName(), Toast.LENGTH_SHORT).show();
-                //recyclerInterface.onTagClicked(mData.get(index));
-            }
-        });
-
+        // does the image handling
+        Picasso.get()
+                .load(mData.get(holder.getAdapterPosition()).getImage())
+                .into(holder.img);
     }
 
     @Override
@@ -126,8 +138,10 @@ public class CookbookResultsRecyclerAdapter extends RecyclerView.Adapter<Cookboo
         public MyViewHolder(View itemView) {
             super(itemView);
             cookbook_results = itemView.findViewById(R.id.cookbook_results_id);
-            textView_name = itemView.findViewById(R.id.btn_drink);
+            textView_name = itemView.findViewById(R.id.tv_drink);
             img = itemView.findViewById(R.id.drink_image);
+
+
 
 
         }
