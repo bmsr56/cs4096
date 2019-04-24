@@ -1,0 +1,242 @@
+{
+  "Customer" : {
+    "Name" : "Drunky McDrunkerson",
+    "Regular" : "Yes",
+    "Tab" : {
+      "Amount" : "$9999",
+      "Open" : "Yes",
+      "Time Opened" : "9:00 AM"
+    }
+  },
+  "accounts" : {
+    "FSnwnE7ZAjQVtbqAP1znhYN1GyS2" : {
+      "email" : "test@me.com"
+    },
+    "VYFGejsU2id0ebzu2zsLT3CwhRr2" : {
+      "email" : "arishermanisthebest@mst.edu"
+    }
+  },
+  "bartenders" : {
+    "hGtloKU30uhNEPWIKr5ougmFkib2" : {
+      "1111" : {
+        "name" : "Ryon Owings",
+        "specials" : [ null, "Yellow Fellow", "Screamin' Green", "Irish Goodnight", "Rum and Coke", "Manhattan" ]
+      },
+      "1234" : {
+        "name" : "Jackson Bruening",
+        "specials" : [ null, "Irish Goodnight", "Rum and Coke" ]
+      },
+      "3333" : {
+        "name" : "nathan",
+        "specials" : [ null, "Manhattan" ]
+      }
+    },
+    "hNfyjFnd03a4INrqE2AIN810YJo1" : {
+      "1111" : {
+        "name" : "Velvet Thunder",
+        "specials" : [ null, "Highball", "Cup O' Vodka", null, "Irish Goodnight", "Rum and Coke", "Manhattan" ]
+      },
+      "1234" : {
+        "name" : "Nathan",
+        "specials" : [ null, "Screwdriver", "Highball" ]
+      },
+      "email" : "nawwx3@mst.edu"
+    }
+  },
+  "drinks" : {
+    "Irish Goodnight" : {
+      "description" : "/",
+      "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/irishGoodnight.jpg?alt=media&token=99b8bbc4-d2d7-4e68-8667-0748b5276bf2",
+      "ingredients" : {
+        "everclear" : 50,
+        "vodka" : 100
+      },
+      "name" : "Irish Goodnight",
+      "price" : 5
+    },
+    "Manhattan" : {
+      "description" : "desctiption",
+      "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/10207_highball.jpg?alt=media&token=4d99823a-fd4b-456c-b106-e0ea55eb2be2",
+      "ingredients" : {
+        "vermouth" : 42,
+        "whiskey" : 44
+      },
+      "name" : "Manhattan",
+      "price" : 1.2
+    },
+    "Rum and Coke" : {
+      "description" : "Some coke and some rum",
+      "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/rumAndCoke.jpg?alt=media&token=b2455b5b-e417-4905-ab11-dc73e732f794",
+      "ingredients" : {
+        "coke" : 100,
+        "rum" : 44
+      },
+      "name" : "Rum and Coke",
+      "price" : 2
+    },
+    "Screamin' Green" : {
+      "description" : "Loudest green in town",
+      "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/cupOVodka.jpg?alt=media&token=145ece20-9252-4a51-bf1b-4a6b5b5b1869",
+      "ingredients" : {
+        "sprite" : 44
+      },
+      "name" : "Screamin' Green",
+      "price" : 1.2
+    },
+    "Yellow Fellow" : {
+      "description" : "yellow",
+      "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/10207_highball.jpg?alt=media&token=4d99823a-fd4b-456c-b106-e0ea55eb2be2",
+      "ingredients" : {
+        "vodka" : 44
+      },
+      "name" : "Yellow Fellow",
+      "price" : 1.2
+    }
+  },
+  "extra" : {
+    "tequila" : 1.2,
+    "vodka" : 1.2,
+    "whiskey" : 1.2
+  },
+  "loadout" : [ null, {
+    "amountLeft" : 718,
+    "bottleName" : "whiskey"
+  }, {
+    "amountLeft" : 496,
+    "bottleName" : "vermouth"
+  }, {
+    "amountLeft" : 1337,
+    "bottleName" : "vodka"
+  }, {
+    "amountLeft" : 1703,
+    "bottleName" : "sprite"
+  }, {
+    "amountLeft" : 950,
+    "bottleName" : "orange juice"
+  }, {
+    "amountLeft" : 1200,
+    "bottleName" : "rum"
+  } ],
+  "order" : {
+    "-LThU2XAAdEcsuqjdoMu" : {
+      "date" : {
+        "date" : 14,
+        "day" : 5,
+        "hours" : 14,
+        "minutes" : 42,
+        "month" : 11,
+        "seconds" : 41,
+        "time" : 1544820161625,
+        "timezoneOffset" : 360,
+        "year" : 118
+      },
+      "drink" : {
+        "description" : "yellow",
+        "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/10207_highball.jpg?alt=media&token=4d99823a-fd4b-456c-b106-e0ea55eb2be2",
+        "ingredients" : {
+          "vodka" : 44
+        },
+        "name" : "Yellow Fellow",
+        "price" : 1.2000000476837158
+      },
+      "email" : "email",
+      "name" : "Ferguson",
+      "orderNumber" : "-LThU2XAAdEcsuqjdoMu",
+      "totalPrice" : 1.2000000476837158
+    },
+    "-LThU7wQEZeLpyo-otQl" : {
+      "date" : {
+        "date" : 14,
+        "day" : 5,
+        "hours" : 14,
+        "minutes" : 46,
+        "month" : 11,
+        "seconds" : 5,
+        "time" : 1544820365783,
+        "timezoneOffset" : 360,
+        "year" : 118
+      },
+      "drink" : {
+        "description" : "Loudest green in town",
+        "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/cupOVodka.jpg?alt=media&token=145ece20-9252-4a51-bf1b-4a6b5b5b1869",
+        "ingredients" : {
+          "sprite" : 44
+        },
+        "name" : "Screamin' Green",
+        "price" : 1.2000000476837158
+      },
+      "email" : "email",
+      "name" : "1",
+      "orderNumber" : "-LThU7wQEZeLpyo-otQl",
+      "totalPrice" : 1.2000000476837158
+    },
+    "-LThU9d5uxDnX03TGFMn" : {
+      "date" : {
+        "date" : 14,
+        "day" : 5,
+        "hours" : 14,
+        "minutes" : 46,
+        "month" : 11,
+        "seconds" : 12,
+        "time" : 1544820372658,
+        "timezoneOffset" : 360,
+        "year" : 118
+      },
+      "drink" : {
+        "description" : "desctiption",
+        "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/10207_highball.jpg?alt=media&token=4d99823a-fd4b-456c-b106-e0ea55eb2be2",
+        "ingredients" : {
+          "vermouth" : 42,
+          "whiskey" : 44
+        },
+        "name" : "Manhattan",
+        "price" : 1.2000000476837158
+      },
+      "email" : "email",
+      "name" : "3",
+      "orderNumber" : "-LThU9d5uxDnX03TGFMn",
+      "totalPrice" : 1.2000000476837158
+    },
+    "-LThwZplzw-8C8Th7MRb" : {
+      "date" : {
+        "date" : 14,
+        "day" : 5,
+        "hours" : 16,
+        "minutes" : 54,
+        "month" : 11,
+        "seconds" : 31,
+        "time" : 1544828071346,
+        "timezoneOffset" : 360,
+        "year" : 118
+      },
+      "drink" : {
+        "description" : "desctiption",
+        "image" : "https://firebasestorage.googleapis.com/v0/b/drinkmasterplus-ec13a.appspot.com/o/10207_highball.jpg?alt=media&token=4d99823a-fd4b-456c-b106-e0ea55eb2be2",
+        "ingredients" : {
+          "vermouth" : 42,
+          "whiskey" : 44
+        },
+        "name" : "Manhattan",
+        "price" : 1.2000000476837158
+      },
+      "email" : "email",
+      "name" : "John Smith",
+      "orderNumber" : "-LThwZplzw-8C8Th7MRb",
+      "totalPrice" : 1.2000000476837158
+    }
+  },
+  "queue" : {
+    "-LThU2XAAdEcsuqjdoMu" : "3_44.0",
+    "-LThU7wQEZeLpyo-otQl" : "4_44.0",
+    "-LThU9d5uxDnX03TGFMn" : "2_42.0+1_44.0",
+    "-LThwZplzw-8C8Th7MRb" : "2_42.0+1_44.0"
+  },
+  "tabs" : {
+    "bartenderPin" : {
+      "userId" : {
+        "orderId" : 1,
+        "orderId1" : 1
+      }
+    }
+  }
+}
