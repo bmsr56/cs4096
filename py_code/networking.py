@@ -18,6 +18,7 @@ def queue_handler(message):
     currentPath = path
     if event == "put" and path != "/":
         print("HANDLER PUT TRIGGERED")
+        print("EVENT", event)
         print("PATH", path)
         print("DATA", data)
         # drinkDict = data[0]
@@ -45,7 +46,11 @@ def queue_handler(message):
         for t in threadList:
             t.join()        
         # wait for these to end, this is important and might not work
-
+        print('Join complete')
+        for i in range(10):
+            time.sleep(1)
+            print('Waking in: ' +str(10-i))
+        print('Ready for next')
         return
 
 def mlToSeconds(ml):
@@ -86,9 +91,9 @@ def processQueueItem(event, path, data):
     return  
 
 def parser(msg):
+    pumpNumbers = []
+    amounts = []
     if msg is not None:
-        pumpNumbers = []
-        amounts = []
         msg = msg.split("+")
         for x in msg:
             wigit = x.split("_")

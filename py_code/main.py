@@ -5,12 +5,14 @@ import RPi.GPIO as gpio
 import threading
 
 currentPath = None
+
 def main():
     gpio.setmode(gpio.BCM)
     
     
     setAsOutput([10, 9, 11, 8])
     setOutputValue(1, [10, 9, 11, 8])
+
 
     try:
         db, user = connectFB("DrinkMasterPlusPlus@gmail.com", "thisisapassword")
@@ -21,7 +23,7 @@ def main():
     
         stream = db.child("queue").stream(queue_handler)
 
-        # print('STREAM TYPE', type(stream))
+        #print('STREAM TYPE', type(stream))
 
         # while 1:
         #     if currentPath is not None:
